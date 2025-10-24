@@ -1,14 +1,18 @@
 import './App.css'
+import { ConstructionAreaPopupProvider } from './context/ConstructionPopupContext';
 import UnderDevelopment from './pages/UnderDevelopment';
 
 function App() {
   const environment = import.meta.env.VITE_ENVIRONMENT;
 
   return(
-    <div className='w-full min-h-screen bg-black text-white'>
+    <div className='w-full min-h-screen bg-black text-white font-spectral'>
       {
         environment === "development" ? (
-          <UnderDevelopment/>
+          <ConstructionAreaPopupProvider>
+            <UnderDevelopment/>
+          </ConstructionAreaPopupProvider>
+          
         ) : (
           <div>Hi</div>
         )
