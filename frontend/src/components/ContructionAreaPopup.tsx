@@ -1,14 +1,23 @@
 import { useConstructionAreaPopup } from "../context/ConstructionPopupContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ConstructionAreaPopup = () => {
   const { hideConstructionAreaPopup } = useConstructionAreaPopup();
   const [visible, setVisible] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 10);
     return () => clearTimeout(timer);
   }, []);
+
+const handlePlay = () => {
+    hideConstructionAreaPopup();
+    if (audioRef.current) {
+      audioRef.current.volume = 1;
+      audioRef.current.play();
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
@@ -28,7 +37,7 @@ const ConstructionAreaPopup = () => {
 
         <div className="flex justify-center gap-4">
           <button
-            onClick={hideConstructionAreaPopup}
+            onClick={handlePlay}
             className="px-5 py-2 bg-red-600 hover:bg-red-700 rounded-full text-white font-medium transition-all duration-200 shadow-md"
           >
             Yes, proceed
