@@ -104,3 +104,129 @@
   font-style: italic;
   font-display: swap;
 }
+
+@keyframes stripe {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+@keyframes stripe-reverse {
+  0% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tilt {
+  0%, 100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes hang {
+  0%, 100% {
+    transform: translateY(0) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-15deg);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes tilt-reverse {
+  0%, 100% {
+    transform: rotate(12deg) translateY(2px);
+  }
+  50% {
+    transform: rotate(15deg) translateY(0px);
+  }
+}
+
+.animate-stripe {
+  animation: stripe 3s linear infinite;
+}
+
+.animate-stripe-reverse {
+  animation: stripe-reverse 3s linear infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-tilt {
+  animation: tilt 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+.animate-hang {
+  animation: hang 2.5s ease-in-out infinite;
+  display: inline-block;
+  transform-origin: top center;
+}
+
+.animate-wobble {
+  animation: wobble 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+.animate-tilt-reverse {
+  animation: tilt-reverse 2.8s ease-in-out infinite;
+  display: inline-block;
+}
