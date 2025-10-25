@@ -16,7 +16,7 @@ function App() {
         .then(() => setIsPlaying(true))
         .catch(() => console.log("Autoplay blocked. Waiting for interaction."));
     }
-  };
+  }; 
 
   useEffect(() => {
     handlePlay();
