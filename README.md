@@ -20,3 +20,13 @@ Welcome to the source code of my personal website —
 | **Backend** | ??? |
 
 ---
+
+## 🚧 Under Development
+
+### Construction Area Popup
+![Construction Popup](./readme/images/1.png)
+
+### Construction Progress Bar
+![Progress Bar](./readme/images/2.png)
+
+---
