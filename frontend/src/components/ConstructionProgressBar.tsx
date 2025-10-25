@@ -10,7 +10,7 @@ const ConstructionProgressBar = () => {
       const now = new Date();
       const diff = now.getTime() - startDate.getTime();
 
-      const totalDuration = 30 * 24 * 60 * 60 * 1000; // 30 days
+      const totalDuration = 30 * 24 * 60 * 60 * 1000;
       const percent = Math.min((diff / totalDuration) * 100, 100);
       setProgress(percent);
 
