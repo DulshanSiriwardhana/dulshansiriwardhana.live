@@ -7,8 +7,15 @@ const ConstructionAreaPopup = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 10);
-    return () => clearTimeout(timer);
+    const mediaElements = Array.from(document.querySelectorAll("audio, video")) as HTMLMediaElement[];
+    mediaElements.forEach((el) => (el.muted = true));
+
+    return () => {
+      clearTimeout(timer);
+      mediaElements.forEach((el) => (el.muted = false));
+    };
   }, []);
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
