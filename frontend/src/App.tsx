@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ConstructionAreaPopupProvider } from "./context/ConstructionPopupContext";
 import UnderDevelopment from "./pages/UnderDevelopment";
 import hammerSound from "./assets/musics/hammer.mp3";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const environment = import.meta.env.VITE_ENVIRONMENT;
@@ -33,7 +34,7 @@ function App() {
           <audio ref={audioRef} src={hammerSound} loop />
         </ConstructionAreaPopupProvider>
       ) : (
-        <div>Hi</div>
+        <HomePage/>
       )}
     </div>
   );
