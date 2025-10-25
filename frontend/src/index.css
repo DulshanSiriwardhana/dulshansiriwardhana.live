@@ -229,3 +229,11 @@
   animation: tilt-reverse 2.8s ease-in-out infinite;
   display: inline-block;
 }
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1s step-start infinite;
+}

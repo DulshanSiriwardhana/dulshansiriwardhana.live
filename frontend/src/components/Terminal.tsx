@@ -33,25 +33,26 @@ const Terminal = () => {
   }, [charIndex, commandIndex]);
 
   return (
-    <div className="bg-black text-green-500 font-mono p-4 rounded-lg w-full h-64 overflow-y-auto">
-      {output.map((line, idx) => (
-        <div key={idx}>$ {line}</div>
-      ))}
-      {commandIndex < fakeCommands.length && (
-        <div>
-          $ {currentLine}
-          <span className="inline-block w-2 h-4 bg-green-500 animate-blink ml-1"></span>
+    <div className="bg-black text-green-500 font-mono rounded-lg w-full max-w-xl h-64 overflow-y-auto border overflow-hidden">
+        <div className="w-full h-10 border flex flex-row items-center justify-between relative">
+            <div className="flex flex-row items-center gap-1 px-4">
+                <div className="w-3 h-3 bg-red-600 rounded-full"></div>
+                <div className="w-3 h-3 bg-yellow-600 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+            </div>
+            <div className="w-full flex items-center justify-center absolute">hi!</div>
         </div>
-      )}
-      <style>{`
-        @keyframes blink {
-          0%, 50%, 100% { opacity: 1; }
-          25%, 75% { opacity: 0; }
-        }
-        .animate-blink {
-          animation: blink 1s step-start infinite;
-        }
-      `}</style>
+        <div className="p-4">
+            {output.map((line, idx) => (
+                <div key={idx}>$ {line}</div>
+            ))}
+            {commandIndex < fakeCommands.length && (
+                <div>
+                $ {currentLine}
+                <span className="inline-block w-2 h-4 bg-green-500 animate-blink ml-1"></span>
+                </div>
+            )}
+        </div>
     </div>
   );
 };
