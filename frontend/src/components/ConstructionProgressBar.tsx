@@ -10,23 +10,24 @@ const ConstructionProgressBar = () => {
       const now = new Date();
       const diff = now.getTime() - startDate.getTime();
 
-      const totalDuration = 30 * 24 * 60 * 60 * 1000;
+      const totalDuration = 30 * 24 * 60 * 60 * 1000; // 30 days
       const percent = Math.min((diff / totalDuration) * 100, 100);
       setProgress(percent);
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      setElapsed(`${days}d ${hours}h ${minutes}m`);
+      const seconds = Math.floor((diff / 1000) % 60);
+      setElapsed(`${days}d ${hours}h ${minutes}m ${seconds}s`);
     };
 
     updateProgress();
-    const interval = setInterval(updateProgress, 1000 * 60);
+    const interval = setInterval(updateProgress, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="w-full max-w-4xl px-6 py-6 bg-black/60 backdrop-blur-sm text-center text-white border-t border-b border-red-600/30 overflow-hidden rounded-2xl">
+    <div className="w-full max-w-4xl px-6 py-6 bg-black/60 backdrop-blur-sm text-center text-white border-t border-b border-red-600/30 overflow-hidden rounded-2xl relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-black to-yellow-400 bg-[length:200%_100%] animate-stripe"></div>
       
       <h2 className="text-xl font-bold mb-2 inline-flex flex-wrap justify-center gap-1">
@@ -68,8 +69,8 @@ const ConstructionProgressBar = () => {
 
       <div className="mt-3 flex justify-center gap-2 items-center">
         <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce"></div>
-        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
-        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+        <div className="w-2 h-2 bg-yellow-400 rounded-full [animation-delay:0.1s] animate-bounce"></div>
+        <div className="w-2 h-2 bg-yellow-400 rounded-full [animation-delay:0.2s] animate-bounce"></div>
       </div>
 
       <div className="mt-3 text-sm flex justify-center gap-4">
