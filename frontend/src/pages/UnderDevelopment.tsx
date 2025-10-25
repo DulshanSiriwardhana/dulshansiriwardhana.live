@@ -16,7 +16,7 @@ const UnderDevelopment = () => {
             <img
                 src={blacksmith}
                 alt="Viking blacksmith working"
-                className="w-60 h-60 object-contain mb-6 mx-auto animate-pulse"
+                className="w-60 h-60 object-contain mb-6 mx-auto mix-blend-normal"
             />
 
             <h1 className="text-4xl font-bold mb-4 inline-flex flex-wrap justify-center gap-1">
