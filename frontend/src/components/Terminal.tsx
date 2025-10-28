@@ -55,8 +55,16 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
   };
 
   return (
-    <div className="bg-black text-green-500 font-mono rounded-lg w-full max-w-xl h-64 overflow-y-auto border border-green-500">
-      <div className="p-4">
+    <div className="bg-black text-green-500 font-mono rounded-lg w-full max-w-xl h-64 border border-green-500">
+      <div className="w-full h-10 border flex flex-row items-center justify-between relative">
+          <div className="flex flex-row items-center gap-1 px-4">
+              <div className="w-3 h-3 bg-red-600 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-600 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+          </div>
+          <div className="w-full flex items-center justify-center absolute">hi!</div>
+      </div>
+      <div className="p-4 overflow-y-auto h-52">
         {output.map((line, idx) => (
           <div key={idx} className="mb-1">{line}</div>
         ))}
@@ -68,7 +76,7 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
         )}
         {enableUserTyping && commandIndex >= commands.length && (
           <div className="flex items-center">
-            <span className="mr-2">$</span>
+            <span className="mr-[10px]">$</span>
             <input
               ref={inputRef}
               type="text"
