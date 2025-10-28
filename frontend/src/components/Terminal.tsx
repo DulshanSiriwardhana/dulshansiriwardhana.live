@@ -64,7 +64,7 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
           </div>
           <div className="w-full flex items-center justify-center absolute">hi!</div>
       </div>
-      <div className="p-4 overflow-y-auto h-52">
+      <div className="p-4 overflow-y-auto h-52 green-scrollbar">
         {output.map((line, idx) => (
           <div key={idx} className="mb-1">{line}</div>
         ))}
