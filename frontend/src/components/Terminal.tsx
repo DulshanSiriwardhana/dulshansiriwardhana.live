@@ -63,16 +63,16 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
   };
 
   return (
-    <div className="bg-black text-green-500 font-mono rounded-lg w-full max-w-xl h-64 border border-green-500 overflow-hidden">
-      <div className="w-full h-10 border flex flex-row items-center justify-between relative">
-        <div className="flex flex-row items-center gap-1 px-4">
+    <div className="bg-black text-green-500 font-mono rounded-lg w-full max-w-xl h-[500px] border border-green-500 overflow-hidden flex flex-col">
+      <div className="w-full h-10 border flex flex-row items-center justify-between rounded-t-lg relative">
+        <div className="flex flex-row items-center gap-1 px-4 rounded-t-lg">
           <div className="w-3 h-3 bg-red-600 rounded-full"></div>
           <div className="w-3 h-3 bg-yellow-600 rounded-full"></div>
           <div className="w-3 h-3 bg-green-600 rounded-full"></div>
         </div>
         <div className="w-full flex items-center justify-center absolute">hi!</div>
       </div>
-      <div className="p-4 overflow-y-auto h-52 green-scrollbar">
+      <div className="p-4 overflow-y-auto h-fit green-scrollbar">
         {output.map((line, idx) => (
           <div key={idx} className="mb-1">{line}</div>
         ))}
