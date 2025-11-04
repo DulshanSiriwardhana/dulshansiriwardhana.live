@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useCallback } from "react";
-import typingSound from "../assets/sounds/typing.mp3";
+import typingSound from "../assets/musics/typing.mp3";
 
 interface TypingSoundOptions {
   delay?: number;
@@ -18,22 +18,28 @@ export const TypingSoundProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const playSound = useCallback((options?: TypingSoundOptions) => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
+    try {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
 
-    const audio = new Audio(typingSound);
-    audio.loop = options?.loop ?? false;
-    audio.volume = options?.volume ?? 1.0;
-    audioRef.current = audio;
+      const audio = new Audio(typingSound);
+      audio.loop = options?.loop ?? false;
+      audio.volume = options?.volume ?? 1.0;
+      audioRef.current = audio;
 
-    if (options?.delay && options.delay > 0) {
-      setTimeout(() => {
-        audio.play().catch((err) => console.warn("Audio play failed:", err));
-      }, options.delay);
-    } else {
-      audio.play().catch((err) => console.warn("Audio play failed:", err));
+      const playFn = () => {
+        audio.play().catch((err) => console.warn("Playback failed:", err));
+      };
+
+      if (options?.delay && options.delay > 0) {
+        setTimeout(playFn, options.delay);
+      } else {
+        playFn();
+      }
+    } catch (err) {
+      console.error("Error playing sound:", err);
     }
   }, []);
 
@@ -51,10 +57,8 @@ export const TypingSoundProvider: React.FC<{ children: React.ReactNode }> = ({ c
   );
 };
 
-export const useTypingSound = (): TypingSoundContextType => {
-  const context = useContext(TypingSoundContext);
-  if (!context) {
-    throw new Error("useTypingSound must be used within a TypingSoundProvider");
-  }
-  return context;
+export const useTypingSound = () => {
+  const ctx = useContext(TypingSoundContext);
+  if (!ctx) throw new Error("useTypingSound must be used inside TypingSoundProvider");
+  return ctx;
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useTypingSound } from "../context/TypingSoundEffect";
 
 interface TerminalProps {
   commands?: string[];
@@ -14,6 +15,15 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
   const [charIndex, setCharIndex] = useState(0);
   const [initialCommandCount, setInitialCommandCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { playSound, stopSound } = useTypingSound();
+
+  useEffect(() => {
+    playSound({ delay: 0, volume: 0.7, loop: true });
+
+    return () => {
+      stopSound();
+    };
+  }, [playSound, stopSound, commands]);
 
   useEffect(() => {
     if (commandIndex < commands.length) {

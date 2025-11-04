@@ -4,6 +4,7 @@ import { ConstructionAreaPopupProvider } from "./context/ConstructionPopupContex
 import UnderDevelopment from "./pages/UnderDevelopment";
 import hammerSound from "./assets/musics/hammer.mp3";
 import HomePage from "./pages/HomePage";
+import { TypingSoundProvider } from "./context/TypingSoundEffect";
 
 function App() {
   const environment = import.meta.env.VITE_ENVIRONMENT;
@@ -28,14 +29,16 @@ function App() {
       className="w-full min-h-screen bg-black text-white font-spectral flex items-center justify-center relative"
       onClick={!isPlaying ? handlePlay : undefined}
     >
-      {environment === "development" ? (
-        <ConstructionAreaPopupProvider>
-          <UnderDevelopment />
-          <audio ref={audioRef} src={hammerSound} loop />
-        </ConstructionAreaPopupProvider>
-      ) : (
-        <HomePage/>
-      )}
+    <TypingSoundProvider>
+        {environment === "development" ? (
+          <ConstructionAreaPopupProvider>
+            <UnderDevelopment />
+            <audio ref={audioRef} src={hammerSound} loop />
+          </ConstructionAreaPopupProvider>
+        ) : (
+          <HomePage/>
+        )}
+    </TypingSoundProvider>
     </div>
   );
 }
