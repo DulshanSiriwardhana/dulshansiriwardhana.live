@@ -11,7 +11,6 @@ const HomePage = () => {
 
   const handleUserInput = (input: string) => {
     console.log("User typed:", input);
-
   };
 
   useEffect(()=>{
