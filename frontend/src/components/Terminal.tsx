@@ -15,15 +15,16 @@ const Terminal = ({ commands = [], enableUserTyping = false, onUserInput }: Term
   const [charIndex, setCharIndex] = useState(0);
   const [initialCommandCount, setInitialCommandCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { playSound, stopSound } = useTypingSound();
+  const { playSound, stopSound, resetSound } = useTypingSound();
 
   useEffect(() => {
-    playSound({ delay: 0, volume: 0.7, loop: true });
+    playSound({ delay: 0, volume: 1, loop: true });
 
     return () => {
       stopSound();
+      resetSound();
     };
-  }, [playSound, stopSound, commands]);
+  }, [playSound, stopSound, resetSound, commands]);
 
   useEffect(() => {
     if (commandIndex < commands.length) {
