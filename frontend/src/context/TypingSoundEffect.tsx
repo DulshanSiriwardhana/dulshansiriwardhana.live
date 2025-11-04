@@ -10,6 +10,7 @@ interface TypingSoundOptions {
 interface TypingSoundContextType {
   playSound: (options?: TypingSoundOptions) => void;
   stopSound: () => void;
+  resetSound: () => void;
 }
 
 const TypingSoundContext = createContext<TypingSoundContextType | undefined>(undefined);
@@ -50,8 +51,17 @@ export const TypingSoundProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   }, []);
 
+  const resetSound = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+      console.log("🔄 Typing sound reset.");
+    }
+  }, []);
+
   return (
-    <TypingSoundContext.Provider value={{ playSound, stopSound }}>
+    <TypingSoundContext.Provider value={{ playSound, stopSound, resetSound }}>
       {children}
     </TypingSoundContext.Provider>
   );

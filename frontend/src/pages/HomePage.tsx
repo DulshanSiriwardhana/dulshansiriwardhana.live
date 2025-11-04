@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Terminal from "../components/Terminal";
 
 const HomePage = () => {
@@ -12,7 +11,7 @@ const HomePage = () => {
   const handleUserInput = (input: string) => {
     console.log("User typed:", input);
   };
-  
+
   return (
     <div className="w-full h-full flex items-center justify-center p-4">
       <Terminal
