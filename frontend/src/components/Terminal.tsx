@@ -22,10 +22,8 @@ const Terminal = ({ onComplete }: TerminalProps) => {
   const outputRef = useRef<HTMLDivElement>(null);
   const { playSound, stopSound, resetSound } = useTypingSound();
 
-  // Auto-scroll to bottom function - memoized for stability
   const scrollToBottom = useCallback(() => {
     if (outputRef.current) {
-      // Use requestAnimationFrame to ensure DOM is updated
       requestAnimationFrame(() => {
         if (outputRef.current) {
           outputRef.current.scrollTop = outputRef.current.scrollHeight;
@@ -117,7 +115,6 @@ const Terminal = ({ onComplete }: TerminalProps) => {
 
         return () => clearTimeout(timeout);
       } else {
-        // Command typed, show output
         setTimeout(() => {
           setOutput((prev) => [...prev, `$ ${command.text}`]);
           setCurrentLine("");
@@ -144,15 +141,12 @@ const Terminal = ({ onComplete }: TerminalProps) => {
   }, [charIndex, commandIndex, isTyping, onComplete, commands]);
 
   useEffect(() => {
-    // Cursor blink animation
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 530);
-
     return () => clearInterval(cursorInterval);
   }, []);
 
-  // Auto-scroll to bottom whenever output changes
   useEffect(() => {
     const timeout = setTimeout(() => {
       scrollToBottom();
@@ -160,10 +154,8 @@ const Terminal = ({ onComplete }: TerminalProps) => {
     return () => clearTimeout(timeout);
   }, [output, currentLine, scrollToBottom]);
 
-  // Also scroll on every character typed
   useEffect(() => {
     if (isTyping && charIndex > 0) {
-      // Small delay to ensure DOM is updated
       const timeout = setTimeout(() => {
         scrollToBottom();
       }, 20);
@@ -180,9 +172,8 @@ const Terminal = ({ onComplete }: TerminalProps) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto">
       <div className="bg-[#0a0a0a] border border-green-500/30 rounded-lg shadow-2xl overflow-hidden backdrop-blur-sm">
-        {/* Terminal Header */}
         <div className="bg-[#1a1a1a] border-b border-green-500/20 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-red-500/80 rounded-full"></div>
@@ -195,13 +186,11 @@ const Terminal = ({ onComplete }: TerminalProps) => {
           <div className="w-16"></div>
         </div>
 
-        {/* Terminal Body */}
         <div
           ref={outputRef}
           className="p-6 h-[500px] md:h-[600px] overflow-y-auto green-scrollbar font-mono text-sm scroll-smooth"
         >
           <div className="space-y-1">
-            {/* Welcome Message */}
             {output.length === 0 && (
               <div className="text-green-400 mb-4">
                 <div className="text-lg font-bold mb-2">
@@ -213,7 +202,6 @@ const Terminal = ({ onComplete }: TerminalProps) => {
               </div>
             )}
 
-            {/* Output Lines */}
             {output.map((line, idx) => (
               <div
                 key={idx}
@@ -225,7 +213,6 @@ const Terminal = ({ onComplete }: TerminalProps) => {
               </div>
             ))}
 
-            {/* Current Typing Line */}
             {isTyping && commandIndex < commands.length && (
               <div className="flex items-center text-green-400">
                 <span className="mr-2">$</span>
@@ -238,7 +225,6 @@ const Terminal = ({ onComplete }: TerminalProps) => {
               </div>
             )}
 
-            {/* Completion Message */}
             {!isTyping && commandIndex >= commands.length && (
               <div className="mt-4 space-y-2">
                 <div className="text-green-400">

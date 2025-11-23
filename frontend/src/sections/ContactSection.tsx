@@ -3,36 +3,6 @@ import ScrollAnimation from "../components/ScrollAnimation";
 import ContactForm from "../components/ContactForm";
 import { contactLinks, personalInfo } from "../constants/landingPageData";
 
-interface ContactButtonProps {
-  label: string;
-  url: string;
-  type: "email" | "external";
-}
-
-const ContactButton = ({ label, url, type }: ContactButtonProps) => {
-  const commonClasses =
-    "px-8 py-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 transition-all duration-300 text-center w-full md:w-auto";
-
-  if (type === "external") {
-    return (
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={commonClasses}
-      >
-        {label}
-      </a>
-    );
-  }
-
-  return (
-    <a href={url} className={commonClasses}>
-      {label}
-    </a>
-  );
-};
-
 const ContactSection = () => {
   return (
     <section
@@ -46,7 +16,6 @@ const ContactSection = () => {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Contact Form */}
           <ScrollAnimation direction="right">
             <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full">
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
@@ -56,7 +25,6 @@ const ContactSection = () => {
             </div>
           </ScrollAnimation>
 
-          {/* Contact Info */}
           <ScrollAnimation direction="left">
             <div className="space-y-6 h-full flex flex-col">
               <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 flex-grow">
@@ -98,7 +66,6 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              {/* Social Links */}
               <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
                 <h4 className="text-base md:text-lg font-semibold text-white mb-4">
                   Follow Me

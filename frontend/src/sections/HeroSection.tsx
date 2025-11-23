@@ -1,6 +1,5 @@
-import NavigationButton from "../components/NavigationButton";
 import TypingAnimation from "../components/TypingAnimation";
-import { personalInfo, navigationLinks, contactLinks } from "../constants/landingPageData";
+import { personalInfo, contactLinks } from "../constants/landingPageData";
 
 const HeroSection = () => {
   const typingTexts = [
@@ -26,12 +25,10 @@ const HeroSection = () => {
     >
       <div className="max-w-5xl w-full space-y-12">
         <div className="text-center space-y-6">
-          {/* Greeting */}
           <p className="text-green-400 text-lg md:text-xl mb-4 animate-fade-in">
             Hi, my name is
           </p>
 
-          {/* Name */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4">
             <span className="block text-white animate-slide-up">{personalInfo.firstName}</span>
             <span className="block text-green-400 mt-2 animate-slide-up-delayed">
@@ -39,7 +36,6 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          {/* Typing Animation */}
           <div className="h-12 md:h-16 flex items-center justify-center px-4">
             <p className="text-xl md:text-2xl lg:text-4xl font-light text-gray-300 text-center">
               I'm a <TypingAnimation texts={typingTexts} />
@@ -61,7 +57,6 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* CTA Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mt-12">
           <a
             href="#contact"
@@ -79,7 +74,6 @@ const HeroSection = () => {
           </a>
         </div>
 
-        {/* Social Links */}
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           {contactLinks.map((link, index) => (
             <a
@@ -96,7 +90,6 @@ const HeroSection = () => {
           ))}
         </div>
 
-        {/* Scroll indicator */}
         <div className="flex flex-col items-center gap-2 mt-16 animate-bounce">
           <span className="text-sm text-gray-500">Scroll to explore</span>
           <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center">
