@@ -1,20 +1,50 @@
 import NavigationButton from "../components/NavigationButton";
-import { personalInfo, navigationLinks } from "../constants/landingPageData";
+import TypingAnimation from "../components/TypingAnimation";
+import { personalInfo, navigationLinks, contactLinks } from "../constants/landingPageData";
 
 const HeroSection = () => {
+  const typingTexts = [
+    "Blockchain Developer",
+    "Full-Stack Developer",
+    "Computer Engineering Student",
+    "Problem Solver",
+    "Code Enthusiast",
+  ];
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <section
       id="hero"
       className="min-h-screen flex flex-col items-center justify-center p-4 relative z-10"
     >
-      <div className="max-w-4xl w-full space-y-12">
+      <div className="max-w-5xl w-full space-y-12">
         <div className="text-center space-y-6">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
-            <span className="block text-white">{personalInfo.firstName}</span>
-            <span className="block text-green-400 mt-2">
+          {/* Greeting */}
+          <p className="text-green-400 text-lg md:text-xl mb-4 animate-fade-in">
+            Hi, my name is
+          </p>
+
+          {/* Name */}
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight">
+            <span className="block text-white animate-slide-up">{personalInfo.firstName}</span>
+            <span className="block text-green-400 mt-2 animate-slide-up-delayed">
               {personalInfo.lastName}
             </span>
           </h1>
+
+          {/* Typing Animation */}
+          <div className="h-12 md:h-16 flex items-center justify-center">
+            <p className="text-2xl md:text-4xl font-light text-gray-300">
+              I'm a <TypingAnimation texts={typingTexts} />
+            </p>
+          </div>
 
           <div className="flex items-center justify-center gap-3 mt-8">
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-green-400"></div>
@@ -22,15 +52,47 @@ const HeroSection = () => {
             <div className="h-px w-20 bg-gradient-to-l from-transparent to-green-400"></div>
           </div>
 
-          <p className="text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto">
-            {personalInfo.title}
+          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto mt-6">
+            {personalInfo.bio}
+          </p>
+          
+          <p className="text-base text-gray-500 italic max-w-xl mx-auto mt-4">
+            "I just love to solve what I like!"
           </p>
         </div>
 
-        {/* Navigation/Quick Links */}
+        {/* CTA Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mt-12">
-          {navigationLinks.map((link) => (
-            <NavigationButton key={link.href} href={link.href} label={link.label} />
+          <a
+            href="#contact"
+            onClick={(e) => handleSmoothScroll(e, "#contact")}
+            className="px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 transition-all duration-300 font-medium"
+          >
+            Get In Touch
+          </a>
+          <a
+            href="#projects"
+            onClick={(e) => handleSmoothScroll(e, "#projects")}
+            className="px-8 py-4 bg-transparent border border-gray-600 rounded-lg text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 transition-all duration-300 font-medium"
+          >
+            View My Work
+          </a>
+        </div>
+
+        {/* Social Links */}
+        <div className="flex flex-wrap justify-center gap-4 mt-8">
+          {contactLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.url}
+              target={link.type === "external" ? "_blank" : undefined}
+              rel={link.type === "external" ? "noopener noreferrer" : undefined}
+              className="w-12 h-12 flex items-center justify-center bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 hover:scale-110 transition-all duration-300"
+              aria-label={link.label}
+              title={link.label}
+            >
+              {link.icon || link.label.charAt(0)}
+            </a>
           ))}
         </div>
 
