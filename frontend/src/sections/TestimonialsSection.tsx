@@ -27,7 +27,7 @@ const TestimonialsSection = () => {
   return (
     <section
       id="testimonials"
-      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 relative z-10"
+      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
       <div className="max-w-5xl w-full space-y-12">
         <SectionTitle
@@ -37,7 +37,7 @@ const TestimonialsSection = () => {
 
         <div className="relative">
           {/* Testimonial Cards */}
-          <div className="relative h-96 overflow-hidden">
+          <div className="relative min-h-[400px] md:h-96 overflow-hidden">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}

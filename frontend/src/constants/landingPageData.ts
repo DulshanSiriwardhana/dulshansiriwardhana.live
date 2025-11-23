@@ -55,6 +55,28 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export interface SkillWithLevel {
+  skill: string;
+  level: number;
+}
+
+export interface BlogArticle {
+  title: string;
+  description: string;
+  url: string;
+  date: string;
+  readTime?: string;
+  tags: string[];
+}
+
+export interface Achievement {
+  title: string;
+  issuer: string;
+  date: string;
+  description: string;
+  icon?: string;
+}
+
 export const personalInfo: PersonalInfo = {
   firstName: "Dulshan",
   lastName: "Siriwardhana",
@@ -275,11 +297,74 @@ export const contactLinks: ContactLink[] = [
   },
 ];
 
+export const skillLevels: SkillWithLevel[] = [
+  { skill: "Python", level: 90 },
+  { skill: "JavaScript", level: 95 },
+  { skill: "React", level: 90 },
+  { skill: "Node.js", level: 85 },
+  { skill: "Solidity", level: 80 },
+  { skill: "Next.js", level: 85 },
+  { skill: "TypeScript", level: 88 },
+  { skill: "Docker", level: 75 },
+  { skill: "AWS", level: 70 },
+  { skill: "MongoDB", level: 80 },
+];
+
+export const blogArticles: BlogArticle[] = [
+  {
+    title: "Building Your First Ethereum Token Using Solidity",
+    description: "A comprehensive step-by-step guide for beginners to create and deploy an ERC-20 token on the Ethereum blockchain.",
+    url: "https://medium.com/@dulshansiriwardhanaofficial",
+    date: "2024",
+    readTime: "10 min read",
+    tags: ["Blockchain", "Solidity", "Ethereum", "Web3"],
+  },
+];
+
+export const achievements: Achievement[] = [
+  {
+    title: "Pull Shark",
+    issuer: "GitHub",
+    date: "2024",
+    description: "Achieved Pull Shark achievement on GitHub (x3)",
+    icon: "🦈",
+  },
+  {
+    title: "Quickdraw",
+    issuer: "GitHub",
+    date: "2024",
+    description: "GitHub Quickdraw achievement unlocked",
+    icon: "⚡",
+  },
+  {
+    title: "YOLO",
+    issuer: "GitHub",
+    date: "2024",
+    description: "GitHub YOLO achievement unlocked",
+    icon: "🎯",
+  },
+  {
+    title: "81+ Repositories",
+    issuer: "GitHub",
+    date: "2024",
+    description: "Created and maintained 81+ open source repositories",
+    icon: "📦",
+  },
+  {
+    title: "4th Year Computer Engineering",
+    issuer: "University of Ruhuna",
+    date: "2021 - Present",
+    description: "Pursuing Computer Engineering degree",
+    icon: "🎓",
+  },
+];
+
 export const navigationLinks = [
   { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
 

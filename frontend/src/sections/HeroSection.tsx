@@ -22,7 +22,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex flex-col items-center justify-center p-4 relative z-10"
+      className="min-h-screen flex flex-col items-center justify-center p-4 pt-24 md:pt-28 relative z-10"
     >
       <div className="max-w-5xl w-full space-y-12">
         <div className="text-center space-y-6">
@@ -32,7 +32,7 @@ const HeroSection = () => {
           </p>
 
           {/* Name */}
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4">
             <span className="block text-white animate-slide-up">{personalInfo.firstName}</span>
             <span className="block text-green-400 mt-2 animate-slide-up-delayed">
               {personalInfo.lastName}
@@ -40,8 +40,8 @@ const HeroSection = () => {
           </h1>
 
           {/* Typing Animation */}
-          <div className="h-12 md:h-16 flex items-center justify-center">
-            <p className="text-2xl md:text-4xl font-light text-gray-300">
+          <div className="h-12 md:h-16 flex items-center justify-center px-4">
+            <p className="text-xl md:text-2xl lg:text-4xl font-light text-gray-300 text-center">
               I'm a <TypingAnimation texts={typingTexts} />
             </p>
           </div>

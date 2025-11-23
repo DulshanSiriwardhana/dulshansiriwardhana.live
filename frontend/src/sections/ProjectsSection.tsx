@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SectionTitle from "../components/SectionTitle";
+import ScrollAnimation from "../components/ScrollAnimation";
 import { projects } from "../constants/landingPageData";
 import type { Project } from "../constants/landingPageData";
 
@@ -16,10 +17,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
       )}
       
-      <h3 className="text-2xl font-semibold text-white mb-3 group-hover:text-green-400 transition-colors">
+      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 group-hover:text-green-400 transition-colors break-words">
         {project.title}
       </h3>
-      <p className="text-gray-400 mb-4 leading-relaxed flex-grow">
+      <p className="text-gray-400 mb-4 leading-relaxed flex-grow text-sm sm:text-base break-words">
         {project.description}
       </p>
       <div className="flex flex-wrap gap-2 mb-4">
@@ -71,7 +72,7 @@ const ProjectsSection = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 relative z-10"
+      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
       <div className="max-w-7xl w-full space-y-12">
         <SectionTitle
@@ -109,7 +110,9 @@ const ProjectsSection = () => {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <ScrollAnimation key={index} delay={index * 100} direction="up">
+              <ProjectCard project={project} />
+            </ScrollAnimation>
           ))}
         </div>
 

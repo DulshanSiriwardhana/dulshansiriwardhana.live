@@ -59,13 +59,13 @@ const NavigationBar = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             {navigationLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleSmoothScroll(e, link.href)}
-                className={`px-3 py-2 text-sm font-medium transition-all duration-300 relative ${
+                className={`px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-all duration-300 relative whitespace-nowrap ${
                   activeSection === link.href.substring(1)
                     ? "text-green-400"
                     : "text-gray-300 hover:text-green-400"
