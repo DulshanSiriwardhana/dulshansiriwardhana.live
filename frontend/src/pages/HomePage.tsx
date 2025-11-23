@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Terminal from "../components/Terminal";
-import LandingPage from "./LandingPgae";
+import LandingPage from "./LandingPage";
 
 const HomePage = () => {
   const [isTerminalOpen, setIsTerminalOpen] = useState(true);
