@@ -17,15 +17,15 @@ const AchievementsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {achievements.map((achievement, index) => (
             <ScrollAnimation key={index} delay={index * 100} direction="up">
-              <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col min-h-[250px]">
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                   {achievement.icon || "🏆"}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-green-400 transition-colors">
+                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-green-400 transition-colors flex-shrink-0">
                   {achievement.title}
                 </h3>
-                <p className="text-green-400 text-sm mb-2">{achievement.issuer}</p>
-                <p className="text-gray-400 text-sm mb-3">{achievement.date}</p>
+                <p className="text-green-400 text-sm mb-2 flex-shrink-0">{achievement.issuer}</p>
+                <p className="text-gray-400 text-sm mb-3 flex-shrink-0">{achievement.date}</p>
                 <p className="text-gray-300 text-sm leading-relaxed flex-grow">
                   {achievement.description}
                 </p>

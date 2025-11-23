@@ -1,37 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Terminal from "../components/Terminal";
 import LandingPage from "./LandingPage";
+import Background from "../components/Background";
 
 const HomePage = () => {
   const [isTerminalOpen, setIsTerminalOpen] = useState(true);
-  const commands = [
-    "echo Hello from the homepage!",
-    "ls -la",
-    "pwd",
-    "echo Goodbye!",
-  ];
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const handleUserInput = (input: string) => {
-    console.log("User typed:", input);
+  const handleTerminalComplete = () => {
+    setIsTransitioning(true);
+    // Add a small delay for smooth transition
+    setTimeout(() => {
+      setIsTerminalOpen(false);
+      setIsTransitioning(false);
+    }, 500);
   };
 
-  useEffect(()=>{
-    setTimeout(()=>setIsTerminalOpen(false), 10000);
-  },[]);
-
   return (
-    <div className="w-full h-full flex items-center justify-center p-4">
-      {
-        isTerminalOpen ? (
-        <Terminal
-          commands={commands}
-          enableUserTyping={true}
-          onUserInput={handleUserInput}
-        />
-        ) : (
-          <LandingPage/>
-        )
-      }
+    <div className="w-full min-h-screen bg-black text-white font-spectral relative overflow-hidden">
+      <Background />
+      
+      {isTerminalOpen ? (
+        <div
+          className={`min-h-screen flex items-center justify-center p-4 relative z-10 transition-opacity duration-500 ${
+            isTransitioning ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <Terminal onComplete={handleTerminalComplete} />
+        </div>
+      ) : (
+        <div
+          className={`transition-opacity duration-500 ${
+            isTransitioning ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <LandingPage />
+        </div>
+      )}
     </div>
   );
 };

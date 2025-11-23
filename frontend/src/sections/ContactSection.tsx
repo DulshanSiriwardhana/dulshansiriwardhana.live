@@ -45,11 +45,11 @@ const ContactSection = () => {
           subtitle="I'm always open to discussing new projects and opportunities"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Contact Form */}
           <ScrollAnimation direction="right">
-            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-              <h3 className="text-2xl font-semibold text-white mb-6">
+            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full">
+              <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
                 Send me a message
               </h3>
               <ContactForm />
@@ -58,9 +58,9 @@ const ContactSection = () => {
 
           {/* Contact Info */}
           <ScrollAnimation direction="left">
-            <div className="space-y-6">
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-                <h3 className="text-2xl font-semibold text-white mb-6">
+            <div className="space-y-6 h-full flex flex-col">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 flex-grow">
+                <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
                   Let's Connect
                 </h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
@@ -99,8 +99,8 @@ const ContactSection = () => {
               </div>
 
               {/* Social Links */}
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-                <h4 className="text-lg font-semibold text-white mb-4">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+                <h4 className="text-base md:text-lg font-semibold text-white mb-4">
                   Follow Me
                 </h4>
                 <div className="grid grid-cols-2 gap-4">

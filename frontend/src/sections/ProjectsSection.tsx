@@ -10,14 +10,14 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
+    <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col relative overflow-hidden min-h-[350px]">
       {project.featured && (
-        <div className="absolute top-4 right-4 px-2 py-1 bg-green-500/20 border border-green-500/50 rounded text-xs text-green-400 font-medium">
+        <div className="absolute top-4 right-4 px-2 py-1 bg-green-500/20 border border-green-500/50 rounded text-xs text-green-400 font-medium z-10">
           Featured
         </div>
       )}
       
-      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 group-hover:text-green-400 transition-colors break-words">
+      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 group-hover:text-green-400 transition-colors break-words pr-16">
         {project.title}
       </h3>
       <p className="text-gray-400 mb-4 leading-relaxed flex-grow text-sm sm:text-base break-words">
@@ -27,13 +27,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {project.tech.map((tech, techIndex) => (
           <span
             key={techIndex}
-            className="px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-xs text-green-400"
+            className="px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-xs text-green-400 whitespace-nowrap"
           >
             {tech}
           </span>
         ))}
       </div>
-      <div className="flex gap-4 mt-auto">
+      <div className="flex gap-4 mt-auto pt-2">
         <a
           href={project.link}
           target="_blank"

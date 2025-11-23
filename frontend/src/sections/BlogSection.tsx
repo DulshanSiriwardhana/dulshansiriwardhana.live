@@ -21,7 +21,7 @@ const BlogSection = () => {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col"
+                className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col min-h-[300px]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-green-400 text-sm font-medium">
@@ -67,7 +67,7 @@ const BlogSection = () => {
 
           {/* CTA Card */}
           <ScrollAnimation delay={blogArticles.length * 100} direction="up">
-            <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/30 rounded-xl p-6 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
+            <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/30 rounded-xl p-6 flex flex-col items-center justify-center text-center h-full min-h-[300px] md:min-h-[350px]">
               <div className="text-4xl mb-4">✍️</div>
               <h3 className="text-xl font-semibold text-white mb-2">
                 More Articles Coming Soon

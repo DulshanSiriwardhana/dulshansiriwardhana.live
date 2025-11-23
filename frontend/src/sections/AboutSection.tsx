@@ -16,59 +16,59 @@ const AboutSection = () => {
           {/* Bio Section */}
           <div className="space-y-6">
             <ScrollAnimation direction="right">
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-                <h3 className="text-2xl font-semibold text-white mb-4">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   Who I Am
                 </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className="text-base md:text-lg text-gray-300 leading-relaxed">
                   {personalInfo.bio}
                 </p>
               </div>
             </ScrollAnimation>
 
             <ScrollAnimation direction="right" delay={100}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-                <h3 className="text-2xl font-semibold text-white mb-4">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   What I Do
                 </h3>
-              <ul className="space-y-3">
-                <li className="text-gray-300 flex items-start">
-                  <span className="text-green-400 mr-3 mt-1">▹</span>
-                  <span>Develop blockchain applications and smart contracts using Solidity</span>
-                </li>
-                <li className="text-gray-300 flex items-start">
-                  <span className="text-green-400 mr-3 mt-1">▹</span>
-                  <span>Build full-stack web applications with modern frameworks</span>
-                </li>
-                <li className="text-gray-300 flex items-start">
-                  <span className="text-green-400 mr-3 mt-1">▹</span>
-                  <span>Contribute to open-source projects and educational platforms</span>
-                </li>
-                <li className="text-gray-300 flex items-start">
-                  <span className="text-green-400 mr-3 mt-1">▹</span>
-                  <span>Write technical articles and share knowledge on Medium</span>
-                </li>
-                <li className="text-gray-300 flex items-start">
-                  <span className="text-green-400 mr-3 mt-1">▹</span>
-                  <span>Collaborate with organizations like HDLGenHub and DeedLink</span>
-                </li>
-              </ul>
-            </div>
+                <ul className="space-y-3">
+                  <li className="text-gray-300 flex items-start text-sm md:text-base">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
+                    <span>Develop blockchain applications and smart contracts using Solidity</span>
+                  </li>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
+                    <span>Build full-stack web applications with modern frameworks</span>
+                  </li>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
+                    <span>Contribute to open-source projects and educational platforms</span>
+                  </li>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
+                    <span>Write technical articles and share knowledge on Medium</span>
+                  </li>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
+                    <span>Collaborate with organizations like HDLGenHub and DeedLink</span>
+                  </li>
+                </ul>
+              </div>
             </ScrollAnimation>
             
             <ScrollAnimation direction="right" delay={200}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-8">
-                <h3 className="text-2xl font-semibold text-white mb-4">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   Education
                 </h3>
                 <div className="space-y-2">
-                  <p className="text-lg text-gray-300 font-medium">
+                  <p className="text-base md:text-lg text-gray-300 font-medium">
                     University of Ruhuna
                   </p>
-                  <p className="text-gray-400">
+                  <p className="text-sm md:text-base text-gray-400">
                     Faculty of Engineering, Department of Computer Engineering
                   </p>
-                  <p className="text-green-400 text-sm mt-2">
+                  <p className="text-green-400 text-xs md:text-sm mt-2">
                     4th Year Undergraduate (2021 - Present)
                   </p>
                 </div>
