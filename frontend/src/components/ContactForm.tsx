@@ -24,13 +24,32 @@ const ContactForm = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
       setIsSubmitting(false);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setTimeout(() => setSubmitStatus("idle"), 3000);
-    }, 1000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setIsSubmitting(false);
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 3000);
+    }
   };
 
   return (
