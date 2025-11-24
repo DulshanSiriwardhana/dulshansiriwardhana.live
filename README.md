@@ -1,32 +1,47 @@
 # 🌐 Dulshan Siriwardhana — Personal Website
 
-Welcome to the source code of my personal website —  
-**[https://dulshansiriwardhana.live](https://dulshansiriwardhana.live)**  
-
-> ⚠️ **Note:** This project is currently **under active development** by me. New features and updates are continuously being added.
-
----
+Personal portfolio website — **[https://dulshansiriwardhana.live](https://dulshansiriwardhana.live)**
 
 ## 🧠 Tech Stack
 
-| Category | Technology |
-|-----------|-------------|
-| **Frontend Framework** | React (with Vite) |
-| **Language** | TypeScript |
-| **Styling** | Tailwind CSS |
-| **Animations** | Framer Motion |
-| **Deployment** | Vercel |
-| **Package Manager** | Yarn |
-| **Backend** | ??? |
+**Frontend:**
+- React + Vite
+- TypeScript
+- Tailwind CSS
 
----
+**Backend:**
+- Node.js + Express
+- MongoDB
+- REST API
 
-## 🚧 Under Development
+## 🚀 Quick Start
 
-### Construction Area Popup
-![Construction Popup](./readme/images/1.png)
+**Frontend:**
+```bash
+cd frontend
+yarn install
+yarn dev
+```
 
-### Construction Progress Bar
-![Progress Bar](./readme/images/2.png)
+**Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Create `.env` file in backend directory:
+```
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+```
+
+## 📁 Project Structure
+
+```
+├── frontend/     # React frontend application
+├── backend/      # Express API server
+└── readme/       # Documentation images
+```
 
 ---
