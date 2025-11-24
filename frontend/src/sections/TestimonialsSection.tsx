@@ -27,7 +27,7 @@ const TestimonialsSection = () => {
   return (
     <section
       id="testimonials"
-      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
+      className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10 hidden"
     >
       <div className="max-w-5xl w-full space-y-12">
         <SectionTitle
