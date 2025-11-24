@@ -1,5 +1,6 @@
 import TypingAnimation from "../components/TypingAnimation";
 import { personalInfo, contactLinks } from "../constants/landingPageData";
+import profileImage from "../assets/images/dp.png";
 
 const HeroSection = () => {
   const typingTexts = [
@@ -25,6 +26,17 @@ const HeroSection = () => {
     >
       <div className="max-w-5xl w-full space-y-12">
         <div className="text-center space-y-6">
+          <div className="flex justify-center mb-6 animate-fade-in">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-full blur-lg opacity-50 animate-pulse"></div>
+              <img
+                src={profileImage}
+                alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
+                className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-green-500/50 shadow-2xl"
+              />
+            </div>
+          </div>
+
           <p className="text-green-400 text-lg md:text-xl mb-4 animate-fade-in">
             Hi, my name is
           </p>

@@ -2,6 +2,7 @@ import SectionTitle from "../components/SectionTitle";
 import ScrollAnimation from "../components/ScrollAnimation";
 import SkillBar from "../components/SkillBar";
 import { personalInfo, skillCategories, skillLevels } from "../constants/landingPageData";
+import profileImage from "../assets/images/dp.png";
 
 const AboutSection = () => {
   return (
@@ -15,6 +16,19 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Bio Section */}
           <div className="space-y-6">
+            <ScrollAnimation direction="right">
+              <div className="flex flex-col items-center mb-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-full blur-lg opacity-30"></div>
+                  <img
+                    src={profileImage}
+                    alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
+                    className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-green-500/50 shadow-2xl"
+                  />
+                </div>
+              </div>
+            </ScrollAnimation>
+
             <ScrollAnimation direction="right">
               <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
                 <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
