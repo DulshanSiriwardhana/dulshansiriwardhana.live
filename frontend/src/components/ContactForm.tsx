@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { sendMessage } from "../utils/api";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -25,21 +26,7 @@ const ContactForm = () => {
     setSubmitStatus("idle");
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/messages`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
-      }
-
+      await sendMessage(formData);
       setIsSubmitting(false);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
