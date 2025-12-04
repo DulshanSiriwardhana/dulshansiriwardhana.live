@@ -1,20 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const getApiUrl = () => {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
-  }
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.hostname;
-    if (hostname.includes('vercel.app') || hostname.includes('netlify.app')) {
-      return `https://api-${hostname.split('.')[0]}.vercel.app`;
-    }
-  }
-  return 'http://localhost:5000';
-};
-
-const API_URL = getApiUrl();
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [username, setUsername] = useState('');
