@@ -10,10 +10,10 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300 h-full flex flex-col relative overflow-hidden min-h-[350px]">
+    <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 h-full flex flex-col relative overflow-hidden min-h-[350px] transform hover:-translate-y-1">
       {project.featured && (
-        <div className="absolute top-4 right-4 px-2 py-1 bg-green-500/20 border border-green-500/50 rounded text-xs text-green-400 font-medium z-10">
-          Featured
+        <div className="absolute top-4 right-4 px-2.5 py-1 bg-green-500/20 border border-green-500/50 rounded-md text-xs text-green-400 font-medium z-10 shadow-lg">
+          ⭐ Featured
         </div>
       )}
       
@@ -27,7 +27,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {project.tech.map((tech, techIndex) => (
           <span
             key={techIndex}
-            className="px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-xs text-green-400 whitespace-nowrap"
+            className="px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-md text-xs text-green-400 whitespace-nowrap hover:bg-green-500/20 hover:border-green-500/40 transition-all duration-200"
           >
             {tech}
           </span>
@@ -38,17 +38,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           href={project.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-green-400 hover:text-green-300 text-sm font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all"
+          className="text-green-400 hover:text-green-300 text-sm font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all duration-300 hover:underline"
         >
           View Project
-          <span>→</span>
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
         </a>
         {project.github && (
           <a
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-green-400 text-sm font-medium transition-colors"
+            className="text-gray-400 hover:text-green-400 text-sm font-medium transition-colors duration-300 hover:underline"
           >
             GitHub
           </a>
@@ -84,10 +84,10 @@ const ProjectsSection = () => {
         <div className="flex flex-wrap justify-center gap-3">
           <button
             onClick={() => setFilter("all")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+            className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
               filter === "all"
-                ? "bg-green-500/20 border border-green-500/50 text-green-400"
-                : "bg-[#1a1a1a]/50 border border-gray-600 text-gray-400 hover:border-green-500/30 hover:text-green-400"
+                ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-lg shadow-green-500/20"
+                : "bg-[#1a1a1a]/50 border border-gray-600 text-gray-400 hover:border-green-500/30 hover:text-green-400 hover:bg-[#1a1a1a]/70 hover:scale-105"
             }`}
           >
             All
@@ -96,10 +96,10 @@ const ProjectsSection = () => {
             <button
               key={tech}
               onClick={() => setFilter(tech)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
                 filter === tech
-                  ? "bg-green-500/20 border border-green-500/50 text-green-400"
-                  : "bg-[#1a1a1a]/50 border border-gray-600 text-gray-400 hover:border-green-500/30 hover:text-green-400"
+                  ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-lg shadow-green-500/20"
+                  : "bg-[#1a1a1a]/50 border border-gray-600 text-gray-400 hover:border-green-500/30 hover:text-green-400 hover:bg-[#1a1a1a]/70 hover:scale-105"
               }`}
             >
               {tech}

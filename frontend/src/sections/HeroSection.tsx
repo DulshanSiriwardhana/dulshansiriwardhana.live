@@ -73,14 +73,14 @@ const HeroSection = () => {
           <a
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, "#contact")}
-            className="px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 transition-all duration-300 font-medium"
+            className="px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300 font-medium"
           >
             Get In Touch
           </a>
           <a
             href="#projects"
             onClick={(e) => handleSmoothScroll(e, "#projects")}
-            className="px-8 py-4 bg-transparent border border-gray-600 rounded-lg text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 transition-all duration-300 font-medium"
+            className="px-8 py-4 bg-transparent border border-gray-600 rounded-lg text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 hover:bg-green-500/10 active:scale-100 transition-all duration-300 font-medium"
           >
             View My Work
           </a>
@@ -93,7 +93,7 @@ const HeroSection = () => {
               href={link.url}
               target={link.type === "external" ? "_blank" : undefined}
               rel={link.type === "external" ? "noopener noreferrer" : undefined}
-              className="w-12 h-12 flex items-center justify-center bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 hover:scale-110 transition-all duration-300"
+              className="w-12 h-12 flex items-center justify-center bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 hover:scale-110 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300"
               aria-label={link.label}
               title={link.label}
             >

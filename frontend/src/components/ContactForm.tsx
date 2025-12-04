@@ -56,7 +56,7 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 transition-all"
+            className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 hover:border-green-500/30"
             placeholder="Your Name"
           />
         </div>
@@ -74,7 +74,7 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 transition-all"
+            className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 hover:border-green-500/30"
             placeholder="your.email@example.com"
           />
         </div>
@@ -94,7 +94,7 @@ const ContactForm = () => {
           value={formData.subject}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 transition-all"
+          className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 hover:border-green-500/30"
           placeholder="What's this about?"
         />
       </div>
@@ -113,7 +113,7 @@ const ContactForm = () => {
               onChange={handleChange}
               required
               rows={6}
-              className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 transition-all resize-none break-words"
+              className="w-full px-4 py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 resize-none break-words hover:border-green-500/30"
               placeholder="Tell me about your project or just say hello!"
             />
       </div>
@@ -121,9 +121,16 @@ const ContactForm = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 transition-all duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:shadow-lg hover:shadow-green-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
+        {isSubmitting ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="animate-spin">⏳</span>
+            Sending...
+          </span>
+        ) : (
+          "Send Message"
+        )}
       </button>
 
       {submitStatus === "success" && (

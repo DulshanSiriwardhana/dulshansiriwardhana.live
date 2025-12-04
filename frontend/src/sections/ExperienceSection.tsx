@@ -36,7 +36,7 @@ const ExperienceSection = () => {
                     index % 2 === 0 ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"
                   }`}
                 >
-                  <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 transition-all duration-300">
+                  <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 transform hover:-translate-y-1">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
                       <div className="flex-1">
                         <h3 className="text-xl sm:text-2xl font-semibold text-white mb-1">

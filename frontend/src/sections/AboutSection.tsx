@@ -30,7 +30,7 @@ const AboutSection = () => {
             </ScrollAnimation>
 
             <ScrollAnimation direction="right">
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
                 <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   Who I Am
                 </h3>
@@ -41,37 +41,37 @@ const AboutSection = () => {
             </ScrollAnimation>
 
             <ScrollAnimation direction="right" delay={100}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
                 <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   What I Do
                 </h3>
                 <ul className="space-y-3">
-                  <li className="text-gray-300 flex items-start text-sm md:text-base">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
-                    <span>Develop blockchain applications and smart contracts using Solidity</span>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
+                    <span className="group-hover/item:text-gray-200 transition-colors">Develop blockchain applications and smart contracts using Solidity</span>
                   </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
-                    <span>Build full-stack web applications with modern frameworks</span>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
+                    <span className="group-hover/item:text-gray-200 transition-colors">Build full-stack web applications with modern frameworks</span>
                   </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
-                    <span>Contribute to open-source projects and educational platforms</span>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
+                    <span className="group-hover/item:text-gray-200 transition-colors">Contribute to open-source projects and educational platforms</span>
                   </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
-                    <span>Write technical articles and share knowledge on Medium</span>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
+                    <span className="group-hover/item:text-gray-200 transition-colors">Write technical articles and share knowledge on Medium</span>
                   </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0">▹</span>
-                    <span>Collaborate with organizations like HDLGenHub and DeedLink</span>
+                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
+                    <span className="group-hover/item:text-gray-200 transition-colors">Collaborate with organizations like HDLGenHub, DeedLink, and Team-OrByte</span>
                   </li>
                 </ul>
               </div>
             </ScrollAnimation>
             
             <ScrollAnimation direction="right" delay={200}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
                 <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                   Education
                 </h3>
@@ -82,7 +82,7 @@ const AboutSection = () => {
                   <p className="text-sm md:text-base text-gray-400">
                     Faculty of Engineering, Department of Computer Engineering
                   </p>
-                  <p className="text-green-400 text-xs md:text-sm mt-2">
+                  <p className="text-green-400 text-xs md:text-sm mt-2 font-medium">
                     4th Year Undergraduate (2021 - Present)
                   </p>
                 </div>
@@ -100,7 +100,7 @@ const AboutSection = () => {
             
             {/* Skill Bars */}
             <ScrollAnimation direction="left" delay={100}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6">
+              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
                 <h4 className="text-lg font-semibold text-green-400 mb-6">
                   Core Skills
                 </h4>
@@ -123,7 +123,7 @@ const AboutSection = () => {
                   direction="left"
                   delay={(categoryIndex + 1) * 100 + 200}
                 >
-                  <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6">
+                  <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
                     <h4 className="text-lg font-semibold text-green-400 mb-4">
                       {category.category}
                     </h4>
@@ -131,7 +131,7 @@ const AboutSection = () => {
                       {category.skills.map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="px-3 py-1.5 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm hover:bg-green-500/20 hover:border-green-500/50 transition-all duration-300"
+                          className="px-3 py-1.5 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm hover:bg-green-500/20 hover:border-green-500/50 hover:scale-105 transition-all duration-300 cursor-default"
                         >
                           {skill}
                         </span>

@@ -65,7 +65,7 @@ const NavigationBar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleSmoothScroll(e, link.href)}
-                className={`px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-all duration-300 relative whitespace-nowrap ${
+                className={`px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-all duration-300 relative whitespace-nowrap hover:scale-105 ${
                   activeSection === link.href.substring(1)
                     ? "text-green-400"
                     : "text-gray-300 hover:text-green-400"
@@ -73,7 +73,7 @@ const NavigationBar = () => {
               >
                 {link.label}
                 {activeSection === link.href.substring(1) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400"></span>
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400 shadow-lg shadow-green-400/50"></span>
                 )}
               </a>
             ))}

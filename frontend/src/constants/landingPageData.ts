@@ -81,9 +81,9 @@ export const personalInfo: PersonalInfo = {
   firstName: "Dulshan",
   lastName: "Siriwardhana",
   title: "Blockchain Developer & Full-Stack Developer",
-  bio: "I'm a 4th-year Computer Engineering undergraduate at the University of Ruhuna, passionate about crafting elegant solutions to complex problems. I love diving deep into new technologies and turning innovative ideas into reality. As a Blockchain and Full-Stack Developer, I specialize in building decentralized applications and scalable web solutions.",
+  bio: "I'm a 4th-year Computer Engineering undergraduate at the University of Ruhuna, passionate about crafting elegant solutions to complex problems. I love diving deep into new technologies and turning innovative ideas into reality.",
   email: "dulshan@dulshansiriwardhana.live",
-  location: "Galle, Sri Lanka",
+  location: "Sri Lanka",
 };
 
 export const skillCategories: SkillCategory[] = [
@@ -93,7 +93,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     category: "Web Development",
-    skills: ["HTML5", "CSS3", "React", "Next.js", "Node.js", "Bootstrap"],
+    skills: ["HTML5", "CSS3", "React", "Next.js", "Node.js", "Bootstrap", "TypeScript"],
   },
   {
     category: "Cloud & DevOps",
@@ -101,7 +101,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     category: "Databases & Tools",
-    skills: ["MongoDB", "Git", "TypeScript"],
+    skills: ["MongoDB", "Git", "TypeScript", "Express.js"],
   },
 ];
 
@@ -129,7 +129,7 @@ export const skills: string[] = [
 export const projects: Project[] = [
   {
     title: "HDLGenHub",
-    description: "An E-learning platform created for teaching HDL (Hardware Description Language). Main repository of the HDLGenHub platform designed to help students learn and master HDL concepts.",
+    description: "This is the main repository of HDLGenHub E-learning platform which is created for teaching HDL (Hardware Description Language). A comprehensive platform designed to help students learn and master HDL concepts.",
     tech: ["JavaScript", "React", "Node.js", "HTML5", "CSS3"],
     link: "https://github.com/HDLGenHub/HDLGenHub",
     github: "https://github.com/HDLGenHub/HDLGenHub",
@@ -144,6 +144,22 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    title: "GitHub Organization Contributions Map",
+    description: "Live contributions widget for GitHub organizations. A tool to visualize and track contributions across organization repositories.",
+    tech: ["JavaScript", "HTML5", "CSS3", "GitHub API"],
+    link: "https://github.com/DulshanSiriwardhana/github-organization-contributions-map",
+    github: "https://github.com/DulshanSiriwardhana/github-organization-contributions-map",
+    featured: true,
+  },
+  {
+    title: "Personal Portfolio Website",
+    description: "Personal web portfolio showcasing projects, skills, and achievements. Built with React, TypeScript, and Tailwind CSS.",
+    tech: ["TypeScript", "React", "Vite", "Tailwind CSS", "Node.js"],
+    link: "https://dulshansiriwardhana.live",
+    github: "https://github.com/DulshanSiriwardhana/dulshansiriwardhana.live",
+    featured: true,
+  },
+  {
     title: "Chess Player Management",
     description: "A comprehensive chess player management system built with JavaScript. Features include player tracking, game management, and tournament organization.",
     tech: ["JavaScript", "Node.js", "HTML5", "CSS3"],
@@ -151,26 +167,11 @@ export const projects: Project[] = [
     github: "https://github.com/DulshanSiriwardhana/chessplayermanagement",
   },
   {
-    title: "DevOps Chess Player Management",
-    description: "DevOps implementation of the Chess Player Management system with CI/CD pipelines, containerization, and cloud deployment.",
-    tech: ["JavaScript", "Docker", "Kubernetes", "Jenkins", "AWS"],
-    link: "https://github.com/DulshanSiriwardhana/DevOps-ChessPlayerManagement",
-    github: "https://github.com/DulshanSiriwardhana/DevOps-ChessPlayerManagement",
-  },
-  {
     title: "GUI Group Project",
     description: "A collaborative GUI project developed in C#. Group project showcasing modern desktop application development with SandarenuDT and TDRD.",
     tech: ["C#", ".NET", "Windows Forms"],
     link: "https://github.com/DulshanSiriwardhana/GUI_Group_Project_SandarenuDT_Siriwardhana_TDRD",
     github: "https://github.com/DulshanSiriwardhana/GUI_Group_Project_SandarenuDT_Siriwardhana_TDRD",
-  },
-  {
-    title: "Ethereum Token Development",
-    description: "Building Your First Ethereum Token Using Solidity - A comprehensive step-by-step guide for beginners to create and deploy ERC-20 tokens on the Ethereum blockchain.",
-    tech: ["Solidity", "Web3.js", "React", "Ethereum", "Blockchain"],
-    link: "https://medium.com/@dulshansiriwardhanaofficial",
-    github: "https://github.com/DulshanSiriwardhana",
-    featured: true,
   },
 ];
 
@@ -180,7 +181,7 @@ export const experience: Experience[] = [
     position: "Core Contributor & Developer",
     duration: "2023 - Present",
     description: [
-      "Contributing to the main HDLGenHub E-learning platform for teaching HDL",
+      "Contributing to the main HDLGenHub E-learning platform for teaching HDL (Hardware Description Language)",
       "Developing interactive learning modules and educational content",
       "Collaborating with team members on platform architecture and features",
       "Maintaining code quality and documentation standards",
@@ -198,6 +199,17 @@ export const experience: Experience[] = [
       "Contributing to open-source projects and team collaboration",
     ],
     tech: ["TypeScript", "React", "Next.js", "Node.js"],
+  },
+  {
+    company: "Team-OrByte",
+    position: "Team Member",
+    duration: "2023 - Present",
+    description: [
+      "Collaborating on innovative software solutions and projects",
+      "Participating in team-based development initiatives",
+      "Contributing to open-source projects and knowledge sharing",
+    ],
+    tech: ["JavaScript", "TypeScript", "React", "Node.js"],
   },
   {
     company: "University of Ruhuna",
@@ -246,13 +258,13 @@ export const stats: Stat[] = [
   },
   {
     label: "GitHub Stars",
-    value: "23",
+    value: "27",
     suffix: "+",
     description: "Stars received on repositories",
   },
   {
     label: "GitHub Followers",
-    value: "77",
+    value: "76",
     suffix: "+",
     description: "Developers following my work",
   },
@@ -288,6 +300,12 @@ export const contactLinks: ContactLink[] = [
     url: "https://medium.com/@dulshansiriwardhanaofficial",
     type: "external",
     icon: "✍️",
+  },
+  {
+    label: "Facebook",
+    url: "https://facebook.com/profile.php?id=61568544393764",
+    type: "external",
+    icon: "📘",
   },
   {
     label: "Website",
