@@ -10,12 +10,6 @@ import User from './models/User.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
-
-if (!PORT) {
-  console.error('Error: PORT environment variable is required');
-  process.exit(1);
-}
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -56,51 +50,90 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   console.error('Error: MONGODB_URI environment variable is required');
-  process.exit(1);
 }
 
-mongoose.connect(MONGODB_URI)
-  .then(async () => {
-    console.log('Connected to MongoDB');
-    
-    const adminUsername = process.env.ADMIN_USERNAME;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    
-    if (!adminUsername || !adminPassword) {
-      console.warn('Warning: ADMIN_USERNAME or ADMIN_PASSWORD not set. Admin user will not be created.');
-      console.warn('Please set ADMIN_USERNAME and ADMIN_PASSWORD environment variables to create an admin user.');
-    } else {
-      try {
-        const existingAdmin = await User.findOne({ username: adminUsername.toLowerCase() });
-        if (!existingAdmin) {
-          const admin = new User({
-            username: adminUsername.toLowerCase(),
-            password: adminPassword,
-            role: 'admin',
-          });
-          await admin.save();
-          console.log(`Admin user "${adminUsername}" created successfully`);
-        } else {
-          console.log(`Admin user "${adminUsername}" already exists`);
-        }
-      } catch (error) {
-        console.error('Error creating admin user:', error);
-        if (error.code === 11000) {
-          console.log(`Admin user "${adminUsername}" already exists (duplicate key)`);
-        } else {
-          console.error('Failed to create admin user. Please check the error above.');
+let dbConnectionPromise = null;
+
+const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
+  if (dbConnectionPromise) {
+    return dbConnectionPromise;
+  }
+
+  if (!MONGODB_URI) {
+    throw new Error('MONGODB_URI is not set');
+  }
+
+  dbConnectionPromise = mongoose.connect(MONGODB_URI)
+    .then(async () => {
+      console.log('Connected to MongoDB');
+      
+      const adminUsername = process.env.ADMIN_USERNAME;
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      
+      if (adminUsername && adminPassword) {
+        try {
+          const existingAdmin = await User.findOne({ username: adminUsername.toLowerCase() });
+          if (!existingAdmin) {
+            const admin = new User({
+              username: adminUsername.toLowerCase(),
+              password: adminPassword,
+              role: 'admin',
+            });
+            await admin.save();
+            console.log(`Admin user "${adminUsername}" created successfully`);
+          } else {
+            console.log(`Admin user "${adminUsername}" already exists`);
+          }
+        } catch (error) {
+          console.error('Error creating admin user:', error);
+          if (error.code === 11000) {
+            console.log(`Admin user "${adminUsername}" already exists (duplicate key)`);
+          }
         }
       }
-    }
-    
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      
+      return mongoose.connection;
+    })
+    .catch((error) => {
+      console.error('MongoDB connection error:', error);
+      dbConnectionPromise = null;
+      throw error;
     });
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  });
+
+  return dbConnectionPromise;
+};
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Database connection failed',
+      message: error.message 
+    });
+  }
+});
+
+if (process.env.VERCEL !== '1') {
+  const PORT = process.env.PORT || 5000;
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to start server:', error);
+      process.exit(1);
+    });
+}
 
 export default app;
+
 
