@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getProjectEulerArticleByNumber, ProjectEulerArticle } from '../utils/api';
+import { getProjectEulerArticleByNumber } from '../utils/api';
+import type { ProjectEulerArticle } from '../utils/api';
 
 interface ProjectEulerArticleDetailProps {
   problemNumber: number;

@@ -4,7 +4,8 @@ import ScrollAnimation from "../components/ScrollAnimation";
 import ProjectEulerArticleCard from "../components/ProjectEulerArticleCard";
 import ProjectEulerArticleDetail from "../components/ProjectEulerArticleDetail";
 import { blogArticles } from "../constants/landingPageData";
-import { getProjectEulerArticles, ProjectEulerArticle } from "../utils/api";
+import { getProjectEulerArticles } from "../utils/api";
+import type { ProjectEulerArticle } from "../utils/api";
 
 const BlogSection = () => {
   const [projectEulerArticles, setProjectEulerArticles] = useState<ProjectEulerArticle[]>([]);

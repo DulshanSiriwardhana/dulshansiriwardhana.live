@@ -1,4 +1,4 @@
-import { ProjectEulerArticle } from '../utils/api';
+import type { ProjectEulerArticle } from '../utils/api';
 import ScrollAnimation from './ScrollAnimation';
 
 interface ProjectEulerArticleCardProps {
