@@ -206,13 +206,13 @@ const AdminPanel = () => {
                     ...formData,
                     solution: { ...formData.solution, language: e.target.value }
                   })}
-                  className="w-full px-4 py-2.5 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer"
+                  className="w-full px-4 py-2.5 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer hover:border-green-500/40"
                 >
-                  <option value="Python">Python</option>
-                  <option value="JavaScript">JavaScript</option>
-                  <option value="Java">Java</option>
-                  <option value="C++">C++</option>
-                  <option value="C">C</option>
+                  <option value="Python" className="bg-[#0a0a0a] text-white py-2">Python</option>
+                  <option value="JavaScript" className="bg-[#0a0a0a] text-white py-2">JavaScript</option>
+                  <option value="Java" className="bg-[#0a0a0a] text-white py-2">Java</option>
+                  <option value="C++" className="bg-[#0a0a0a] text-white py-2">C++</option>
+                  <option value="C" className="bg-[#0a0a0a] text-white py-2">C</option>
                 </select>
               </div>
 
@@ -280,11 +280,11 @@ const AdminPanel = () => {
                 <select
                   value={formData.difficulty}
                   onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as 'Easy' | 'Medium' | 'Hard' })}
-                  className="w-full px-4 py-2.5 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer"
+                  className="w-full px-4 py-2.5 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer hover:border-green-500/40"
                 >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
+                  <option value="Easy" className="bg-[#0a0a0a] text-green-400 py-2">Easy</option>
+                  <option value="Medium" className="bg-[#0a0a0a] text-yellow-400 py-2">Medium</option>
+                  <option value="Hard" className="bg-[#0a0a0a] text-red-400 py-2">Hard</option>
                 </select>
               </div>
 

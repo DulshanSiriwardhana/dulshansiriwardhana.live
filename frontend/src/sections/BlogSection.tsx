@@ -19,9 +19,19 @@ const BlogSection = () => {
 
   useEffect(() => {
     if (activeTab === 'project-euler') {
-      loadProjectEulerArticles();
+      const timeoutId = setTimeout(() => {
+        loadProjectEulerArticles();
+      }, searchQuery ? 500 : 0);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [activeTab, currentPage, searchQuery, difficultyFilter]);
+
+  useEffect(() => {
+    if (activeTab === 'project-euler' && (searchQuery || difficultyFilter)) {
+      setCurrentPage(1);
+    }
+  }, [searchQuery, difficultyFilter, activeTab]);
 
   const loadProjectEulerArticles = async () => {
     setLoading(true);
@@ -38,6 +48,8 @@ const BlogSection = () => {
       setTotalPages(response.pagination.pages);
     } catch (error) {
       console.error('Error loading Project Euler articles:', error);
+      setProjectEulerArticles([]);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }
@@ -47,6 +59,12 @@ const BlogSection = () => {
     e.preventDefault();
     setCurrentPage(1);
     loadProjectEulerArticles();
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setDifficultyFilter('');
+    setCurrentPage(1);
   };
 
   return (
@@ -159,47 +177,118 @@ const BlogSection = () => {
 
         {activeTab === 'project-euler' && (
           <div className="space-y-6">
-            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6">
-              <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by title, description, or tags..."
-                  className="flex-1 px-4 py-3 bg-[#1a1a1a] border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50"
-                />
-                <select
-                  value={difficultyFilter}
-                  onChange={(e) => {
-                    setDifficultyFilter(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                  className="px-4 py-3 bg-[#1a1a1a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50"
-                >
-                  <option value="">All Difficulties</option>
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 transition-all"
-                >
-                  Search
-                </button>
+            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 shadow-lg">
+              <form onSubmit={handleSearch} className="space-y-4">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                      🔍
+                    </div>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search by title, description, or tags..."
+                      className="w-full pl-10 pr-10 py-3 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-500/20 rounded transition-all"
+                        aria-label="Clear search"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                  <select
+                    value={difficultyFilter}
+                    onChange={(e) => setDifficultyFilter(e.target.value)}
+                    className="px-4 py-3 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer min-w-[180px] hover:border-green-500/40"
+                  >
+                    <option value="" className="bg-[#0a0a0a] text-white">All Difficulties</option>
+                    <option value="Easy" className="bg-[#0a0a0a] text-green-400">Easy</option>
+                    <option value="Medium" className="bg-[#0a0a0a] text-yellow-400">Medium</option>
+                    <option value="Hard" className="bg-[#0a0a0a] text-red-400">Hard</option>
+                  </select>
+                  {(searchQuery || difficultyFilter) && (
+                    <button
+                      type="button"
+                      onClick={handleClearSearch}
+                      className="px-6 py-3 bg-gray-500/20 border border-gray-500/50 rounded-lg text-gray-400 hover:bg-gray-500/30 hover:border-gray-500 transition-all whitespace-nowrap font-medium"
+                    >
+                      Clear All
+                    </button>
+                  )}
+                </div>
+                {(searchQuery || difficultyFilter) && (
+                  <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-green-500/10">
+                    <span className="text-sm text-gray-400 font-medium">Active filters:</span>
+                    {searchQuery && (
+                      <span className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm font-medium flex items-center gap-2">
+                        <span>Search: "{searchQuery}"</span>
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery('')}
+                          className="text-green-300 hover:text-green-200"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {difficultyFilter && (
+                      <span className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm font-medium flex items-center gap-2">
+                        <span>Difficulty: {difficultyFilter}</span>
+                        <button
+                          type="button"
+                          onClick={() => setDifficultyFilter('')}
+                          className="text-green-300 hover:text-green-200"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                )}
               </form>
             </div>
 
             {loading ? (
               <div className="text-center py-20">
-                <div className="text-green-400 text-xl">Loading articles...</div>
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-400 mb-4"></div>
+                <div className="text-green-400 text-xl font-medium">Loading articles...</div>
               </div>
             ) : projectEulerArticles.length === 0 ? (
               <div className="text-center py-20">
-                <div className="text-gray-400 text-xl">No articles found</div>
+                <div className="text-6xl mb-4">🔍</div>
+                <div className="text-gray-300 text-xl font-semibold mb-2">No articles found</div>
+                <div className="text-gray-500 text-sm">
+                  {searchQuery || difficultyFilter
+                    ? 'Try adjusting your search criteria'
+                    : 'No Project Euler solutions published yet'}
+                </div>
+                {(searchQuery || difficultyFilter) && (
+                  <button
+                    onClick={handleClearSearch}
+                    className="mt-4 px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 transition-all"
+                  >
+                    Clear Filters
+                  </button>
+                )}
               </div>
             ) : (
               <>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-gray-400 text-sm">
+                    Showing <span className="text-green-400 font-semibold">{projectEulerArticles.length}</span> article{projectEulerArticles.length !== 1 ? 's' : ''}
+                    {totalPages > 1 && (
+                      <span className="ml-2">
+                        (Page {currentPage} of {totalPages})
+                      </span>
+                    )}
+                  </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {projectEulerArticles.map((article, index) => (
                     <ProjectEulerArticleCard
@@ -212,21 +301,45 @@ const BlogSection = () => {
                 </div>
 
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-2 mt-8">
+                  <div className="flex justify-center items-center gap-3 mt-8">
                     <button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-4 py-2 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-green-400 hover:bg-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-2.5 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1a1a1a]/50 disabled:hover:border-green-500/20 transition-all font-medium"
                     >
                       Previous
                     </button>
-                    <span className="px-4 py-2 text-gray-400">
-                      Page {currentPage} of {totalPages}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() => setCurrentPage(pageNum)}
+                            className={`w-10 h-10 rounded-lg border transition-all font-medium ${
+                              currentPage === pageNum
+                                ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                                : 'bg-[#1a1a1a]/50 border-green-500/20 text-gray-400 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-400'
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      })}
+                    </div>
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="px-4 py-2 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-green-400 hover:bg-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-2.5 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1a1a1a]/50 disabled:hover:border-green-500/20 transition-all font-medium"
                     >
                       Next
                     </button>
