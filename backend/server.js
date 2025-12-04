@@ -10,7 +10,12 @@ import User from './models/User.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
+
+if (!PORT) {
+  console.error('Error: PORT environment variable is required');
+  process.exit(1);
+}
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -49,6 +54,11 @@ app.get('/api/health', (req, res) => {
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
+if (!MONGODB_URI) {
+  console.error('Error: MONGODB_URI environment variable is required');
+  process.exit(1);
+}
+
 mongoose.connect(MONGODB_URI)
   .then(async () => {
     console.log('Connected to MongoDB');
@@ -56,18 +66,30 @@ mongoose.connect(MONGODB_URI)
     const adminUsername = process.env.ADMIN_USERNAME;
     const adminPassword = process.env.ADMIN_PASSWORD;
     
-    if (adminUsername && adminPassword) {
-      const existingAdmin = await User.findOne({ username: adminUsername.toLowerCase() });
-      if (!existingAdmin) {
-        const admin = new User({
-          username: adminUsername.toLowerCase(),
-          password: adminPassword,
-          role: 'admin',
-        });
-        await admin.save();
-        console.log('Admin user created successfully');
-      } else {
-        console.log('Admin user already exists');
+    if (!adminUsername || !adminPassword) {
+      console.warn('Warning: ADMIN_USERNAME or ADMIN_PASSWORD not set. Admin user will not be created.');
+      console.warn('Please set ADMIN_USERNAME and ADMIN_PASSWORD environment variables to create an admin user.');
+    } else {
+      try {
+        const existingAdmin = await User.findOne({ username: adminUsername.toLowerCase() });
+        if (!existingAdmin) {
+          const admin = new User({
+            username: adminUsername.toLowerCase(),
+            password: adminPassword,
+            role: 'admin',
+          });
+          await admin.save();
+          console.log(`Admin user "${adminUsername}" created successfully`);
+        } else {
+          console.log(`Admin user "${adminUsername}" already exists`);
+        }
+      } catch (error) {
+        console.error('Error creating admin user:', error);
+        if (error.code === 11000) {
+          console.log(`Admin user "${adminUsername}" already exists (duplicate key)`);
+        } else {
+          console.error('Failed to create admin user. Please check the error above.');
+        }
       }
     }
     
