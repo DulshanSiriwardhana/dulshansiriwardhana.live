@@ -1,8 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const authenticateToken = (req, res, next) => {
+  if (!JWT_SECRET) {
+    console.error('JWT_SECRET is not set');
+    return res.status(500).json({
+      success: false,
+      error: 'Server configuration error',
+    });
+  }
+
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 

@@ -8,6 +8,14 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/login', async (req, res) => {
   try {
+    if (!JWT_SECRET) {
+      console.error('JWT_SECRET is not set');
+      return res.status(500).json({
+        success: false,
+        error: 'Server configuration error',
+      });
+    }
+
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -55,6 +63,7 @@ router.post('/login', async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Login failed',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 });
