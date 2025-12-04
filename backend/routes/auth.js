@@ -25,16 +25,22 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ username: username.toLowerCase() });
+    const normalizedUsername = username.toLowerCase();
+    const user = await User.findOne({ username: normalizedUsername });
 
     if (!user) {
+      console.log(`Login attempt failed: User "${normalizedUsername}" not found`);
+      const userCount = await User.countDocuments();
+      console.log(`Total users in database: ${userCount}`);
       return res.status(401).json({
         success: false,
         error: 'Invalid credentials',
       });
     }
 
+    console.log(`User found: ${user.username}, attempting password verification`);
     const isPasswordValid = await user.comparePassword(password);
+    console.log(`Password valid: ${isPasswordValid}`);
 
     if (!isPasswordValid) {
       return res.status(401).json({

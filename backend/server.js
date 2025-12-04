@@ -42,8 +42,24 @@ app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/project-euler', projectEulerRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' });
+app.get('/api/health', async (req, res) => {
+  try {
+    await connectDB();
+    const userCount = await User.countDocuments();
+    res.json({ 
+      status: 'ok', 
+      message: 'Server is running',
+      database: 'connected',
+      userCount: userCount
+    });
+  } catch (error) {
+    res.json({ 
+      status: 'error', 
+      message: 'Server is running but database connection failed',
+      database: 'disconnected',
+      error: error.message
+    });
+  }
 });
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -76,24 +92,31 @@ const connectDB = async () => {
       
       if (adminUsername && adminPassword) {
         try {
-          const existingAdmin = await User.findOne({ username: adminUsername.toLowerCase() });
+          const normalizedUsername = adminUsername.toLowerCase();
+          const existingAdmin = await User.findOne({ username: normalizedUsername });
           if (!existingAdmin) {
             const admin = new User({
-              username: adminUsername.toLowerCase(),
+              username: normalizedUsername,
               password: adminPassword,
               role: 'admin',
             });
             await admin.save();
-            console.log(`Admin user "${adminUsername}" created successfully`);
+            console.log(`✅ Admin user "${normalizedUsername}" created successfully`);
           } else {
-            console.log(`Admin user "${adminUsername}" already exists`);
+            console.log(`ℹ️ Admin user "${normalizedUsername}" already exists`);
           }
         } catch (error) {
-          console.error('Error creating admin user:', error);
+          console.error('❌ Error creating admin user:', error);
           if (error.code === 11000) {
-            console.log(`Admin user "${adminUsername}" already exists (duplicate key)`);
+            console.log(`ℹ️ Admin user "${adminUsername.toLowerCase()}" already exists (duplicate key)`);
+          } else {
+            console.error('Full error details:', error);
           }
         }
+      } else {
+        console.warn('⚠️ ADMIN_USERNAME or ADMIN_PASSWORD not set. Admin user will not be created.');
+        if (!adminUsername) console.warn('  - ADMIN_USERNAME is missing');
+        if (!adminPassword) console.warn('  - ADMIN_PASSWORD is missing');
       }
       
       return mongoose.connection;
