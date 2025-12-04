@@ -41,7 +41,12 @@ MONGODB_URI=your_mongodb_connection_string
 ```
 ├── frontend/     # React frontend application
 ├── backend/      # Express API server
+├── admin-frontend/ # Admin panel for managing content
 └── readme/       # Documentation images
 ```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
