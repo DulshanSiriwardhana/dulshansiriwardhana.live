@@ -1,7 +1,10 @@
 import express from 'express';
 import ProjectEulerArticle from '../models/ProjectEulerArticle.js';
+import authenticateToken from '../middleware/auth.js';
 
 const router = express.Router();
+
+router.use(authenticateToken);
 
 router.post('/', async (req, res) => {
   try {

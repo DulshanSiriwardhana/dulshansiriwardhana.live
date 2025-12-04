@@ -1,5 +1,22 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('admin_token');
+  return {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` }),
+  };
+};
+
+const handleAuthError = (response: Response) => {
+  if (response.status === 401 || response.status === 403) {
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_user');
+    window.location.href = '/login';
+    throw new Error('Session expired. Please login again.');
+  }
+};
+
 export interface ProjectEulerArticle {
   _id?: string;
   problemNumber: number;
@@ -40,11 +57,11 @@ export interface ProjectEulerArticleData {
 export const createProjectEulerArticle = async (data: ProjectEulerArticleData) => {
   const response = await fetch(`${API_URL}/api/project-euler`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
+
+  handleAuthError(response);
 
   const result = await response.json();
 
@@ -73,7 +90,11 @@ export const getProjectEulerArticles = async (
   if (difficulty) params.append('difficulty', difficulty);
   if (published) params.append('published', published);
 
-  const response = await fetch(`${API_URL}/api/project-euler?${params.toString()}`);
+  const response = await fetch(`${API_URL}/api/project-euler?${params.toString()}`, {
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
 
   if (!response.ok) {
     throw new Error('Failed to fetch articles');
@@ -83,7 +104,11 @@ export const getProjectEulerArticles = async (
 };
 
 export const getProjectEulerArticle = async (id: string) => {
-  const response = await fetch(`${API_URL}/api/project-euler/${id}`);
+  const response = await fetch(`${API_URL}/api/project-euler/${id}`, {
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
 
   if (!response.ok) {
     throw new Error('Failed to fetch article');
@@ -95,11 +120,11 @@ export const getProjectEulerArticle = async (id: string) => {
 export const updateProjectEulerArticle = async (id: string, data: Partial<ProjectEulerArticleData>) => {
   const response = await fetch(`${API_URL}/api/project-euler/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
+
+  handleAuthError(response);
 
   const result = await response.json();
 
@@ -113,7 +138,10 @@ export const updateProjectEulerArticle = async (id: string, data: Partial<Projec
 export const deleteProjectEulerArticle = async (id: string) => {
   const response = await fetch(`${API_URL}/api/project-euler/${id}`, {
     method: 'DELETE',
+    headers: getAuthHeaders(),
   });
+
+  handleAuthError(response);
 
   if (!response.ok) {
     throw new Error('Failed to delete article');

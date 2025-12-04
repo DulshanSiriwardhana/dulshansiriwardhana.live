@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   createProjectEulerArticle,
   updateProjectEulerArticle,
   getProjectEulerArticles,
   deleteProjectEulerArticle,
-  ProjectEulerArticle,
   ProjectEulerArticleData,
 } from '../utils/api';
+import type { ProjectEulerArticle } from '../utils/api';
 import Toast from '../components/Toast';
 
 interface ToastState {
@@ -16,11 +17,13 @@ interface ToastState {
 }
 
 const AdminPanel = () => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState<ProjectEulerArticle[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<ProjectEulerArticle | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [articlesLoading, setArticlesLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
   const [formData, setFormData] = useState<ProjectEulerArticleData>({
     problemNumber: 1,
     title: '',
@@ -41,8 +44,18 @@ const AdminPanel = () => {
   const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('admin_user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
     loadArticles();
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_user');
+    navigate('/login');
+  };
 
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ show: true, message, type });
@@ -153,14 +166,30 @@ const AdminPanel = () => {
       <div className="relative flex-1 flex flex-col overflow-hidden p-4">
         <div className="max-w-7xl mx-auto w-full flex flex-col flex-1 min-h-0">
           <div className="mb-4 animate-fade-in flex-shrink-0">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-8 md:h-10 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                  Project Euler Admin
-                </h1>
-                <p className="text-gray-400 text-xs md:text-sm">Create and manage solution articles</p>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-8 md:h-10 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                    Project Euler Admin
+                  </h1>
+                  <p className="text-gray-400 text-xs md:text-sm">Create and manage solution articles</p>
+                </div>
               </div>
+              {user && (
+                <div className="flex items-center gap-3">
+                  <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <span className="text-gray-400 text-xs">Logged in as </span>
+                    <span className="text-green-400 font-semibold text-xs">{user.username}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="px-3 py-1.5 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 hover:bg-red-500/30 hover:border-red-500 transition-all text-xs font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
             <div className="mt-3 flex items-center gap-3 text-xs md:text-sm">
               <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
