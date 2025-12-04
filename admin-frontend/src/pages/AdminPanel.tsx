@@ -6,8 +6,11 @@ import {
   getProjectEulerArticles,
   deleteProjectEulerArticle,
   ProjectEulerArticleData,
+  getMessages,
+  markMessageAsRead,
+  deleteMessage,
 } from '../utils/api';
-import type { ProjectEulerArticle } from '../utils/api';
+import type { ProjectEulerArticle, Message } from '../utils/api';
 import Toast from '../components/Toast';
 
 interface ToastState {
@@ -16,13 +19,21 @@ interface ToastState {
   type: 'success' | 'error' | 'info';
 }
 
+type TabType = 'articles' | 'messages';
+
 const AdminPanel = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<TabType>('articles');
   const [articles, setArticles] = useState<ProjectEulerArticle[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<ProjectEulerArticle | null>(null);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [articlesLoading, setArticlesLoading] = useState(true);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+  const [messagesPage, setMessagesPage] = useState(1);
+  const [messagesTotal, setMessagesTotal] = useState(0);
   const [user, setUser] = useState<any>(null);
   const [formData, setFormData] = useState<ProjectEulerArticleData>({
     problemNumber: 1,
@@ -49,7 +60,14 @@ const AdminPanel = () => {
       setUser(JSON.parse(storedUser));
     }
     loadArticles();
+    loadMessages();
   }, []);
+
+  useEffect(() => {
+    if (activeTab === 'messages') {
+      loadMessages();
+    }
+  }, [messagesPage, activeTab]);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
@@ -71,6 +89,48 @@ const AdminPanel = () => {
       showToast('Failed to load articles', 'error');
     } finally {
       setArticlesLoading(false);
+    }
+  };
+
+  const loadMessages = async () => {
+    setMessagesLoading(true);
+    try {
+      const response = await getMessages(messagesPage, 20, '-createdAt');
+      setMessages(response.data);
+      setMessagesTotal(response.pagination.total);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      showToast('Failed to load messages', 'error');
+    } finally {
+      setMessagesLoading(false);
+    }
+  };
+
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      await markMessageAsRead(id);
+      setMessages(messages.map(msg => msg._id === id ? { ...msg, read: true } : msg));
+      if (selectedMessage?._id === id) {
+        setSelectedMessage({ ...selectedMessage, read: true });
+      }
+      showToast('Message marked as read', 'success');
+    } catch (error: any) {
+      showToast(error.message || 'Failed to mark message as read', 'error');
+    }
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    try {
+      await deleteMessage(id);
+      setMessages(messages.filter(msg => msg._id !== id));
+      if (selectedMessage?._id === id) {
+        setSelectedMessage(null);
+      }
+      showToast('Message deleted successfully', 'success');
+      loadMessages();
+    } catch (error: any) {
+      showToast(error.message || 'Failed to delete message', 'error');
     }
   };
 
@@ -171,9 +231,9 @@ const AdminPanel = () => {
                 <div className="w-1 h-8 md:h-10 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                    Project Euler Admin
+                    Admin Panel
                   </h1>
-                  <p className="text-gray-400 text-xs md:text-sm">Create and manage solution articles</p>
+                  <p className="text-gray-400 text-xs md:text-sm">Manage content and messages</p>
                 </div>
               </div>
               {user && (
@@ -191,21 +251,67 @@ const AdminPanel = () => {
                 </div>
               )}
             </div>
-            <div className="mt-3 flex items-center gap-3 text-xs md:text-sm">
-              <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <span className="text-gray-400">Total: </span>
-                <span className="text-green-400 font-semibold">{articles.length}</span>
+            <div className="mt-3 flex items-center gap-3 flex-wrap">
+              <div className="flex gap-2 bg-[#1a1a1a]/50 border border-green-500/20 rounded-xl p-1">
+                <button
+                  onClick={() => setActiveTab('articles')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    activeTab === 'articles'
+                      ? 'bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 text-green-400 shadow-lg shadow-green-500/10'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  Project Euler
+                </button>
+                <button
+                  onClick={() => setActiveTab('messages')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all relative ${
+                    activeTab === 'messages'
+                      ? 'bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 text-green-400 shadow-lg shadow-green-500/10'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  Messages
+                  {messages.filter(m => !m.read).length > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#1a1a1a]">
+                      {messages.filter(m => !m.read).length}
+                    </span>
+                  )}
+                </button>
               </div>
-              <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <span className="text-gray-400">Published: </span>
-                <span className="text-green-400 font-semibold">
-                  {articles.filter(a => a.published).length}
-                </span>
-              </div>
+              {activeTab === 'articles' && (
+                <>
+                  <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <span className="text-gray-400 text-xs">Total: </span>
+                    <span className="text-green-400 font-semibold text-xs">{articles.length}</span>
+                  </div>
+                  <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <span className="text-gray-400 text-xs">Published: </span>
+                    <span className="text-green-400 font-semibold text-xs">
+                      {articles.filter(a => a.published).length}
+                    </span>
+                  </div>
+                </>
+              )}
+              {activeTab === 'messages' && (
+                <>
+                  <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <span className="text-gray-400 text-xs">Total: </span>
+                    <span className="text-green-400 font-semibold text-xs">{messagesTotal}</span>
+                  </div>
+                  <div className="px-3 py-1.5 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <span className="text-gray-400 text-xs">Unread: </span>
+                    <span className="text-red-400 font-semibold text-xs">
+                      {messages.filter(m => !m.read).length}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-1 min-h-0">
+          {activeTab === 'articles' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-1 min-h-0">
             <div className="bg-gradient-to-br from-[#1a1a1a]/80 to-[#0a0a0a]/80 backdrop-blur-xl border border-green-500/30 rounded-2xl p-4 md:p-6 shadow-2xl shadow-green-500/10 animate-fade-in flex flex-col min-h-0 overflow-hidden">
               <div className="flex items-center justify-between mb-4 pb-3 border-b border-green-500/20 flex-shrink-0">
                 <div>
@@ -604,6 +710,206 @@ const AdminPanel = () => {
               )}
             </div>
           </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-1 min-h-0">
+              <div className="bg-gradient-to-br from-[#1a1a1a]/80 to-[#0a0a0a]/80 backdrop-blur-xl border border-green-500/30 rounded-2xl p-4 md:p-6 shadow-2xl shadow-green-500/10 animate-fade-in flex flex-col min-h-0 overflow-hidden">
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-green-500/20 flex-shrink-0">
+                  <div>
+                    <h2 className="text-xl md:text-2xl font-bold text-white mb-1">
+                      Messages
+                    </h2>
+                    <p className="text-xs md:text-sm text-gray-400">
+                      View and manage contact messages
+                    </p>
+                  </div>
+                </div>
+
+                {messagesLoading ? (
+                <div className="text-center py-12 flex-1 flex items-center justify-center">
+                  <div>
+                    <div className="inline-block w-10 h-10 border-4 border-green-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <div className="text-green-400 text-sm md:text-base font-medium">Loading messages...</div>
+                  </div>
+                </div>
+              ) : messages.length === 0 ? (
+                <div className="text-center py-12 flex-1 flex items-center justify-center">
+                  <div>
+                    <div className="text-5xl mb-3 animate-bounce">📧</div>
+                    <p className="text-gray-300 text-base md:text-lg font-semibold mb-2">No messages yet</p>
+                    <p className="text-xs md:text-sm text-gray-500">Messages from the contact form will appear here</p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-2 md:space-y-3 flex-1 overflow-y-auto green-scrollbar pr-2 min-h-0">
+                    {messages.map((message, index) => (
+                      <div
+                        key={message._id}
+                        className={`bg-gradient-to-br from-[#0a0a0a]/80 to-[#050505]/80 border rounded-lg md:rounded-xl p-3 md:p-4 transition-all cursor-pointer transform hover:scale-[1.01] ${
+                          selectedMessage?._id === message._id
+                            ? 'border-green-500/50 bg-green-500/10 shadow-lg shadow-green-500/20'
+                            : message.read
+                            ? 'border-green-500/20 hover:border-green-500/40 hover:bg-[#0f0f0f]/50'
+                            : 'border-blue-500/50 bg-blue-500/10 hover:border-blue-500/70 hover:bg-blue-500/15 shadow-lg shadow-blue-500/10'
+                        } animate-fade-in`}
+                        style={{ animationDelay: `${index * 30}ms` }}
+                        onClick={() => setSelectedMessage(message)}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              {!message.read && (
+                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse flex-shrink-0"></span>
+                              )}
+                              <h3 className="text-sm md:text-base font-bold text-white line-clamp-1 truncate">
+                                {message.subject}
+                              </h3>
+                            </div>
+                            <p className="text-xs md:text-sm text-gray-400 mb-1">
+                              <span className="text-green-400">{message.name}</span>
+                              <span className="text-gray-500 mx-2">•</span>
+                              <span className="text-gray-400">{message.email}</span>
+                            </p>
+                            <p className="text-xs md:text-sm text-gray-500 line-clamp-2 mt-1">{message.message}</p>
+                          </div>
+                          <div className="flex flex-col items-end gap-2 ml-3 flex-shrink-0">
+                            {!message.read && (
+                              <span className="px-2 py-1 text-xs rounded-lg font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                                New
+                              </span>
+                            )}
+                            <span className="text-xs text-gray-500">
+                              {message.createdAt ? new Date(message.createdAt).toLocaleDateString() : ''}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex gap-1.5 md:gap-2 mt-2">
+                          {!message.read && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                message._id && handleMarkAsRead(message._id);
+                              }}
+                              className="px-3 py-1.5 bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 rounded-lg text-green-400 hover:from-green-500/30 hover:to-green-500/20 hover:border-green-500 text-xs md:text-sm font-semibold transition-all shadow-sm"
+                            >
+                              Mark Read
+                            </button>
+                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              message._id && handleDeleteMessage(message._id);
+                            }}
+                            className="px-3 py-1.5 bg-gradient-to-r from-red-500/20 to-red-500/10 border border-red-500/50 rounded-lg text-red-400 hover:from-red-500/30 hover:to-red-500/20 hover:border-red-500 text-xs md:text-sm font-semibold transition-all shadow-sm"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {messagesTotal > 20 && (
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-green-500/20 flex-shrink-0">
+                      <button
+                        onClick={() => setMessagesPage(p => Math.max(1, p - 1))}
+                        disabled={messagesPage === 1}
+                        className="px-4 py-2 bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 rounded-lg text-green-400 hover:from-green-500/30 hover:to-green-500/20 hover:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold text-sm"
+                      >
+                        Previous
+                      </button>
+                      <span className="text-sm text-gray-400">
+                        Page {messagesPage} of {Math.ceil(messagesTotal / 20)}
+                      </span>
+                      <button
+                        onClick={() => setMessagesPage(p => p + 1)}
+                        disabled={messagesPage >= Math.ceil(messagesTotal / 20)}
+                        className="px-4 py-2 bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 rounded-lg text-green-400 hover:from-green-500/30 hover:to-green-500/20 hover:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold text-sm"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </>
+                )}
+              </div>
+
+              {selectedMessage && (
+                <div className="bg-gradient-to-br from-[#1a1a1a]/80 to-[#0a0a0a]/80 backdrop-blur-xl border border-green-500/30 rounded-2xl p-4 md:p-6 shadow-2xl shadow-green-500/10 animate-fade-in flex flex-col min-h-0 overflow-hidden">
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-green-500/20 flex-shrink-0">
+                    <div>
+                      <h2 className="text-xl md:text-2xl font-bold text-white mb-1">
+                        Message Details
+                      </h2>
+                      <p className="text-xs md:text-sm text-gray-400">
+                        {selectedMessage.read ? 'Read' : 'Unread'}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedMessage(null)}
+                      className="px-3 py-1.5 bg-gray-500/20 border border-gray-500/50 rounded-lg text-gray-400 hover:bg-gray-500/30 hover:text-white transition-all text-xs font-medium"
+                    >
+                      Close
+                    </button>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto green-scrollbar pr-2 space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-gray-400">Subject</label>
+                      <div className="px-4 py-3 bg-[#0a0a0a]/80 border border-green-500/20 rounded-xl text-white font-semibold">
+                        {selectedMessage.subject}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-gray-400">Name</label>
+                        <div className="px-4 py-3 bg-[#0a0a0a]/80 border border-green-500/20 rounded-xl text-green-400">
+                          {selectedMessage.name}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-gray-400">Email</label>
+                        <div className="px-4 py-3 bg-[#0a0a0a]/80 border border-green-500/20 rounded-xl text-white">
+                          {selectedMessage.email}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-gray-400">Date</label>
+                      <div className="px-4 py-3 bg-[#0a0a0a]/80 border border-green-500/20 rounded-xl text-gray-400">
+                        {selectedMessage.createdAt ? new Date(selectedMessage.createdAt).toLocaleString() : 'N/A'}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-gray-400">Message</label>
+                      <div className="px-4 py-3 bg-[#0a0a0a]/80 border border-green-500/20 rounded-xl text-white whitespace-pre-wrap min-h-[200px]">
+                        {selectedMessage.message}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-2 border-t border-green-500/10">
+                      {!selectedMessage.read && (
+                        <button
+                          onClick={() => selectedMessage._id && handleMarkAsRead(selectedMessage._id)}
+                          className="flex-1 px-4 py-3 bg-gradient-to-r from-green-500/20 to-green-500/10 border border-green-500/50 rounded-xl text-green-400 hover:from-green-500/30 hover:to-green-500/20 hover:border-green-500 transition-all font-semibold shadow-lg shadow-green-500/10 text-sm"
+                        >
+                          Mark as Read
+                        </button>
+                      )}
+                      <button
+                        onClick={() => selectedMessage._id && handleDeleteMessage(selectedMessage._id)}
+                        className="px-4 py-3 bg-gradient-to-r from-red-500/20 to-red-500/10 border border-red-500/50 rounded-xl text-red-400 hover:from-red-500/30 hover:to-red-500/20 hover:border-red-500 transition-all font-semibold shadow-lg shadow-red-500/10 text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

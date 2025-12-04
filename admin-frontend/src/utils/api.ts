@@ -150,3 +150,77 @@ export const deleteProjectEulerArticle = async (id: string) => {
   return response.json();
 };
 
+export interface Message {
+  _id?: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  read: boolean;
+  createdAt?: string;
+}
+
+export const getMessages = async (page = 1, limit = 20, sort = '-createdAt') => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+    sort,
+  });
+
+  const response = await fetch(`${API_URL}/api/messages?${params.toString()}`, {
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch messages');
+  }
+
+  return response.json();
+};
+
+export const getMessage = async (id: string) => {
+  const response = await fetch(`${API_URL}/api/messages/${id}`, {
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch message');
+  }
+
+  return response.json();
+};
+
+export const markMessageAsRead = async (id: string) => {
+  const response = await fetch(`${API_URL}/api/messages/${id}/read`, {
+    method: 'PATCH',
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to mark message as read');
+  }
+
+  return response.json();
+};
+
+export const deleteMessage = async (id: string) => {
+  const response = await fetch(`${API_URL}/api/messages/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to delete message');
+  }
+
+  return response.json();
+};
+

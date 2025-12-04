@@ -1,5 +1,6 @@
 import express from 'express';
 import Message from '../models/Message.js';
+import authenticateToken from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const { page = 1, limit = 10, sort = '-createdAt' } = req.query;
     const pageNum = parseInt(page);
@@ -85,7 +86,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const message = await Message.findById(req.params.id).select('-__v');
 
@@ -115,7 +116,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.patch('/:id/read', async (req, res) => {
+router.patch('/:id/read', authenticateToken, async (req, res) => {
   try {
     const message = await Message.findByIdAndUpdate(
       req.params.id,
@@ -143,7 +144,7 @@ router.patch('/:id/read', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const message = await Message.findByIdAndDelete(req.params.id);
 
