@@ -1,4 +1,15 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const getApiUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl) {
+    if (envUrl.startsWith('http://') || envUrl.startsWith('https://')) {
+      return envUrl;
+    }
+    return `https://${envUrl}`;
+  }
+  return 'http://localhost:5000';
+};
+
+const API_URL = getApiUrl();
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('admin_token');
