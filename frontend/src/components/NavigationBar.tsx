@@ -41,56 +41,83 @@ const NavigationBar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-black/80 backdrop-blur-md border-b border-green-500/20 shadow-lg"
+          ? "bg-black/90 backdrop-blur-xl border-b border-green-500/30 shadow-2xl shadow-green-500/10"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Enhanced Logo */}
           <a
             href="#hero"
             onClick={(e) => handleSmoothScroll(e, "#hero")}
-            className="text-2xl font-bold text-green-400 hover:text-green-300 transition-colors"
+            className="group relative text-2xl md:text-3xl font-bold text-green-400 hover:text-green-300 transition-all duration-300"
           >
-            DS
+            <span className="relative z-10 inline-block">
+              <span className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent group-hover:from-green-300 group-hover:via-green-400 group-hover:to-green-500 transition-all duration-300">
+                DS
+              </span>
+            </span>
+            <span className="absolute inset-0 bg-green-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></span>
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
-            {navigationLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleSmoothScroll(e, link.href)}
-                className={`px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-all duration-300 relative whitespace-nowrap hover:scale-105 ${
-                  activeSection === link.href.substring(1)
-                    ? "text-green-400"
-                    : "text-gray-300 hover:text-green-400"
-                }`}
-              >
-                {link.label}
-                {activeSection === link.href.substring(1) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400 shadow-lg shadow-green-400/50"></span>
-                )}
-              </a>
-            ))}
+          {/* Enhanced Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-2 lg:space-x-6">
+            {navigationLinks.map((link, index) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className={`group relative px-3 lg:px-4 py-2 text-xs lg:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
+                    isActive
+                      ? "text-green-400"
+                      : "text-gray-300 hover:text-green-400"
+                  }`}
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <span className="relative z-10 inline-block group-hover:scale-105 transition-transform duration-300">
+                    {link.label}
+                  </span>
+                  
+                  {/* Active indicator with enhanced styling */}
+                  {isActive && (
+                    <>
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 via-green-500 to-green-400 shadow-lg shadow-green-400/50 rounded-full"></span>
+                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
+                    </>
+                  )}
+                  
+                  {/* Hover underline effect */}
+                  {!isActive && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400/0 group-hover:bg-green-400/50 scale-x-0 group-hover:scale-x-100 transition-all duration-300 origin-center rounded-full"></span>
+                  )}
+                  
+                  {/* Hover glow effect */}
+                  <span className="absolute inset-0 bg-green-500/0 group-hover:bg-green-500/5 rounded-lg -z-10 transition-all duration-300"></span>
+                </a>
+              );
+            })}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Enhanced Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-gray-300 hover:text-green-400 transition-colors"
+            className="md:hidden relative w-10 h-10 flex items-center justify-center text-gray-300 hover:text-green-400 transition-all duration-300 group"
             aria-label="Toggle menu"
           >
+            <span className="absolute inset-0 bg-green-500/0 group-hover:bg-green-500/10 rounded-lg transition-all duration-300"></span>
             <svg
-              className="w-6 h-6"
+              className={`w-6 h-6 relative z-10 transition-transform duration-300 ${
+                isMobileMenuOpen ? "rotate-90" : ""
+              }`}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="2.5"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
@@ -103,25 +130,54 @@ const NavigationBar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-2 border-t border-green-500/20">
-            {navigationLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleSmoothScroll(e, link.href)}
-                className={`block px-4 py-2 text-base font-medium transition-colors ${
-                  activeSection === link.href.substring(1)
-                    ? "text-green-400 bg-green-500/10"
-                    : "text-gray-300 hover:text-green-400 hover:bg-green-500/5"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+        {/* Enhanced Mobile Menu with slide animation */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+            isMobileMenuOpen
+              ? "max-h-96 opacity-100 py-4"
+              : "max-h-0 opacity-0 py-0"
+          }`}
+        >
+          <div className="space-y-1 border-t border-green-500/20 pt-4">
+            {navigationLinks.map((link, index) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className={`group block px-4 py-3 text-base font-semibold transition-all duration-300 rounded-lg relative overflow-hidden transform ${
+                    isMobileMenuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "-translate-x-4 opacity-0 pointer-events-none"
+                  } ${
+                    isActive
+                      ? "text-green-400 bg-gradient-to-r from-green-500/10 to-green-600/5 border-l-4 border-green-400 shadow-lg shadow-green-500/10"
+                      : "text-gray-300 hover:text-green-400 hover:bg-green-500/5"
+                  }`}
+                  style={{
+                    transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : "0ms",
+                  }}
+                >
+                  <span className="relative z-10 flex items-center gap-3">
+                    {isActive && (
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    )}
+                    <span>{link.label}</span>
+                    {!isActive && (
+                      <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-green-400">
+                        →
+                      </span>
+                    )}
+                  </span>
+                  
+                  {/* Hover background effect */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-green-500/0 to-green-500/0 group-hover:from-green-500/10 group-hover:to-green-600/5 transition-all duration-300 -z-10"></span>
+                </a>
+              );
+            })}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
