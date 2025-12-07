@@ -15,9 +15,9 @@ const ContactSection = () => {
           subtitle="I'm always open to discussing new projects and opportunities"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <ScrollAnimation direction="right">
-            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <ScrollAnimation direction="right" className="h-full">
+            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full flex flex-col">
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
                 Send me a message
               </h3>
@@ -25,7 +25,7 @@ const ContactSection = () => {
             </div>
           </ScrollAnimation>
 
-          <ScrollAnimation direction="left">
+          <ScrollAnimation direction="left" className="h-full">
             <div className="space-y-6 h-full flex flex-col">
               <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 flex-grow">
                 <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
