@@ -17,21 +17,31 @@ const ContactSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           <ScrollAnimation direction="right" className="h-full">
-            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full flex flex-col">
-              <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
-                Send me a message
-              </h3>
+            <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 h-full flex flex-col hover:border-green-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-500 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                  <span className="text-xl">💬</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-semibold text-white group-hover:text-green-400 transition-colors duration-300">
+                  Send me a message
+                </h3>
+              </div>
               <ContactForm />
             </div>
           </ScrollAnimation>
 
           <ScrollAnimation direction="left" className="h-full">
             <div className="space-y-6 h-full flex flex-col">
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 flex-grow">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
-                  Let's Connect
-                </h3>
-                <p className="text-gray-300 mb-6 leading-relaxed">
+              <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 flex-grow hover:border-green-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-500 hover:-translate-y-1">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    <span className="text-xl">🤝</span>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-semibold text-white group-hover:text-green-400 transition-colors duration-300">
+                    Let's Connect
+                  </h3>
+                </div>
+                <p className="text-gray-300 mb-8 leading-relaxed text-base">
                   Feel free to reach out if you'd like to collaborate, discuss
                   a project, or just say hello! I'm always interested in
                   connecting with fellow developers and exploring new
@@ -39,37 +49,45 @@ const ContactSection = () => {
                 </p>
 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400">
-                      ✉️
+                  <a
+                    href={`mailto:${personalInfo.email}`}
+                    className="group/contact flex items-center gap-4 p-4 bg-[#1a1a1a]/30 border border-green-500/10 rounded-xl hover:bg-green-500/10 hover:border-green-500/40 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 hover:-translate-y-0.5"
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400 group-hover/contact:scale-110 group-hover/contact:rotate-3 transition-transform duration-300 flex-shrink-0">
+                      <span className="text-xl">✉️</span>
                     </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Email</p>
-                      <a
-                        href={`mailto:${personalInfo.email}`}
-                        className="text-green-400 hover:text-green-300 transition-colors"
-                      >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-gray-400 text-sm font-medium mb-1">Email</p>
+                      <p className="text-green-400 group-hover/contact:text-green-300 transition-colors duration-300 break-all">
                         {personalInfo.email}
-                      </a>
+                      </p>
                     </div>
-                  </div>
+                    <div className="opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300">
+                      <span className="text-green-400">→</span>
+                    </div>
+                  </a>
 
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400">
-                      📍
+                  <div className="flex items-center gap-4 p-4 bg-[#1a1a1a]/30 border border-green-500/10 rounded-xl">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400 flex-shrink-0">
+                      <span className="text-xl">📍</span>
                     </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Location</p>
+                    <div className="flex-1">
+                      <p className="text-gray-400 text-sm font-medium mb-1">Location</p>
                       <p className="text-white">{personalInfo.location}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8">
-                <h4 className="text-base md:text-lg font-semibold text-white mb-4">
-                  Follow Me
-                </h4>
+              <div className="group bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-500 hover:-translate-y-1">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    <span className="text-xl">🌐</span>
+                  </div>
+                  <h4 className="text-base md:text-lg font-semibold text-white group-hover:text-green-400 transition-colors duration-300">
+                    Follow Me
+                  </h4>
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   {contactLinks.map((link, index) => (
                     <a
@@ -81,10 +99,11 @@ const ContactSection = () => {
                           ? "noopener noreferrer"
                           : undefined
                       }
-                      className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 transition-all duration-300"
+                      className="group/link flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/60 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
                     >
-                      <span className="text-xl">{link.icon}</span>
-                      <span className="text-sm">{link.label}</span>
+                      <span className="text-xl group-hover/link:scale-125 group-hover/link:rotate-12 transition-transform duration-300">{link.icon}</span>
+                      <span className="text-sm font-medium flex-1">{link.label}</span>
+                      <span className="opacity-0 group-hover/link:opacity-100 -translate-x-2 group-hover/link:translate-x-0 transition-all duration-300 text-green-400">→</span>
                     </a>
                   ))}
                 </div>
