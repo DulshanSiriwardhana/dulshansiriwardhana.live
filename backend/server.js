@@ -16,10 +16,12 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:5173',
       'http://localhost:5174',
+      'http://localhost:5000',
       'http://localhost:3000',
       /\.vercel\.app$/,
       /\.netlify\.app$/,
       'https://dulshansiriwardhana.live',
+      'https://admin.dulshansiriwardhana.live',
     ];
     
     if (!origin || allowedOrigins.some(allowed => {
