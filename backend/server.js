@@ -21,9 +21,12 @@ const corsOptions = {
       /\.vercel\.app$/,
       /\.netlify\.app$/,
       'https://dulshansiriwardhana.live',
+      'https://www.dulshansiriwardhana.live',
+      'https://www.dulshansiriwardhana.live/',
+      'http://www.dulshansiriwardhana.live',
       'https://admin.dulshansiriwardhana.live',
     ];
-    
+
     if (!origin || allowedOrigins.some(allowed => {
       if (typeof allowed === 'string') return origin === allowed;
       return allowed.test(origin);
@@ -48,15 +51,15 @@ app.get('/api/health', async (req, res) => {
   try {
     await connectDB();
     const userCount = await User.countDocuments();
-    res.json({ 
-      status: 'ok', 
+    res.json({
+      status: 'ok',
       message: 'Server is running',
       database: 'connected',
       userCount: userCount
     });
   } catch (error) {
-    res.json({ 
-      status: 'error', 
+    res.json({
+      status: 'error',
       message: 'Server is running but database connection failed',
       database: 'disconnected',
       error: error.message
@@ -88,10 +91,10 @@ const connectDB = async () => {
   dbConnectionPromise = mongoose.connect(MONGODB_URI)
     .then(async () => {
       console.log('Connected to MongoDB');
-      
+
       const adminUsername = process.env.ADMIN_USERNAME;
       const adminPassword = process.env.ADMIN_PASSWORD;
-      
+
       if (adminUsername && adminPassword) {
         try {
           const normalizedUsername = adminUsername.toLowerCase();
@@ -120,7 +123,7 @@ const connectDB = async () => {
         if (!adminUsername) console.warn('  - ADMIN_USERNAME is missing');
         if (!adminPassword) console.warn('  - ADMIN_PASSWORD is missing');
       }
-      
+
       return mongoose.connection;
     })
     .catch((error) => {
@@ -138,8 +141,8 @@ app.use(async (req, res, next) => {
     next();
   } catch (error) {
     console.error('Database connection error:', error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       error: 'Database connection failed',
       message: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
