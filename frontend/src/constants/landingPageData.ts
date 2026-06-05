@@ -77,6 +77,21 @@ export interface Achievement {
   icon?: string;
 }
 
+export interface Certificate {
+  title: string;
+  issuer: string;
+  date: string;
+  link: string;
+}
+
+export interface Reference {
+  name: string;
+  role: string;
+  organization: string;
+  phone: string;
+  email: string;
+}
+
 export const personalInfo: PersonalInfo = {
   firstName: "Rasindu Dulshan",
   lastName: "Siriwardhana",
@@ -199,6 +214,34 @@ export const experience: Experience[] = [
     ],
     tech: ["C++", "C", "Python", "Java", "Software Engineering"],
   },
+];
+
+export const certificates: Certificate[] = [
+  { title: "Python (Basic)", issuer: "HackerRank", date: "04 June 2021", link: "https://www.hackerrank.com/certificates/4e87860509ae" },
+  { title: "Problem Solving (Basic)", issuer: "HackerRank", date: "05 June 2021", link: "https://www.hackerrank.com/certificates/2ef01163a2f6" },
+  { title: "JavaScript (Basic)", issuer: "HackerRank", date: "29 Feb 2024", link: "https://www.hackerrank.com/certificates/a78669e00a1f" },
+  { title: "React (Basic)", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/a53bca26155d" },
+  { title: "JavaScript (Intermediate)", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/89c8019d7803" },
+  { title: "Frontend Developer (React)", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/02dba66138ff" },
+  { title: "Software Engineer Intern", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/e38a91c02c06" },
+  { title: "Software Engineer", issuer: "HackerRank", date: "16 April 2025", link: "https://www.hackerrank.com/certificates/42bbe9236ae9" },
+];
+
+export const references: Reference[] = [
+  {
+    name: "Dr. Kushan Sudheera",
+    role: "Senior Lecturer",
+    organization: "Faculty of Engineering, University of Ruhuna",
+    phone: "+94 9122457656",
+    email: "kushan@eie.ruh.ac.lk"
+  },
+  {
+    name: "Dr. Prabath Weerasinghe",
+    role: "Senior Lecturer",
+    organization: "Faculty of Engineering, University of Ruhuna",
+    phone: "+94717056638",
+    email: "weera@eie.ruh.ac.lk"
+  }
 ];
 
 export const testimonials: Testimonial[] = [
@@ -330,4 +373,5 @@ export const navigationLinks = [
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
+
 

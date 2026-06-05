@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import SectionTitle from "../components/SectionTitle";
 import ScrollAnimation from "../components/ScrollAnimation";
+import profileImage from "../assets/images/dp.png";
 import {
     Briefcase,
     GraduationCap,
@@ -14,13 +15,31 @@ import {
     Send,
     Award,
     Terminal,
-    Globe
+    Globe,
+    Trophy,
+    BookOpen,
+    Star,
+    ExternalLink,
+    ChevronRight,
+    Search,
+    User,
+    CheckCircle2,
+    PenTool,
+    Share2,
+    Calendar,
+    Phone
 } from "lucide-react";
 import {
     personalInfo,
     experience,
     skillCategories,
     skillLevels,
+    achievements,
+    blogArticles,
+    projects,
+    certificates,
+    references,
+    stats
 } from "../constants/landingPageData";
 
 const HireMeSection = () => {
@@ -59,7 +78,7 @@ const HireMeSection = () => {
                     />
 
                     <ScrollAnimation direction="up">
-                        <div className="relative overflow-hidden bg-gradient-to-r from-green-500/10 via-green-600/5 to-green-500/10 border border-green-500/30 rounded-2xl p-6 md:p-8">
+                        <div className="relative overflow-hidden bg-gradient-to-r from-green-500/10 via-green-600/5 to-green-500/10 border border-green-500/30 rounded-3xl p-6 md:p-8">
                             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent"></div>
 
@@ -71,10 +90,10 @@ const HireMeSection = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-                                            Available for Hire
+                                            Status: Available for Hire
                                         </h3>
-                                        <p className="text-gray-400 text-sm md:text-base mt-1">
-                                            Full-time • Contract • Freelance • Remote
+                                        <p className="text-gray-400 text-sm md:text-base mt-1 italic uppercase tracking-widest font-mono">
+                                            [Full-time • Contract • Freelance • Remote]
                                         </p>
                                     </div>
                                 </div>
@@ -83,18 +102,18 @@ const HireMeSection = () => {
                                     <a
                                         href="#contact"
                                         onClick={(e) => handleSmoothScroll(e, "#contact")}
-                                        className="px-6 py-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300 font-semibold text-sm md:text-base flex items-center gap-2"
+                                        className="px-6 py-3 bg-green-500/20 border border-green-500/50 rounded-xl text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base flex items-center gap-2 uppercase tracking-wider"
                                     >
-                                        <Send size={18} className="text-green-400" />
+                                        <Send size={18} />
                                         Contact Me
                                     </a>
                                     <button
                                         onClick={handleDownloadCV}
                                         disabled={isGenerating}
-                                        className="px-6 py-3 bg-transparent border border-gray-600 rounded-lg text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 hover:bg-green-500/10 active:scale-100 transition-all duration-300 font-semibold text-sm md:text-base disabled:opacity-50 flex items-center gap-2"
+                                        className="px-6 py-3 bg-transparent border border-gray-600 rounded-xl text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 hover:bg-green-500/10 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider"
                                     >
                                         <Download size={18} className={isGenerating ? "animate-bounce" : ""} />
-                                        {isGenerating ? "Generating..." : "Download CV"}
+                                        {isGenerating ? "Generating..." : "Download Full CV"}
                                     </button>
                                 </div>
                             </div>
@@ -105,188 +124,191 @@ const HireMeSection = () => {
                         <div
                             ref={cvRef}
                             id="cv-preview"
-                            className="bg-[#0d0d0d] border border-green-500/20 rounded-2xl overflow-hidden hover:border-green-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/10"
+                            className="bg-[#080808] border border-green-500/30 rounded-3xl overflow-hidden hover:border-green-500/50 transition-all duration-700 shadow-2xl hover:shadow-green-500/20"
                         >
-                            <div className="bg-gradient-to-r from-green-500/10 via-[#111] to-green-500/10 border-b border-green-500/20 p-6 md:p-8">
-                                <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/40 flex items-center justify-center text-4xl md:text-5xl flex-shrink-0 overflow-hidden">
-                                        <img
-                                            src="/mine.png"
-                                            alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
-                                            className="w-full h-full object-cover rounded-xl"
-                                        />
+                            {/* CV Header */}
+                            <div className="bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-green-500/30 p-8 md:p-12">
+                                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
+                                    <div className="relative group">
+                                        <div className="absolute inset-0 bg-green-500/20 rounded-3xl blur-2xl group-hover:bg-green-500/40 transition-all duration-500"></div>
+                                        <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#111] border-2 border-green-500/40 p-1 flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-all duration-500">
+                                            <img
+                                                src={profileImage}
+                                                alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
+                                                className="w-full h-full object-cover rounded-2xl"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <h2 className="text-2xl md:text-3xl font-bold text-white">
-                                            {personalInfo.firstName} {personalInfo.lastName}
-                                        </h2>
-                                        <p className="text-green-400 font-medium text-lg mt-1">
-                                            {personalInfo.title}
-                                        </p>
-                                        <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3 text-sm text-gray-400 font-medium">
-                                            <span className="flex items-center gap-2">
-                                                <MapPin size={14} className="text-red-400" />
+                                    <div className="text-center lg:text-left space-y-4">
+                                        <div>
+                                            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic">
+                                                {personalInfo.firstName} {personalInfo.lastName}
+                                            </h2>
+                                            <p className="text-green-400 font-bold text-xl md:text-2xl mt-2 flex items-center justify-center lg:justify-start gap-3">
+                                                <Terminal size={24} />
+                                                {personalInfo.title}
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-3 text-sm text-gray-400 font-medium">
+                                            <span className="flex items-center gap-2 hover:text-white transition-colors">
+                                                <MapPin size={16} className="text-red-500" />
                                                 {personalInfo.location}
                                             </span>
-                                            <span className="flex items-center gap-2">
-                                                <Mail size={14} className="text-blue-400" />
+                                            <span className="flex items-center gap-2 hover:text-white transition-colors">
+                                                <Mail size={16} className="text-blue-500" />
                                                 {personalInfo.email}
                                             </span>
-                                            <a
-                                                href="https://github.com/DulshanSiriwardhana"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-2 hover:text-green-400 transition-colors"
-                                            >
-                                                <Terminal size={14} className="text-white" />
-                                                GitHub
-                                            </a>
-                                            <a
-                                                href="https://linkedin.com/in/dulshan-siriwardhana-17b77521a"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-2 hover:text-green-400 transition-colors"
-                                            >
-                                                <Briefcase size={14} className="text-blue-500" />
-                                                LinkedIn
-                                            </a>
+                                            <div className="flex gap-4 pt-1">
+                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="hover:text-white transition-colors"><Terminal size={18} /></a>
+                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="hover:text-white transition-colors"><Briefcase size={18} /></a>
+                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="hover:text-white transition-colors"><Share2 size={18} /></a>
+                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="hover:text-white transition-colors"><PenTool size={18} /></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="p-6 md:p-8 space-y-8">
+                            <div className="p-8 md:p-12 space-y-12">
+                                {/* Professional Summary */}
                                 <div>
-                                    <h3 className="text-lg font-semibold text-green-400 mb-3 flex items-center gap-3">
-                                        <Terminal size={20} className="text-green-500" />
+                                    <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-3">
+                                        <Search size={22} className="text-blue-500" />
                                         PROFESSIONAL SUMMARY
+                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                     </h3>
-                                    <p className="text-gray-300 leading-relaxed text-sm md:text-base">
+                                    <p className="text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-green-500/20 pl-6 py-2">
                                         {personalInfo.bio}
                                     </p>
                                 </div>
 
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                                    <div className="space-y-6">
-                                        <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-3">
-                                            <Briefcase size={20} className="text-orange-400" />
-                                            EXPERIENCE
-                                        </h3>
-                                        <div className="space-y-6">
-                                            {experience.map((exp, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="relative pl-6 border-l-2 border-green-500/20 hover:border-green-500/50 transition-colors duration-300"
-                                                >
-                                                    <div className="absolute left-[-5px] top-1.5 w-2 h-2 bg-green-400 rounded-full"></div>
-                                                    <h4 className="text-white font-semibold text-sm md:text-base">
-                                                        {exp.position}
-                                                    </h4>
-                                                    <p className="text-green-400/80 text-sm font-medium">
-                                                        {exp.company}
-                                                    </p>
-                                                    <p className="text-gray-500 text-xs mt-0.5">
-                                                        {exp.duration}
-                                                    </p>
-                                                    <ul className="mt-3 space-y-2">
-                                                        {exp.description.slice(0, 3).map((item, i) => (
-                                                            <li
-                                                                key={i}
-                                                                className="text-gray-400 text-xs md:text-sm flex items-start gap-2"
-                                                            >
-                                                                <span className="text-green-500/60 mt-1 flex-shrink-0">
-                                                                    <div className="w-1.5 h-1.5 bg-green-500/40 rounded-full" />
-                                                                </span>
-                                                                {item}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            ))}
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                                    {/* Experience Column */}
+                                    <div className="space-y-10">
+                                        <div>
+                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                                <Briefcase size={22} className="text-orange-500" />
+                                                EXPERIENCE
+                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                            </h3>
+                                            <div className="space-y-10">
+                                                {experience.map((exp, index) => (
+                                                    <div key={index} className="relative group pl-8">
+                                                        <div className="absolute left-0 top-0 bottom-0 w-px bg-green-500/20 group-hover:bg-green-500/50 transition-all"></div>
+                                                        <div className="absolute left-[-4px] top-2 w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+                                                        <h4 className="text-white font-bold text-base md:text-lg uppercase group-hover:text-green-400 transition-colors">
+                                                            {exp.position}
+                                                        </h4>
+                                                        <p className="text-green-400/80 text-sm font-bold tracking-widest uppercase mt-1">
+                                                            {exp.company}
+                                                        </p>
+                                                        <div className="flex items-center gap-2 text-gray-500 text-xs mt-1 font-mono uppercase tracking-tighter">
+                                                            <Calendar size={12} />
+                                                            {exp.duration}
+                                                        </div>
+                                                        <ul className="mt-4 space-y-2">
+                                                            {exp.description.map((item, i) => (
+                                                                <li key={i} className="text-gray-400 text-xs md:text-sm flex items-start gap-3 group/li">
+                                                                    <ChevronRight size={14} className="text-green-500 flex-shrink-0 mt-1 group-hover/li:translate-x-1 transition-transform" />
+                                                                    <span className="group-hover/li:text-gray-200 transition-colors">{item}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Achievements */}
+                                        <div>
+                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                                <Trophy size={22} className="text-yellow-500" />
+                                                ACHIEVEMENTS
+                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                            </h3>
+                                            <div className="space-y-4">
+                                                {achievements.map((ach, index) => (
+                                                    <div key={index} className="p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                                        <div className="flex justify-between items-start mb-1">
+                                                            <h4 className="text-white font-bold text-sm md:text-base group-hover:text-green-400 transition-all uppercase">{ach.title}</h4>
+                                                            <span className="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full font-bold border border-green-500/20">{ach.date}</span>
+                                                        </div>
+                                                        <p className="text-gray-500 text-xs font-bold uppercase tracking-tight mb-2 italic">{ach.issuer}</p>
+                                                        <p className="text-gray-400 text-xs md:text-sm">{ach.description}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-8">
+                                    {/* Education & Skills Column */}
+                                    <div className="space-y-12">
                                         <div>
-                                            <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-3">
-                                                <GraduationCap size={22} className="text-yellow-400" />
+                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                                <GraduationCap size={22} className="text-yellow-500" />
                                                 EDUCATION
+                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
-                                            <div className="space-y-4">
-                                                <div className="bg-[#111]/50 border border-green-500/10 rounded-xl p-5 hover:border-green-500/30 transition-all group">
-                                                    <h4 className="text-white font-bold group-hover:text-green-400 transition-colors">
-                                                        University of Ruhuna
-                                                    </h4>
-                                                    <p className="text-gray-300 text-sm mt-1 font-medium">
-                                                        B.Sc. Eng. in Computer Engineering
-                                                    </p>
-                                                    <p className="text-gray-500 text-xs mt-1">
-                                                        January 2026 completion • GPA 3.3
-                                                    </p>
-                                                    <div className="flex items-center gap-2 mt-3">
-                                                        <Award size={14} className="text-green-500" />
-                                                        <p className="text-green-400/90 text-[10px] uppercase font-bold tracking-widest">
-                                                            Faculty of Engineering
-                                                        </p>
+                                            <div className="space-y-6">
+                                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">University of Ruhuna</h4>
+                                                        <span className="text-xs text-gray-500 font-mono">2021 - 2026</span>
+                                                    </div>
+                                                    <p className="text-gray-300 text-sm font-bold italic">Faculty of Engineering, Computer Engineering</p>
+                                                    <div className="flex items-center gap-4 mt-4">
+                                                        <div className="flex items-center gap-2 text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full uppercase tracking-widest">
+                                                            <Award size={14} />
+                                                            GPA: 3.3
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <div className="bg-[#111]/50 border border-green-500/10 rounded-xl p-5 hover:border-green-500/30 transition-all group">
-                                                    <h4 className="text-white font-bold group-hover:text-green-400 transition-colors">
-                                                        Advanced Level
-                                                    </h4>
-                                                    <p className="text-gray-300 text-sm mt-1 font-medium">
-                                                        Physical Science (ABB)
-                                                    </p>
-                                                    <p className="text-gray-500 text-xs mt-1">
-                                                        Ch/Senanayaka Central College • 2019
-                                                    </p>
+                                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">Advanced Level</h4>
+                                                        <span className="text-xs text-gray-500 font-mono">JAN 2019</span>
+                                                    </div>
+                                                    <p className="text-gray-300 text-sm font-bold italic">Ch/Senanayaka Central College, Physical Science</p>
+                                                    <div className="mt-4 flex items-center gap-4">
+                                                        <span className="text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full tracking-[0.2em]">ABB</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-3">
-                                                <Code2 size={20} className="text-purple-400" />
-                                                TECHNICAL PROFICIENCY
+                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                                <Code2 size={24} className="text-purple-400" />
+                                                TECHNICAL SKILLS
+                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
-                                            <div className="space-y-4">
-                                                {skillLevels.slice(0, 6).map((skill, index) => (
-                                                    <div key={index} className="group">
-                                                        <div className="flex justify-between text-xs mb-1.5">
-                                                            <span className="text-gray-300 font-medium group-hover:text-white transition-colors">
-                                                                {skill.skill}
-                                                            </span>
-                                                            <span className="text-green-400/80 font-bold">
-                                                                {skill.level}%
-                                                            </span>
+                                            <div className="space-y-5">
+                                                {skillLevels.map((skill, index) => (
+                                                    <div key={index} className="space-y-1.5 group">
+                                                        <div className="flex justify-between text-xs uppercase tracking-widest font-black">
+                                                            <span className="text-gray-300 group-hover:text-white transition-colors">{skill.skill}</span>
+                                                            <span className="text-green-400 italic">{skill.level}%</span>
                                                         </div>
-                                                        <div className="w-full h-2 bg-black/40 border border-white/5 rounded-full overflow-hidden">
+                                                        <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
                                                             <div
-                                                                className="h-full bg-gradient-to-r from-green-600 via-green-400 to-green-300 rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(34,197,94,0.3)]"
+                                                                className="h-full bg-gradient-to-r from-green-600 via-green-400 to-green-300 rounded-full transition-all duration-1000"
                                                                 style={{ width: `${skill.level}%` }}
                                                             ></div>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
-                                        </div>
-
-                                        <div>
-                                            <div className="grid grid-cols-1 gap-4">
-                                                {skillCategories.map((cat, index) => (
-                                                    <div key={index} className="bg-black/20 p-4 rounded-xl border border-white/5">
-                                                        <p className="text-[10px] text-gray-500 font-bold mb-3 uppercase tracking-[0.2em] flex items-center gap-2">
+                                            <div className="mt-8 grid grid-cols-1 gap-4">
+                                                {skillCategories.map((cat, i) => (
+                                                    <div key={i} className="p-4 bg-black/40 border border-white/5 rounded-2xl group transition-all">
+                                                        <p className="text-[10px] text-gray-600 font-black mb-3 uppercase tracking-[0.3em] flex items-center gap-2">
                                                             <Layers size={12} className="text-green-500/50" />
                                                             {cat.category}
                                                         </p>
                                                         <div className="flex flex-wrap gap-2">
-                                                            {cat.skills.map((skill, i) => (
-                                                                <span
-                                                                    key={i}
-                                                                    className="px-3 py-1 bg-green-500/5 border border-green-500/10 rounded-lg text-xs text-green-400/90 font-medium hover:border-green-500/30 transition-all hover:bg-green-500/10 cursor-default"
-                                                                >
-                                                                    {skill}
+                                                            {cat.skills.map((s, j) => (
+                                                                <span key={j} className="text-[10px] md:text-xs text-green-400/80 font-bold px-2 py-1 bg-green-500/5 border border-green-500/10 rounded-lg group-hover:border-green-500/30 transition-all uppercase tracking-tight">
+                                                                    {s}
                                                                 </span>
                                                             ))}
                                                         </div>
@@ -296,6 +318,163 @@ const HireMeSection = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Certificates */}
+                                <div>
+                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                        <ShieldCheck size={24} className="text-emerald-500" />
+                                        CERTIFICATES
+                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        {certificates.map((cert, index) => (
+                                            <a key={index} href={cert.link} target="_blank" className="p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                                <div>
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <CheckCircle2 size={16} className="text-green-500 opacity-50" />
+                                                        <span className="text-[10px] text-gray-600 font-mono italic">{cert.date}</span>
+                                                    </div>
+                                                    <h4 className="text-white font-bold text-sm uppercase group-hover:text-green-400 transition-colors leading-tight mb-2">
+                                                        {cert.title}
+                                                    </h4>
+                                                    <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest">{cert.issuer}</p>
+                                                </div>
+                                                <ExternalLink size={12} className="mt-4 text-green-500/40 group-hover:text-green-500 transition-all self-end" />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Full Projects Section */}
+                                <div>
+                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                        <Code2 size={24} className="text-cyan-400" />
+                                        KEY PROJECTS
+                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {projects.map((proj, index) => (
+                                            <div key={index} className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-green-500/30 transition-all group h-full flex flex-col">
+                                                <h4 className="text-white font-black text-base uppercase mb-3 flex items-center justify-between">
+                                                    {proj.title}
+                                                    {proj.featured && <Star size={12} className="text-yellow-500 fill-yellow-500" />}
+                                                </h4>
+                                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed flex-grow italic mb-4">
+                                                    {proj.description}
+                                                </p>
+                                                <div className="flex flex-wrap gap-1.5 mb-4">
+                                                    {proj.tech.slice(0, 4).map((t, i) => (
+                                                        <span key={i} className="text-[8px] md:text-[10px] text-green-500/80 border border-green-500/20 px-2 py-0.5 rounded-md font-black uppercase">
+                                                            {t}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500 pt-4 border-t border-white/5">
+                                                    <a href={proj.github} target="_blank" className="hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                        <Terminal size={12} /> Source
+                                                    </a>
+                                                    <a href={proj.link} target="_blank" className="hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                        <Globe size={12} /> Live
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Stats & Publications */}
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <Terminal size={22} className="text-white" />
+                                            ONLINE PROFILES & STATS
+                                            <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        </h3>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            {stats.map((s, index) => (
+                                                <div key={index} className="p-6 bg-black/40 border border-white/5 rounded-3xl text-center group hover:border-green-500/30 transition-all">
+                                                    <p className="text-3xl font-black text-white group-hover:text-green-400 transition-colors tracking-tighter">
+                                                        {s.value}{s.suffix}
+                                                    </p>
+                                                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">{s.label}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="mt-6 p-6 bg-white/5 border border-white/5 rounded-3xl space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Top 10 Contributor</span>
+                                                <span className="text-xs font-black text-green-400">SRI LANKA</span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Public Repos</span>
+                                                <span className="text-xs font-black text-green-400">100+</span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Commits</span>
+                                                <span className="text-xs font-black text-green-400">3800+</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <BookOpen size={22} className="text-blue-400" />
+                                            PUBLICATIONS & PRESENTATIONS
+                                            <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        </h3>
+                                        <div className="space-y-6">
+                                            {blogArticles.map((art, index) => (
+                                                <a key={index} href={art.url} target="_blank" className="block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-green-500/40 transition-all group">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <h4 className="text-white font-bold text-base md:text-lg uppercase leading-tight group-hover:text-green-400">{art.title}</h4>
+                                                        <PenTool size={16} className="text-blue-500/50" />
+                                                    </div>
+                                                    <p className="text-gray-400 text-xs md:text-sm italic mb-4">{art.description}</p>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {art.tags.map((t, i) => (
+                                                            <span key={i} className="text-[10px] text-blue-400/80 bg-blue-500/10 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest">{t}</span>
+                                                        ))}
+                                                    </div>
+                                                </a>
+                                            ))}
+                                            <div className="p-6 bg-white/5 border border-white/10 rounded-3xl group">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <h4 className="text-white font-bold text-base uppercase group-hover:text-green-400">Presenter – Rextro 2026</h4>
+                                                    <User size={16} className="text-yellow-500/50" />
+                                                </div>
+                                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed">
+                                                    Demonstrated a technical project to a live audience, explaining system architecture and answering technical questions on practical engineering applications.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* References */}
+                                <div>
+                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3 uppercase tracking-tighter">
+                                        <CheckCircle2 size={24} className="text-green-500" />
+                                        REFERENCES
+                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        {references.map((ref, index) => (
+                                            <div key={index} className="p-8 bg-white/5 border border-white/5 rounded-3xl group hover:border-green-500/30 transition-all">
+                                                <h4 className="text-white font-black text-xl uppercase mb-2 group-hover:text-green-400">{ref.name}</h4>
+                                                <p className="text-green-400/70 text-xs font-bold uppercase tracking-widest mb-1">{ref.role}</p>
+                                                <p className="text-gray-500 text-xs font-medium italic mb-6">{ref.organization}</p>
+                                                <div className="space-y-2">
+                                                    <p className="flex items-center gap-3 text-sm text-gray-300 font-mono">
+                                                        <Mail size={14} className="text-blue-500" /> {ref.email}
+                                                    </p>
+                                                    <p className="flex items-center gap-3 text-sm text-gray-300 font-mono">
+                                                        <Phone size={14} className="text-green-500" /> {ref.phone}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </ScrollAnimation>
@@ -303,19 +482,19 @@ const HireMeSection = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                         {[
                             {
-                                title: "Fast Turnaround",
-                                desc: "Efficient development workflow with clean, maintainable code delivered on schedule.",
+                                title: "Full-Stack Native",
+                                desc: "End-to-end expertise from high-performance C++ engines to interactive React frontends.",
                                 icon: <Zap className="text-yellow-400" size={24} />
                             },
                             {
-                                title: "Blockchain Core",
-                                desc: "Smart contract development with Solidity, DApp architecture, and Web3 integration.",
-                                icon: <Globe className="text-blue-400" size={24} />
+                                title: "Blockchain Architect",
+                                desc: "Designing secure, transparent ecosystems with Solidity smart contracts and Web3 integration.",
+                                icon: <ShieldCheck className="text-emerald-400" size={24} />
                             },
                             {
-                                title: "Architecture Plus",
-                                desc: "End-to-end development from React frontends to Node.js APIs and cloud deployment.",
-                                icon: <ShieldCheck className="text-green-400" size={24} />
+                                title: "Engineering Mindset",
+                                desc: "Focus on performance, scalability, and distributed systems with a 3.3 GPA academic core.",
+                                icon: <Code2 className="text-purple-400" size={24} />
                             },
                         ].map((item, index) => (
                             <ScrollAnimation key={index} direction="up" delay={index * 100 + 200}>
@@ -335,25 +514,25 @@ const HireMeSection = () => {
                     </div>
 
                     <ScrollAnimation direction="up" delay={300}>
-                        <div className="text-center space-y-6 pt-10">
+                        <div className="text-center space-y-6 pt-10 pb-20">
                             <p className="text-gray-300 text-lg md:text-xl font-medium">
-                                Ready to scale your next big idea? Let's initiate the session.
+                                Looking for a high-performance engineer to join your mission?
                             </p>
                             <div className="flex flex-wrap justify-center gap-5">
                                 <a
                                     href="#contact"
                                     onClick={(e) => handleSmoothScroll(e, "#contact")}
-                                    className="group px-8 py-4 bg-green-500/10 border border-green-500/40 rounded-xl text-green-400 hover:bg-green-500 hover:text-black hover:scale-105 active:scale-95 transition-all duration-500 font-bold uppercase tracking-widest flex items-center gap-3"
+                                    className="group px-10 py-5 bg-green-500/10 border border-green-500/40 rounded-2xl text-green-400 hover:bg-green-500 hover:text-black hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-lg hover:shadow-green-500/30"
                                 >
-                                    <Send size={20} />
-                                    Initiate Discussion
+                                    <Send size={22} />
+                                    Initiate Session
                                 </a>
                                 <a
                                     href={`mailto:${personalInfo.email}?subject=Job Opportunity&body=Hi Dulshan,%0D%0A%0D%0AI came across your portfolio and I'd like to discuss a potential opportunity.%0D%0A%0D%0ABest regards`}
-                                    className="px-8 py-4 bg-transparent border border-gray-700 rounded-xl text-gray-400 hover:border-white hover:text-white hover:scale-105 active:scale-95 transition-all duration-500 font-bold uppercase tracking-widest flex items-center gap-3"
+                                    className="px-10 py-5 bg-transparent border border-gray-700 rounded-2xl text-gray-400 hover:border-white hover:text-white hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3"
                                 >
-                                    <Mail size={20} />
-                                    Direct Terminal
+                                    <Mail size={22} />
+                                    Direct Link
                                 </a>
                             </div>
                         </div>
