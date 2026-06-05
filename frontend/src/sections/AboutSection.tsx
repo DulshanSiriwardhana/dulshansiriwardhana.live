@@ -3,6 +3,16 @@ import ScrollAnimation from "../components/ScrollAnimation";
 import SkillBar from "../components/SkillBar";
 import { personalInfo, skillCategories, skillLevels } from "../constants/landingPageData";
 import profileImage from "../assets/images/dp.png";
+import {
+  User,
+  Workflow,
+  GraduationCap,
+  Cpu,
+  Binary,
+  Globe,
+  Award,
+  CircleCheckBig
+} from "lucide-react";
 
 const AboutSection = () => {
   return (
@@ -14,108 +24,117 @@ const AboutSection = () => {
         <SectionTitle title="About Me" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Bio Section */}
           <div className="space-y-6">
             <ScrollAnimation direction="right">
               <div className="flex flex-col items-center mb-6">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-full blur-lg opacity-30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-full blur-xl opacity-20"></div>
                   <img
                     src={profileImage}
                     alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
                     className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-green-500/50 shadow-2xl"
                   />
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center border-2 border-black shadow-xl animate-bounce">
+                    <User className="text-black" size={24} />
+                  </div>
                 </div>
               </div>
             </ScrollAnimation>
 
             <ScrollAnimation direction="right">
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
-                  Who I Am
-                </h3>
-                <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+              <div className="bg-[#111]/80 backdrop-blur-md border border-green-500/20 rounded-3xl p-8 hover:border-green-500/50 transition-all duration-500">
+                <div className="flex items-center gap-3 mb-6">
+                  <User className="text-green-500" size={24} />
+                  <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">
+                    Personal Identity
+                  </h3>
+                </div>
+                <p className="text-base md:text-lg text-gray-300 leading-relaxed font-spectral italic">
                   {personalInfo.bio}
                 </p>
               </div>
             </ScrollAnimation>
 
             <ScrollAnimation direction="right" delay={100}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
-                  What I Do
-                </h3>
-                <ul className="space-y-3">
-                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
-                    <span className="group-hover/item:text-gray-200 transition-colors">Develop blockchain applications and smart contracts using Solidity</span>
-                  </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
-                    <span className="group-hover/item:text-gray-200 transition-colors">Build full-stack web applications with modern frameworks</span>
-                  </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
-                    <span className="group-hover/item:text-gray-200 transition-colors">Contribute to open-source projects and educational platforms</span>
-                  </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
-                    <span className="group-hover/item:text-gray-200 transition-colors">Write technical articles and share knowledge on Medium</span>
-                  </li>
-                  <li className="text-gray-300 flex items-start text-sm md:text-base group/item">
-                    <span className="text-green-400 mr-3 mt-1 flex-shrink-0 group-hover/item:scale-110 transition-transform">▹</span>
-                    <span className="group-hover/item:text-gray-200 transition-colors">Collaborate with organizations like HDLGenHub, DeedLink, and Team-OrByte</span>
-                  </li>
+              <div className="bg-[#111]/80 backdrop-blur-md border border-green-500/20 rounded-3xl p-8 hover:border-green-500/50 transition-all duration-500">
+                <div className="flex items-center gap-3 mb-6">
+                  <Workflow className="text-blue-500" size={24} />
+                  <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">
+                    System Operations
+                  </h3>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    "Develop blockchain applications and smart contracts using Solidity",
+                    "Build full-stack web applications with modern frameworks",
+                    "Contribute to open-source projects and educational platforms",
+                    "Write technical articles and share knowledge on Medium",
+                    "Collaborate with HDLGenHub, DeedLink, and Team-OrByte"
+                  ].map((item, i) => (
+                    <li key={i} className="text-gray-300 flex items-start text-sm md:text-base group/item">
+                      <CircleCheckBig className="text-green-500 mr-4 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform" size={18} />
+                      <span className="group-hover/item:text-green-400 transition-colors font-medium">{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </ScrollAnimation>
-            
+
             <ScrollAnimation direction="right" delay={200}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 md:p-8 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
-                  Education
-                </h3>
-                <div className="space-y-2">
-                  <p className="text-base md:text-lg text-gray-300 font-medium">
+              <div className="bg-[#111]/80 backdrop-blur-md border border-green-500/20 rounded-3xl p-8 hover:border-green-500/50 transition-all duration-500">
+                <div className="flex items-center gap-3 mb-6">
+                  <GraduationCap className="text-yellow-500" size={24} />
+                  <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">
+                    Academic Record
+                  </h3>
+                </div>
+                <div className="space-y-3 p-4 bg-black/40 rounded-2xl border border-white/5">
+                  <p className="text-lg text-white font-bold">
                     University of Ruhuna
                   </p>
-                  <p className="text-sm md:text-base text-gray-400">
-                    Faculty of Engineering, Department of Computer Engineering
+                  <p className="text-sm text-gray-300 font-medium">
+                    Faculty of Engineering, Computer Engineering
                   </p>
-                  <p className="text-green-400 text-xs md:text-sm mt-2 font-medium">
-                    4th Year Undergraduate (2021 - Present)
-                  </p>
+                  <div className="flex items-center gap-2 mt-4">
+                    <div className="px-3 py-1 bg-green-500/20 border border-green-500/40 rounded-full text-green-400 text-[10px] uppercase font-bold tracking-widest">
+                      L4: Senior Undergraduate
+                    </div>
+                    <span className="text-gray-600 text-xs font-mono">2021 - PRESENT</span>
+                  </div>
                 </div>
               </div>
             </ScrollAnimation>
           </div>
 
-          {/* Skills Section */}
           <div className="space-y-6">
             <ScrollAnimation direction="left">
-              <h3 className="text-2xl font-semibold text-white mb-6">
-                Skills & Technologies
-              </h3>
-            </ScrollAnimation>
-            
-            {/* Skill Bars */}
-            <ScrollAnimation direction="left" delay={100}>
-              <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
-                <h4 className="text-lg font-semibold text-green-400 mb-6">
-                  Core Skills
-                </h4>
-                {skillLevels.map((skill, index) => (
-                  <SkillBar
-                    key={index}
-                    skill={skill.skill}
-                    level={skill.level}
-                    delay={index * 100}
-                  />
-                ))}
+              <div className="flex items-center gap-3 mb-6">
+                <Cpu className="text-purple-500" size={28} />
+                <h3 className="text-3xl font-bold text-white uppercase tracking-tighter">
+                  Tech Stack
+                </h3>
               </div>
             </ScrollAnimation>
 
-            {/* Skill Categories */}
+            <ScrollAnimation direction="left" delay={100}>
+              <div className="bg-[#111]/80 backdrop-blur-md border border-green-500/20 rounded-3xl p-8 hover:border-green-500/50 transition-all duration-500">
+                <h4 className="text-sm font-bold text-green-500/60 uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                  <Binary size={16} />
+                  Algorithm Proficiency
+                </h4>
+                <div className="space-y-1">
+                  {skillLevels.map((skill, index) => (
+                    <SkillBar
+                      key={index}
+                      skill={skill.skill}
+                      level={skill.level}
+                      delay={index * 100}
+                    />
+                  ))}
+                </div>
+              </div>
+            </ScrollAnimation>
+
             <div className="space-y-6">
               {skillCategories.map((category, categoryIndex) => (
                 <ScrollAnimation
@@ -123,15 +142,16 @@ const AboutSection = () => {
                   direction="left"
                   delay={(categoryIndex + 1) * 100 + 200}
                 >
-                  <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 hover:bg-[#1a1a1a]/70 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
-                    <h4 className="text-lg font-semibold text-green-400 mb-4">
+                  <div className="bg-[#111]/80 backdrop-blur-md border border-green-500/20 rounded-3xl p-8 hover:border-green-500/50 transition-all duration-500 group">
+                    <h4 className="text-sm font-bold text-green-400 mb-6 uppercase tracking-[0.3em] flex items-center gap-2">
+                      {categoryIndex === 0 ? <Globe size={16} className="text-blue-400" /> : <Award size={16} className="text-yellow-400" />}
                       {category.category}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {category.skills.map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="px-3 py-1.5 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm hover:bg-green-500/20 hover:border-green-500/50 hover:scale-105 transition-all duration-300 cursor-default"
+                          className="px-4 py-2 bg-green-500/5 border border-green-500/10 rounded-xl text-green-400/80 text-xs font-bold tracking-tight hover:bg-green-500/20 hover:border-green-500/50 hover:text-white hover:-translate-y-1 transition-all duration-300 cursor-default"
                         >
                           {skill}
                         </span>
@@ -149,4 +169,3 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
-

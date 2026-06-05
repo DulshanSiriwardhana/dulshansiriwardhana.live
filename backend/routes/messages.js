@@ -1,6 +1,7 @@
 import express from 'express';
 import Message from '../models/Message.js';
 import authenticateToken from '../middleware/auth.js';
+import { sendContactNotification, sendAutoReply } from '../utils/emailService.js';
 
 const router = express.Router();
 
@@ -31,6 +32,17 @@ router.post('/', async (req, res) => {
     });
 
     const savedMessage = await newMessage.save();
+
+    Promise.allSettled([
+      sendContactNotification({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim() }),
+      sendAutoReply({ name: name.trim(), email: email.trim(), subject: subject.trim() }),
+    ]).then((results) => {
+      results.forEach((result, i) => {
+        if (result.status === 'rejected') {
+          console.error(`Email ${i === 0 ? 'notification' : 'auto-reply'} failed:`, result.reason);
+        }
+      });
+    });
 
     res.status(201).json({
       success: true,

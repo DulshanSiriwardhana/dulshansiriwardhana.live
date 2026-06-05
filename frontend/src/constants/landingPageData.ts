@@ -281,37 +281,37 @@ export const contactLinks: ContactLink[] = [
     label: "Email",
     url: `mailto:${personalInfo.email}`,
     type: "email",
-    icon: "✉️",
+    icon: "",
   },
   {
     label: "GitHub",
     url: "https://github.com/DulshanSiriwardhana",
     type: "external",
-    icon: "💻",
+    icon: "",
   },
   {
     label: "LinkedIn",
     url: "https://linkedin.com/in/dulshan-siriwardhana-17b77521a",
     type: "external",
-    icon: "💼",
+    icon: "",
   },
   {
     label: "Medium",
     url: "https://medium.com/@dulshansiriwardhanaofficial",
     type: "external",
-    icon: "✍️",
+    icon: "",
   },
   {
     label: "Facebook",
     url: "https://facebook.com/profile.php?id=61568544393764",
     type: "external",
-    icon: "📘",
+    icon: "",
   },
   {
     label: "Website",
     url: "https://dulshansiriwardhana.live",
     type: "external",
-    icon: "🌐",
+    icon: "",
   },
 ];
 
@@ -345,35 +345,35 @@ export const achievements: Achievement[] = [
     issuer: "GitHub",
     date: "2024",
     description: "Achieved Pull Shark achievement on GitHub (x3)",
-    icon: "🦈",
+    icon: "",
   },
   {
     title: "Quickdraw",
     issuer: "GitHub",
     date: "2024",
     description: "GitHub Quickdraw achievement unlocked",
-    icon: "⚡",
+    icon: "",
   },
   {
     title: "YOLO",
     issuer: "GitHub",
     date: "2024",
     description: "GitHub YOLO achievement unlocked",
-    icon: "🎯",
+    icon: "",
   },
   {
     title: "81+ Repositories",
     issuer: "GitHub",
     date: "2024",
     description: "Created and maintained 81+ open source repositories",
-    icon: "📦",
+    icon: "",
   },
   {
     title: "4th Year Computer Engineering",
     issuer: "University of Ruhuna",
     date: "2021 - Present",
     description: "Pursuing Computer Engineering degree",
-    icon: "🎓",
+    icon: "",
   },
 ];
 
@@ -382,7 +382,7 @@ export const navigationLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Hire Me", href: "#hire" },
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
-

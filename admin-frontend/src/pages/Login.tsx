@@ -66,61 +66,68 @@ const Login = () => {
       localStorage.setItem('admin_user', JSON.stringify(data.user));
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Invalid credentials');
+      setError(err.message || 'Access Denied: Invalid Credentials');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8 shadow-lg">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-[#22c55e] rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
+    <div className="min-h-screen bg-[#020202] text-white flex items-center justify-center p-4 relative overflow-hidden font-spectral noise-overlay scanlines">
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="w-full max-w-md relative z-10 animate-slide-up">
+        <div className="glass-panel p-10 rounded-2xl border border-green-500/30">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center mb-6 relative">
+              <div className="w-16 h-16 border-2 border-green-500/50 rounded-xl flex items-center justify-center bg-green-500/10 animate-pulse transition-all duration-500">
+                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="absolute -inset-2 border border-green-500/10 rounded-2xl -z-10 animate-glow"></div>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-1">
-              Admin Login
+
+            <h1 className="text-3xl font-bold tracking-[0.2em] text-white mb-2 uppercase">
+              Omnix <span className="text-green-500">Core</span>
             </h1>
-            <p className="text-gray-400 text-sm">Portfolio Admin Panel</p>
+            <p className="text-green-500/60 mono text-xs tracking-widest uppercase">Unauthorized Access Strictly Prohibited</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                {error}
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs mono animate-pulse">
+                [ERROR] {error}
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-300">
-                Username
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-gray-400 uppercase tracking-widest ml-1">
+                Identity
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
+                className="w-full px-5 py-4 bg-black/50 border border-green-500/20 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition-all duration-300 mono text-sm"
                 required
-                placeholder="Enter username"
+                placeholder="USER_ID"
                 autoComplete="username"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-300">
-                Password
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-gray-400 uppercase tracking-widest ml-1">
+                Cipher
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
+                className="w-full px-5 py-4 bg-black/50 border border-green-500/20 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition-all duration-300 mono text-sm"
                 required
-                placeholder="Enter password"
+                placeholder="********"
                 autoComplete="current-password"
               />
             </div>
@@ -128,23 +135,25 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-6 py-3 bg-[#22c55e] text-black font-semibold rounded-lg hover:bg-[#20b955] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="w-full group px-6 py-4 bg-green-500/10 border border-green-500/50 text-green-400 font-bold rounded-xl hover:bg-green-500 hover:text-black active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden relative"
             >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                  <span>Logging in...</span>
-                </>
-              ) : (
-                <>
-                  <span>Login</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="relative z-10 flex items-center gap-2 uppercase tracking-[0.2em]">
+                {loading ? 'Decrypting...' : 'Initialize Session'}
+                {!loading && (
+                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                </>
-              )}
+                )}
+              </span>
+              <div className="absolute inset-0 bg-green-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
           </form>
+
+          <div className="mt-8 text-center">
+            <p className="text-[10px] text-gray-600 mono uppercase tracking-tighter">
+              Secure Terminal Rev. 7.0.1-Local
+            </p>
+          </div>
         </div>
       </div>
     </div>

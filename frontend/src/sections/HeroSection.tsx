@@ -1,6 +1,18 @@
 import TypingAnimation from "../components/TypingAnimation";
 import { personalInfo, contactLinks } from "../constants/landingPageData";
 import profileImage from "../assets/images/dp.png";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Facebook,
+  Globe,
+  PenTool,
+  Briefcase,
+  UserPlus,
+  MessageSquare,
+  Code
+} from "lucide-react";
 
 const HeroSection = () => {
   const typingTexts = [
@@ -16,6 +28,18 @@ const HeroSection = () => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const getContactIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case 'github': return <Github size={20} className="text-white" />;
+      case 'linkedin': return <Linkedin size={20} className="text-blue-500" />;
+      case 'email': return <Mail size={20} className="text-blue-400" />;
+      case 'facebook': return <Facebook size={20} className="text-blue-600" />;
+      case 'website': return <Globe size={20} className="text-green-400" />;
+      case 'medium': return <PenTool size={20} className="text-orange-400" />;
+      default: return null;
     }
   };
 
@@ -37,75 +61,93 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <p className="text-green-400 text-lg md:text-xl mb-4 animate-fade-in">
-            Hi, my name is
+          <p className="text-green-400 text-lg md:text-xl mb-4 animate-fade-in font-medium tracking-widest uppercase">
+            System Identity: {personalInfo.firstName}
           </p>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4">
-            <span className="block text-white animate-slide-up">{personalInfo.firstName}</span>
-            <span className="block text-green-400 mt-2 animate-slide-up-delayed">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4 leading-tight">
+            <span className="block text-white animate-slide-up bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 font-spectral italic">{personalInfo.firstName}</span>
+            <span className="block text-green-400 mt-2 animate-slide-up-delayed font-black">
               {personalInfo.lastName}
             </span>
           </h1>
 
           <div className="h-12 md:h-16 flex items-center justify-center px-4">
-            <p className="text-xl md:text-2xl lg:text-4xl font-light text-gray-300 text-center">
+            <p className="text-xl md:text-2xl lg:text-4xl font-light text-gray-300 text-center flex items-center gap-3">
+              <span className="text-green-500/50 block md:hidden lg:block">&lt;</span>
               I'm a <TypingAnimation texts={typingTexts} />
+              <span className="text-green-500/50 block md:hidden lg:block">/&gt;</span>
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-3 mt-8">
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-green-400"></div>
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
             <div className="h-px w-20 bg-gradient-to-l from-transparent to-green-400"></div>
           </div>
 
-          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto mt-6">
+          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto mt-6 leading-relaxed">
             {personalInfo.bio}
           </p>
-          
-          <p className="text-base text-gray-500 italic max-w-xl mx-auto mt-4">
+
+          <p className="text-base text-gray-500 italic max-w-xl mx-auto mt-4 font-spectral">
             "I just love to solve what I like!"
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mt-12">
+        <div className="flex flex-wrap justify-center gap-5 mt-12">
+          <a
+            href="#hire"
+            onClick={(e) => handleSmoothScroll(e, "#hire")}
+            className="group px-10 py-5 bg-green-500/10 border-2 border-green-500/60 rounded-2xl text-green-400 hover:bg-green-500 hover:text-black hover:scale-105 hover:shadow-2xl hover:shadow-green-500/40 active:scale-95 transition-all duration-500 font-bold relative overflow-hidden flex items-center gap-3 uppercase tracking-widest"
+          >
+            <UserPlus size={22} className="relative z-10" />
+            <span className="relative z-10">Hire Me</span>
+          </a>
           <a
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, "#contact")}
-            className="px-8 py-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300 font-medium"
+            className="px-10 py-5 bg-transparent border border-white/20 rounded-2xl text-gray-300 hover:border-white hover:text-white hover:scale-105 active:scale-95 transition-all duration-500 font-bold flex items-center gap-3 uppercase tracking-widest backdrop-blur-sm"
           >
+            <MessageSquare size={22} />
             Get In Touch
           </a>
           <a
             href="#projects"
             onClick={(e) => handleSmoothScroll(e, "#projects")}
-            className="px-8 py-4 bg-transparent border border-gray-600 rounded-lg text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 hover:bg-green-500/10 active:scale-100 transition-all duration-300 font-medium"
+            className="px-10 py-5 bg-transparent border border-green-500/20 rounded-2xl text-green-500/80 hover:border-green-500 hover:text-green-400 hover:scale-105 active:scale-95 transition-all duration-500 font-bold flex items-center gap-3 uppercase tracking-widest"
           >
+            <Code size={22} />
             View My Work
           </a>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
+        <div className="flex flex-wrap justify-center gap-4 mt-12">
           {contactLinks.map((link, index) => (
             <a
               key={index}
               href={link.url}
               target={link.type === "external" ? "_blank" : undefined}
               rel={link.type === "external" ? "noopener noreferrer" : undefined}
-              className="w-12 h-12 flex items-center justify-center bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 hover:bg-green-500/20 hover:border-green-500/50 hover:scale-110 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300"
+              className="w-14 h-14 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl text-gray-400 hover:bg-green-500/10 hover:border-green-500/50 hover:text-green-400 hover:scale-110 hover:shadow-2xl hover:shadow-green-500/20 active:scale-90 transition-all duration-500 group"
               aria-label={link.label}
               title={link.label}
             >
-              {link.icon || link.label.charAt(0)}
+              <div className="transition-transform duration-500 group-hover:scale-110">
+                {getContactIcon(link.label) || <span>{link.label.charAt(0)}</span>}
+              </div>
             </a>
           ))}
         </div>
 
-        <div className="flex flex-col items-center gap-2 mt-16 animate-bounce">
-          <span className="text-sm text-gray-500">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center">
-            <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2"></div>
+        <div className="flex flex-col items-center gap-4 mt-20">
+          <div className="flex flex-col items-center gap-2 animate-bounce cursor-pointer" onClick={(e) => {
+            e.preventDefault();
+            const about = document.getElementById('about');
+            about?.scrollIntoView({ behavior: 'smooth' });
+          }}>
+            <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-bold">Scroll to explore</span>
+            <div className="w-1 h-12 bg-gradient-to-b from-green-500 to-transparent rounded-full shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
           </div>
         </div>
       </div>
@@ -114,4 +156,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

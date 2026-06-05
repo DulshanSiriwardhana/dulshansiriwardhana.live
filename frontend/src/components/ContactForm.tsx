@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { sendMessage } from "../utils/api";
+import { Send, Loader2, CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -30,24 +31,24 @@ const ContactForm = () => {
       setIsSubmitting(false);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setSubmitStatus("idle"), 3000);
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (error) {
       console.error('Error sending message:', error);
       setIsSubmitting(false);
       setSubmitStatus("error");
-      setTimeout(() => setSubmitStatus("idle"), 3000);
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="group">
           <label
             htmlFor="name"
-            className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2 group-focus-within:text-green-400 transition-colors duration-300"
+            className="block text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500 mb-2 group-focus-within:text-green-500 transition-colors"
           >
-            Name
+            System Identity (Name)
           </label>
           <input
             type="text"
@@ -56,16 +57,16 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white text-sm md:text-base placeholder-gray-500/70 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 focus:shadow-lg focus:shadow-green-500/20 transition-all duration-300 hover:border-green-500/30 hover:bg-[#1a1a1a]/60"
-            placeholder="Your Name"
+            className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:border-green-500/50 focus:bg-black/60 transition-all font-medium"
+            placeholder="John Doe"
           />
         </div>
         <div className="group">
           <label
             htmlFor="email"
-            className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2 group-focus-within:text-green-400 transition-colors duration-300"
+            className="block text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500 mb-2 group-focus-within:text-green-500 transition-colors"
           >
-            Email
+            Return Path (Email)
           </label>
           <input
             type="email"
@@ -74,8 +75,8 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white text-sm md:text-base placeholder-gray-500/70 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 focus:shadow-lg focus:shadow-green-500/20 transition-all duration-300 hover:border-green-500/30 hover:bg-[#1a1a1a]/60"
-            placeholder="your.email@example.com"
+            className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:border-green-500/50 focus:bg-black/60 transition-all font-medium"
+            placeholder="john@example.com"
           />
         </div>
       </div>
@@ -83,9 +84,9 @@ const ContactForm = () => {
       <div className="group">
         <label
           htmlFor="subject"
-          className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2 group-focus-within:text-green-400 transition-colors duration-300"
+          className="block text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500 mb-2 group-focus-within:text-green-500 transition-colors"
         >
-          Subject
+          Signal Purpose (Subject)
         </label>
         <input
           type="text"
@@ -94,17 +95,17 @@ const ContactForm = () => {
           value={formData.subject}
           onChange={handleChange}
           required
-          className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white text-sm md:text-base placeholder-gray-500/70 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 focus:shadow-lg focus:shadow-green-500/20 transition-all duration-300 hover:border-green-500/30 hover:bg-[#1a1a1a]/60"
-          placeholder="What's this about?"
+          className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:border-green-500/50 focus:bg-black/60 transition-all font-medium"
+          placeholder="I have a project for you..."
         />
       </div>
 
       <div className="group">
         <label
           htmlFor="message"
-          className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2 group-focus-within:text-green-400 transition-colors duration-300"
+          className="block text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500 mb-2 group-focus-within:text-green-500 transition-colors"
         >
-          Message
+          Data Payload (Message)
         </label>
         <textarea
           id="message"
@@ -112,48 +113,44 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           required
-          rows={5}
-          className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-[#1a1a1a]/50 border border-green-500/20 rounded-lg text-white text-sm md:text-base placeholder-gray-500/70 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 focus:shadow-lg focus:shadow-green-500/20 transition-all duration-300 resize-none break-words hover:border-green-500/30 hover:bg-[#1a1a1a]/60"
-          placeholder="Tell me about your project or just say hello!"
+          rows={6}
+          className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:border-green-500/50 focus:bg-black/60 transition-all font-medium resize-none"
+          placeholder="Transmission starts here..."
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/50 rounded-lg text-green-400 text-sm md:text-base hover:from-green-500/30 hover:to-green-600/20 hover:border-green-500 hover:shadow-xl hover:shadow-green-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none relative overflow-hidden group"
+        className="w-full px-8 py-5 bg-green-500/10 border-2 border-green-500/40 rounded-2xl text-green-400 font-bold uppercase tracking-[0.3em] hover:bg-green-500 hover:text-black hover:scale-[1.02] active:scale-95 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed group flex items-center justify-center gap-3 shadow-xl hover:shadow-green-500/30 overflow-hidden relative"
       >
-        <span className="relative z-10 inline-flex items-center justify-center gap-2">
+        <span className="relative z-10 flex items-center gap-3">
           {isSubmitting ? (
             <>
-              <span className="animate-spin text-lg">⏳</span>
-              <span>Sending...</span>
+              <Loader2 className="animate-spin" size={20} />
+              Encrypting & Sending...
             </>
           ) : (
             <>
-              <span>Send Message</span>
-              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+              Initialize Transmission
+              <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </>
           )}
         </span>
-        <span className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
       </button>
 
       {submitStatus === "success" && (
-        <div className="p-4 bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/50 rounded-lg text-green-400 text-center animate-slide-up shadow-lg shadow-green-500/20">
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-xl">✓</span>
-            <span>Message sent successfully! I'll get back to you soon.</span>
-          </div>
+        <div className="p-5 bg-green-500/10 border border-green-500/30 rounded-2xl text-green-400 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 animate-slide-up shadow-2xl shadow-green-500/10">
+          <CheckCircle2 size={18} className="text-green-500" />
+          Transmission Successful. Response Incoming.
         </div>
       )}
 
       {submitStatus === "error" && (
-        <div className="p-4 bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/50 rounded-lg text-red-400 text-center animate-slide-up shadow-lg shadow-red-500/20">
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-xl">✕</span>
-            <span>Something went wrong. Please try again or email me directly.</span>
-          </div>
+        <div className="p-5 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-400 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 animate-slide-up shadow-2xl shadow-red-500/10">
+          <XCircle size={18} className="text-red-500" />
+          Critical Failure: Signal Lost.
         </div>
       )}
     </form>
@@ -161,4 +158,3 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
-

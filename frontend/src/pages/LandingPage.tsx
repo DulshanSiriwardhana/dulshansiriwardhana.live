@@ -6,7 +6,7 @@ import AboutSection from "../sections/AboutSection";
 import ExperienceSection from "../sections/ExperienceSection";
 import StatsSection from "../sections/StatsSection";
 import ProjectsSection from "../sections/ProjectsSection";
-import TestimonialsSection from "../sections/TestimonialsSection";
+import HireMeSection from "../sections/HireMeSection";
 import BlogSection from "../sections/BlogSection";
 import AchievementsSection from "../sections/AchievementsSection";
 import ContactSection from "../sections/ContactSection";
@@ -21,7 +21,7 @@ const LandingPage = () => {
       <ExperienceSection />
       <StatsSection />
       <ProjectsSection />
-      <TestimonialsSection />
+      <HireMeSection />
       <BlogSection />
       <AchievementsSection />
       <ContactSection />

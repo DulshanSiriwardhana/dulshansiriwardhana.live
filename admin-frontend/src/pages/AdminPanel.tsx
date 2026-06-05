@@ -19,11 +19,11 @@ interface ToastState {
   type: 'success' | 'error' | 'info';
 }
 
-type TabType = 'articles' | 'messages';
+type TabType = 'articles' | 'messages' | 'dashboard';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<TabType>('articles');
+  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [articles, setArticles] = useState<ProjectEulerArticle[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<ProjectEulerArticle | null>(null);
@@ -85,7 +85,6 @@ const AdminPanel = () => {
       const response = await getProjectEulerArticles(1, 100, '-problemNumber', '', '', '');
       setArticles(response.data);
     } catch (error) {
-      console.error('Error loading articles:', error);
       showToast('Failed to load articles', 'error');
     } finally {
       setArticlesLoading(false);
@@ -99,7 +98,6 @@ const AdminPanel = () => {
       setMessages(response.data);
       setMessagesTotal(response.pagination.total);
     } catch (error) {
-      console.error('Error loading messages:', error);
       showToast('Failed to load messages', 'error');
     } finally {
       setMessagesLoading(false);
@@ -115,22 +113,22 @@ const AdminPanel = () => {
       }
       showToast('Message marked as read', 'success');
     } catch (error: any) {
-      showToast(error.message || 'Failed to mark message as read', 'error');
+      showToast(error.message || 'Failed to mark as read', 'error');
     }
   };
 
   const handleDeleteMessage = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this message?')) return;
+    if (!confirm('Are you sure?')) return;
     try {
       await deleteMessage(id);
       setMessages(messages.filter(msg => msg._id !== id));
       if (selectedMessage?._id === id) {
         setSelectedMessage(null);
       }
-      showToast('Message deleted successfully', 'success');
+      showToast('Message deleted', 'success');
       loadMessages();
     } catch (error: any) {
-      showToast(error.message || 'Failed to delete message', 'error');
+      showToast('Deletion failed', 'error');
     }
   };
 
@@ -141,15 +139,15 @@ const AdminPanel = () => {
     try {
       if (isEditing && selectedArticle) {
         await updateProjectEulerArticle(selectedArticle._id!, formData);
-        showToast('Article updated successfully!', 'success');
+        showToast('Article updated', 'success');
       } else {
         await createProjectEulerArticle(formData);
-        showToast('Article created successfully!', 'success');
+        showToast('Article created', 'success');
       }
       resetForm();
       loadArticles();
     } catch (error: any) {
-      showToast(error.message || 'Failed to save article', 'error');
+      showToast('Saving failed', 'error');
     } finally {
       setLoading(false);
     }
@@ -172,17 +170,17 @@ const AdminPanel = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this article?')) return;
+    if (!confirm('Are you sure?')) return;
 
     try {
       await deleteProjectEulerArticle(id);
-      showToast('Article deleted successfully', 'success');
+      showToast('Article deleted', 'success');
       loadArticles();
       if (selectedArticle?._id === id) {
         resetForm();
       }
     } catch (error: any) {
-      showToast(error.message || 'Failed to delete article', 'error');
+      showToast('Deletion failed', 'error');
     }
   };
 
@@ -220,664 +218,254 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="h-screen bg-[#0a0a0a] text-white overflow-hidden flex flex-col">
-      <div className="flex-1 flex flex-col overflow-hidden p-4">
-        <div className="max-w-7xl mx-auto w-full flex flex-col flex-1 min-h-0">
-          <div className="mb-4 flex-shrink-0">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h1 className="text-2xl font-bold text-white mb-1">
-                  Admin Panel
-                </h1>
-                <p className="text-gray-400 text-sm">Manage content and messages</p>
-              </div>
-              {user && (
-                <div className="flex items-center gap-3">
-                  <div className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg">
-                    <span className="text-gray-400 text-xs">Logged in as </span>
-                    <span className="text-[#22c55e] font-semibold text-xs">{user.username}</span>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="px-3 py-1.5 bg-[#dc2626]/20 border border-[#dc2626]/50 rounded-lg text-[#ef4444] hover:bg-[#dc2626]/30 hover:border-[#dc2626] transition-colors text-xs font-medium"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
+    <div className="h-screen bg-[#020202] text-[#e5e7eb] flex overflow-hidden font-spectral noise-overlay scanlines">
+      <div className="w-64 glass-panel border-r border-green-500/20 flex flex-col z-20">
+        <div className="p-8 pb-4">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 border border-green-500/50 rounded-lg flex items-center justify-center bg-green-500/10">
+              <span className="text-green-400 font-bold text-xl">Ω</span>
             </div>
-            <div className="flex items-center gap-3 flex-wrap">
-              <div className="flex gap-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-1">
-                <button
-                  onClick={() => setActiveTab('articles')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === 'articles'
-                      ? 'bg-[#22c55e] text-black'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Project Euler
-                </button>
-                <button
-                  onClick={() => setActiveTab('messages')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors relative ${
-                    activeTab === 'messages'
-                      ? 'bg-[#22c55e] text-black'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Messages
-                  {messages.filter(m => !m.read).length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#ef4444] rounded-full flex items-center justify-center text-xs font-bold text-white">
-                      {messages.filter(m => !m.read).length}
-                    </span>
-                  )}
-                </button>
-              </div>
-              {activeTab === 'articles' && (
-                <>
-                  <div className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg">
-                    <span className="text-gray-400 text-xs">Total: </span>
-                    <span className="text-[#22c55e] font-semibold text-xs">{articles.length}</span>
-                  </div>
-                  <div className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg">
-                    <span className="text-gray-400 text-xs">Published: </span>
-                    <span className="text-[#22c55e] font-semibold text-xs">
-                      {articles.filter(a => a.published).length}
-                    </span>
-                  </div>
-                </>
-              )}
-              {activeTab === 'messages' && (
-                <>
-                  <div className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg">
-                    <span className="text-gray-400 text-xs">Total: </span>
-                    <span className="text-[#22c55e] font-semibold text-xs">{messagesTotal}</span>
-                  </div>
-                  <div className="px-3 py-1.5 bg-[#1a1a1a] border border-[#dc2626]/30 rounded-lg">
-                    <span className="text-gray-400 text-xs">Unread: </span>
-                    <span className="text-[#ef4444] font-semibold text-xs">
-                      {messages.filter(m => !m.read).length}
-                    </span>
-                  </div>
-                </>
-              )}
-            </div>
+            <h1 className="text-xl font-bold tracking-widest text-white uppercase">Omnix</h1>
           </div>
 
-          {activeTab === 'articles' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 min-h-0">
-              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 flex flex-col min-h-0 overflow-hidden">
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#2a2a2a] flex-shrink-0">
-                  <div>
-                    <h2 className="text-lg font-bold text-white mb-1">
-                      {isEditing ? 'Edit Article' : 'Create Article'}
-                    </h2>
-                    <p className="text-xs text-gray-400">
-                      {isEditing ? 'Update existing article' : 'Add a new Project Euler solution'}
-                    </p>
-                  </div>
-                  {isEditing && (
-                    <button
-                      onClick={resetForm}
-                      className="px-3 py-1.5 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg text-gray-400 hover:bg-[#3a3a3a] hover:text-white transition-colors text-xs font-medium"
-                    >
-                      New
-                    </button>
-                  )}
-                </div>
+          <nav className="space-y-2">
+            {[
+              { id: 'dashboard', label: 'Monitor', icon: '📊' },
+              { id: 'articles', label: 'Euler Engine', icon: '🧮' },
+              { id: 'messages', label: 'Comms', icon: '📡' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as TabType)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 mono text-xs uppercase tracking-widest ${activeTab === tab.id
+                    ? 'bg-green-500/10 text-green-400 border border-green-500/30 active-tab-glow'
+                    : 'text-gray-500 hover:text-green-400 hover:bg-green-500/5 border border-transparent'
+                  }`}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
 
-                <form onSubmit={handleSubmit} className="space-y-3 flex-1 overflow-y-auto green-scrollbar pr-2">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                        Problem #
-                      </label>
-                      <input
-                        type="number"
-                        value={formData.problemNumber}
-                        onChange={(e) => setFormData({ ...formData, problemNumber: parseInt(e.target.value) || 1 })}
-                        className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
-                        required
-                        min="1"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                        Difficulty
-                      </label>
-                      <select
-                        value={formData.difficulty}
-                        onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as 'Easy' | 'Medium' | 'Hard' })}
-                        className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors cursor-pointer"
-                      >
-                        <option value="Easy" className="bg-[#0a0a0a]">Easy</option>
-                        <option value="Medium" className="bg-[#0a0a0a]">Medium</option>
-                        <option value="Hard" className="bg-[#0a0a0a]">Hard</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
-                      required
-                      placeholder="Enter article title"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors resize-none"
-                      rows={2}
-                      required
-                      placeholder="Brief description"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Problem Statement
-                    </label>
-                    <textarea
-                      value={formData.problemStatement}
-                      onChange={(e) => setFormData({ ...formData, problemStatement: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors font-mono text-xs resize-none"
-                      rows={3}
-                      required
-                      placeholder="Problem statement"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Language
-                    </label>
-                    <select
-                      value={formData.solution.language}
-                      onChange={(e) => setFormData({
-                        ...formData,
-                        solution: { ...formData.solution, language: e.target.value }
-                      })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors cursor-pointer"
-                    >
-                      <option value="Python" className="bg-[#0a0a0a]">Python</option>
-                      <option value="JavaScript" className="bg-[#0a0a0a]">JavaScript</option>
-                      <option value="Java" className="bg-[#0a0a0a]">Java</option>
-                      <option value="C++" className="bg-[#0a0a0a]">C++</option>
-                      <option value="C" className="bg-[#0a0a0a]">C</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Solution Code
-                    </label>
-                    <textarea
-                      value={formData.solution.code}
-                      onChange={(e) => setFormData({
-                        ...formData,
-                        solution: { ...formData.solution, code: e.target.value }
-                      })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors font-mono text-xs resize-none"
-                      rows={4}
-                      required
-                      placeholder="Solution code"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Explanation
-                    </label>
-                    <textarea
-                      value={formData.solution.explanation}
-                      onChange={(e) => setFormData({
-                        ...formData,
-                        solution: { ...formData.solution, explanation: e.target.value }
-                      })}
-                      className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors resize-none"
-                      rows={3}
-                      required
-                      placeholder="Algorithm explanation"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                        Time Complexity
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.solution.timeComplexity || ''}
-                        onChange={(e) => setFormData({
-                          ...formData,
-                          solution: { ...formData.solution, timeComplexity: e.target.value }
-                        })}
-                        className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors font-mono text-xs"
-                        placeholder="O(n)"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                        Space Complexity
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.solution.spaceComplexity || ''}
-                        onChange={(e) => setFormData({
-                          ...formData,
-                          solution: { ...formData.solution, spaceComplexity: e.target.value }
-                        })}
-                        className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors font-mono text-xs"
-                        placeholder="O(1)"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium mb-1.5 text-gray-300">
-                      Tags
-                    </label>
-                    <div className="flex gap-2 mb-2">
-                      <input
-                        type="text"
-                        value={tagInput}
-                        onChange={(e) => setTagInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                        className="flex-1 px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
-                        placeholder="Add tag"
-                      />
-                      <button
-                        type="button"
-                        onClick={addTag}
-                        className="px-4 py-2 bg-[#22c55e] text-black font-medium rounded-lg hover:bg-[#20b955] transition-colors"
-                      >
-                        Add
-                      </button>
-                    </div>
-                    {formData.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {formData.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="px-2 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md text-[#22c55e] flex items-center gap-1.5 text-xs font-medium"
-                          >
-                            {tag}
-                            <button
-                              type="button"
-                              onClick={() => removeTag(tag)}
-                              className="text-[#ef4444] hover:text-[#dc2626] transition-colors text-sm leading-none font-bold"
-                            >
-                              ×
-                            </button>
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 p-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg">
-                    <input
-                      type="checkbox"
-                      id="published"
-                      checked={formData.published}
-                      onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                      className="w-4 h-4 rounded border-[#2a2a2a] bg-[#0a0a0a] text-[#22c55e] focus:ring-1 focus:ring-[#22c55e] cursor-pointer accent-[#22c55e]"
-                    />
-                    <label htmlFor="published" className="text-xs text-gray-300 cursor-pointer">
-                      Published (visible on website)
-                    </label>
-                  </div>
-
-                  <div className="flex gap-2 pt-2 flex-shrink-0 border-t border-[#2a2a2a]">
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="flex-1 px-4 py-2.5 bg-[#22c55e] text-black font-semibold rounded-lg hover:bg-[#20b955] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-                    >
-                      {loading ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                          <span>Saving...</span>
-                        </>
-                      ) : (
-                        <span>{isEditing ? 'Update' : 'Create'} Article</span>
-                      )}
-                    </button>
-                    {isEditing && (
-                      <button
-                        type="button"
-                        onClick={resetForm}
-                        className="px-4 py-2.5 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg text-gray-400 hover:bg-[#3a3a3a] hover:text-white transition-colors font-medium"
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </div>
-                </form>
-              </div>
-
-              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 flex flex-col min-h-0 overflow-hidden">
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#2a2a2a] flex-shrink-0">
-                  <div>
-                    <h2 className="text-lg font-bold text-white mb-1">
-                      Articles
-                    </h2>
-                    <p className="text-xs text-gray-400">
-                      Manage your Project Euler solutions
-                    </p>
-                  </div>
-                  <div className="px-3 py-1.5 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg">
-                    <span className="text-[#22c55e] font-bold">{articles.length}</span>
-                  </div>
-                </div>
-
-                {articlesLoading ? (
-                  <div className="text-center py-12 flex-1 flex items-center justify-center">
-                    <div className="w-8 h-8 border-3 border-[#22c55e] border-t-transparent rounded-full animate-spin mb-3"></div>
-                    <div className="text-[#22c55e] text-sm font-medium">Loading articles...</div>
-                  </div>
-                ) : articles.length === 0 ? (
-                  <div className="text-center py-12 flex-1 flex items-center justify-center">
-                    <div>
-                      <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-300 font-medium mb-1">No articles yet</p>
-                      <p className="text-xs text-gray-500">Create your first article</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-2 flex-1 overflow-y-auto green-scrollbar pr-2 min-h-0">
-                    {articles.map((article, index) => (
-                      <div
-                        key={article._id}
-                        className={`bg-[#0a0a0a] border rounded-lg p-3 transition-all cursor-pointer ${
-                          selectedArticle?._id === article._id
-                            ? 'border-[#22c55e] bg-[#22c55e]/10'
-                            : 'border-[#2a2a2a] hover:border-[#3a3a3a] hover:bg-[#1a1a1a]'
-                        }`}
-                        onClick={() => handleEdit(article)}
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-[#22c55e] text-xs font-bold">#{article.problemNumber}</span>
-                              <h3 className="text-sm font-bold text-white truncate">
-                                {article.title}
-                              </h3>
-                            </div>
-                            <p className="text-xs text-gray-400 line-clamp-2">{article.description}</p>
-                          </div>
-                          <span className={`px-2 py-0.5 text-xs rounded font-bold ml-2 flex-shrink-0 border ${
-                            article.published
-                              ? 'bg-[#22c55e]/20 text-[#22c55e] border-[#22c55e]/30'
-                              : 'bg-[#2a2a2a] text-gray-400 border-[#3a3a3a]'
-                          }`}>
-                            {article.published ? '✓' : 'Draft'}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-                          <span className={`text-xs px-2 py-0.5 rounded font-bold border ${
-                            article.difficulty === 'Easy' ? 'bg-[#22c55e]/20 text-[#22c55e] border-[#22c55e]/30' :
-                            article.difficulty === 'Medium' ? 'bg-[#eab308]/20 text-[#eab308] border-[#eab308]/30' :
-                            'bg-[#ef4444]/20 text-[#ef4444] border-[#ef4444]/30'
-                          }`}>
-                            {article.difficulty}
-                          </span>
-                          <span className="text-xs px-2 py-0.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-gray-300 font-medium">
-                            {article.solution.language}
-                          </span>
-                          {article.tags.length > 0 && (
-                            <span className="text-xs px-2 py-0.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-gray-400 font-medium">
-                              {article.tags.length} tags
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex gap-1.5">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEdit(article);
-                            }}
-                            className="px-2.5 py-1 bg-[#2563eb]/20 border border-[#2563eb]/50 rounded text-[#3b82f6] hover:bg-[#2563eb]/30 hover:border-[#2563eb] text-xs font-medium transition-colors"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              article._id && handleDelete(article._id);
-                            }}
-                            className="px-2.5 py-1 bg-[#dc2626]/20 border border-[#dc2626]/50 rounded text-[#ef4444] hover:bg-[#dc2626]/30 hover:border-[#dc2626] text-xs font-medium transition-colors"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+        <div className="mt-auto p-6 space-y-4">
+          <div className="p-4 bg-green-500/5 border border-green-500/10 rounded-xl">
+            <p className="text-[10px] text-gray-500 mono uppercase mb-2">Authenticated As</p>
+            <p className="text-sm font-bold text-green-400 truncate">{user?.username || 'GUEST'}</p>
+            <div className="flex items-center gap-2 mt-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-[9px] text-green-500/60 uppercase mono tracking-tighter">System Online</span>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 min-h-0">
-              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 flex flex-col min-h-0 overflow-hidden">
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#2a2a2a] flex-shrink-0">
-                  <div>
-                    <h2 className="text-lg font-bold text-white mb-1">
-                      Messages
-                    </h2>
-                    <p className="text-xs text-gray-400">
-                      View and manage contact messages
-                    </p>
-                  </div>
-                </div>
-
-                {messagesLoading ? (
-                  <div className="text-center py-12 flex-1 flex items-center justify-center">
-                    <div className="w-8 h-8 border-3 border-[#22c55e] border-t-transparent rounded-full animate-spin mb-3"></div>
-                    <div className="text-[#22c55e] text-sm font-medium">Loading messages...</div>
-                  </div>
-                ) : messages.length === 0 ? (
-                  <div className="text-center py-12 flex-1 flex items-center justify-center">
-                    <div>
-                      <div className="text-4xl mb-2">📧</div>
-                      <p className="text-gray-300 font-medium mb-1">No messages yet</p>
-                      <p className="text-xs text-gray-500">Messages will appear here</p>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="space-y-2 flex-1 overflow-y-auto green-scrollbar pr-2 min-h-0">
-                      {messages.map((message) => (
-                        <div
-                          key={message._id}
-                          className={`bg-[#0a0a0a] border rounded-lg p-3 transition-all cursor-pointer ${
-                            selectedMessage?._id === message._id
-                              ? 'border-[#22c55e] bg-[#22c55e]/10'
-                              : message.read
-                              ? 'border-[#2a2a2a] hover:border-[#3a3a3a] hover:bg-[#1a1a1a]'
-                              : 'border-[#3b82f6] bg-[#3b82f6]/10 hover:border-[#2563eb]'
-                          }`}
-                          onClick={() => setSelectedMessage(message)}
-                        >
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                {!message.read && (
-                                  <span className="w-2 h-2 bg-[#3b82f6] rounded-full flex-shrink-0"></span>
-                                )}
-                                <h3 className="text-sm font-bold text-white truncate">
-                                  {message.subject}
-                                </h3>
-                              </div>
-                              <p className="text-xs text-gray-400 mb-1">
-                                <span className="text-[#22c55e]">{message.name}</span>
-                                <span className="text-gray-500 mx-1">•</span>
-                                <span>{message.email}</span>
-                              </p>
-                              <p className="text-xs text-gray-500 line-clamp-2">{message.message}</p>
-                            </div>
-                            <div className="flex flex-col items-end gap-1.5 ml-2 flex-shrink-0">
-                              {!message.read && (
-                                <span className="px-2 py-0.5 text-xs rounded font-bold bg-[#3b82f6]/20 text-[#3b82f6] border border-[#3b82f6]/30">
-                                  New
-                                </span>
-                              )}
-                              <span className="text-xs text-gray-500">
-                                {message.createdAt ? new Date(message.createdAt).toLocaleDateString() : ''}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex gap-1.5 mt-2">
-                            {!message.read && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  message._id && handleMarkAsRead(message._id);
-                                }}
-                                className="px-2.5 py-1 bg-[#22c55e]/20 border border-[#22c55e]/50 rounded text-[#22c55e] hover:bg-[#22c55e]/30 hover:border-[#22c55e] text-xs font-medium transition-colors"
-                              >
-                                Mark Read
-                              </button>
-                            )}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                message._id && handleDeleteMessage(message._id);
-                              }}
-                              className="px-2.5 py-1 bg-[#dc2626]/20 border border-[#dc2626]/50 rounded text-[#ef4444] hover:bg-[#dc2626]/30 hover:border-[#dc2626] text-xs font-medium transition-colors"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {messagesTotal > 20 && (
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#2a2a2a] flex-shrink-0">
-                        <button
-                          onClick={() => setMessagesPage(p => Math.max(1, p - 1))}
-                          disabled={messagesPage === 1}
-                          className="px-4 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-white hover:bg-[#2a2a2a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
-                        >
-                          Previous
-                        </button>
-                        <span className="text-sm text-gray-400">
-                          Page {messagesPage} of {Math.ceil(messagesTotal / 20)}
-                        </span>
-                        <button
-                          onClick={() => setMessagesPage(p => p + 1)}
-                          disabled={messagesPage >= Math.ceil(messagesTotal / 20)}
-                          className="px-4 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-white hover:bg-[#2a2a2a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
-                        >
-                          Next
-                        </button>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {selectedMessage && (
-                <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 flex flex-col min-h-0 overflow-hidden">
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#2a2a2a] flex-shrink-0">
-                    <div>
-                      <h2 className="text-lg font-bold text-white mb-1">
-                        Message Details
-                      </h2>
-                      <p className="text-xs text-gray-400">
-                        {selectedMessage.read ? 'Read' : 'Unread'}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setSelectedMessage(null)}
-                      className="px-3 py-1.5 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg text-gray-400 hover:bg-[#3a3a3a] hover:text-white transition-colors text-xs font-medium"
-                    >
-                      Close
-                    </button>
-                  </div>
-
-                  <div className="flex-1 overflow-y-auto green-scrollbar pr-2 space-y-3">
-                    <div>
-                      <label className="block text-xs font-medium mb-1 text-gray-400">Subject</label>
-                      <div className="px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white font-medium">
-                        {selectedMessage.subject}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-medium mb-1 text-gray-400">Name</label>
-                        <div className="px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-[#22c55e]">
-                          {selectedMessage.name}
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium mb-1 text-gray-400">Email</label>
-                        <div className="px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white">
-                          {selectedMessage.email}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium mb-1 text-gray-400">Date</label>
-                      <div className="px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-gray-400">
-                        {selectedMessage.createdAt ? new Date(selectedMessage.createdAt).toLocaleString() : 'N/A'}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium mb-1 text-gray-400">Message</label>
-                      <div className="px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white whitespace-pre-wrap min-h-[150px]">
-                        {selectedMessage.message}
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2 pt-2 border-t border-[#2a2a2a]">
-                      {!selectedMessage.read && (
-                        <button
-                          onClick={() => selectedMessage._id && handleMarkAsRead(selectedMessage._id)}
-                          className="flex-1 px-4 py-2 bg-[#22c55e] text-black font-semibold rounded-lg hover:bg-[#20b955] transition-colors text-sm"
-                        >
-                          Mark as Read
-                        </button>
-                      )}
-                      <button
-                        onClick={() => selectedMessage._id && handleDeleteMessage(selectedMessage._id)}
-                        className="px-4 py-2 bg-[#dc2626]/20 border border-[#dc2626]/50 rounded-lg text-[#ef4444] hover:bg-[#dc2626]/30 hover:border-[#dc2626] transition-colors font-medium text-sm"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+          </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-300 mono text-[10px] uppercase tracking-widest"
+          >
+            Terminal Exit
+          </button>
         </div>
       </div>
 
-      {toast.show && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
-      )}
+      <div className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
+        <header className="h-20 glass-panel border-b border-green-500/10 flex items-center px-10 justify-between">
+          <div>
+            <h2 className="text-xl font-bold uppercase tracking-[0.2em]">{activeTab} Terminal</h2>
+            <p className="text-xs text-green-500/50 mono uppercase">Rev. 7.0.1-Local // Siriwardhana OS</p>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <div className="flex gap-4">
+              <div className="text-right">
+                <p className="text-[10px] text-gray-500 mono uppercase">Uptime</p>
+                <p className="text-sm font-bold text-green-400">100.0%</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-gray-500 mono uppercase">Nodes</p>
+                <p className="text-sm font-bold text-green-400">Primary_01</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 overflow-y-auto p-10 green-scrollbar animate-slide-up">
+          {activeTab === 'dashboard' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+              {[
+                { label: 'Total Articles', value: articles.length, color: 'green' },
+                { label: 'Unread Messages', value: messages.filter(m => !m.read).length, color: 'blue' },
+                { label: 'Comms Throughput', value: messagesTotal, color: 'green' },
+                { label: 'System Load', value: '0.04 ms', color: 'green' },
+              ].map((stat, i) => (
+                <div key={i} className="glass-panel p-6 rounded-2xl border-green-500/20 hover:border-green-500/40 transition-all duration-500 group">
+                  <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 mono">{stat.label}</p>
+                  <p className={`text-4xl font-bold text-${stat.color}-400 group-hover:scale-110 transition-transform`}>{stat.value}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'articles' && (
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 h-full">
+              <div className="xl:col-span-5">
+                <div className="glass-panel p-8 rounded-3xl sticky top-0 border-green-500/20">
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-2xl font-bold text-white uppercase tracking-wider">
+                      {isEditing ? 'Update Node' : 'Register Solution'}
+                    </h3>
+                    {isEditing && (
+                      <button onClick={resetForm} className="text-xs text-green-500 hover:underline mono">[ABORT]</button>
+                    )}
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-gray-500 uppercase mono">Problem ID</label>
+                        <input
+                          type="number"
+                          value={formData.problemNumber}
+                          onChange={(e) => setFormData({ ...formData, problemNumber: parseInt(e.target.value) || 1 })}
+                          className="w-full px-4 py-3 bg-black/40 border border-green-500/10 rounded-xl text-white mono text-sm"
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-gray-500 uppercase mono">Complexity</label>
+                        <select
+                          value={formData.difficulty}
+                          onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as 'Easy' | 'Medium' | 'Hard' })}
+                          className="w-full px-4 py-3 bg-black/40 border border-green-500/10 rounded-xl text-white mono text-sm cursor-pointer"
+                        >
+                          <option value="Easy">L1: Easy</option>
+                          <option value="Medium">L2: Medium</option>
+                          <option value="Hard">L3: Hard</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] text-gray-500 uppercase mono">Solution Title</label>
+                      <input
+                        type="text"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        className="w-full px-4 py-3 bg-black/40 border border-green-500/10 rounded-xl text-white text-sm"
+                        required
+                        placeholder="Prime Summation Algorithm..."
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] text-gray-500 uppercase mono">Narrative</label>
+                      <textarea
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        className="w-full px-4 py-3 bg-black/40 border border-green-500/10 rounded-xl text-white text-sm resize-none"
+                        rows={2}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] text-gray-500 uppercase mono">Logic Buffer (Code)</label>
+                      <textarea
+                        value={formData.solution.code}
+                        onChange={(e) => setFormData({ ...formData, solution: { ...formData.solution, code: e.target.value } })}
+                        className="w-full px-4 py-4 bg-black/60 border border-green-500/20 rounded-xl text-green-400 font-mono text-xs resize-none"
+                        rows={8}
+                        required
+                        placeholder="class Solution: ..."
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3 p-4 bg-green-500/5 rounded-xl border border-green-500/10">
+                      <input
+                        type="checkbox"
+                        id="pub-check"
+                        checked={formData.published}
+                        onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
+                        className="w-5 h-5 rounded border-green-500/30 bg-black text-green-500 accent-green-500 cursor-pointer"
+                      />
+                      <label htmlFor="pub-check" className="text-xs text-gray-400 uppercase tracking-widest cursor-pointer mono">Broadcast to Live Web</label>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full py-4 bg-green-500 text-black font-bold rounded-xl hover:bg-green-400 active:scale-95 transition-all shadow-lg shadow-green-500/20 uppercase tracking-[0.2em]"
+                    >
+                      {loading ? 'Processing...' : isEditing ? 'Push Updates' : 'Deploy Article'}
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div className="xl:col-span-7 space-y-4">
+                {articles.map((article) => (
+                  <div key={article._id} className="glass-panel p-6 rounded-2xl border-green-500/10 hover:border-green-500/50 transition-all flex items-center justify-between group">
+                    <div className="flex items-center gap-6">
+                      <div className="w-14 h-14 bg-black/40 border border-green-500/20 rounded-xl flex items-center justify-center text-green-400 font-bold mono">
+                        #{article.problemNumber}
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-white group-hover:text-green-400 transition-colors uppercase tracking-tight">{article.title}</h4>
+                        <div className="flex gap-3 items-center mt-1">
+                          <span className="text-[10px] px-2 py-0.5 bg-green-500/10 text-green-500 border border-green-500/20 rounded uppercase mono">{article.difficulty}</span>
+                          <span className="text-[10px] text-gray-500 uppercase mono">{article.solution.language}</span>
+                          <span className={`text-[10px] uppercase mono ${article.published ? 'text-green-400' : 'text-yellow-500'}`}>
+                            {article.published ? 'LIVE' : 'BUFFERED'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(article)} className="p-3 bg-blue-500/10 text-blue-400 rounded-xl hover:bg-blue-500 hover:text-white transition-all">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                      </button>
+                      <button onClick={() => article._id && handleDelete(article._id)} className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'messages' && (
+            <div className="max-w-4xl mx-auto space-y-6">
+              {messages.map((msg) => (
+                <div key={msg._id} className={`glass-panel p-8 rounded-3xl transition-all border-l-4 ${msg.read ? 'border-green-500/10' : 'border-blue-500 active-tab-glow'}`}>
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className={`text-xl font-bold uppercase tracking-tight ${msg.read ? 'text-gray-300' : 'text-white'}`}>{msg.subject}</h3>
+                      <p className="text-sm text-green-500 mono mt-1">{msg.name} // {msg.email}</p>
+                    </div>
+                    {!msg.read && <span className="px-3 py-1 bg-blue-500 text-[10px] font-bold text-white rounded-full uppercase mono animate-pulse">New Transmission</span>}
+                  </div>
+                  <p className="text-gray-400 bg-black/30 p-6 rounded-2xl border border-white/5 whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                  <div className="flex justify-between items-center mt-6">
+                    <span className="text-[10px] text-gray-600 mono uppercase tracking-widest">Captured: {msg.createdAt && new Date(msg.createdAt).toLocaleString()}</span>
+                    <div className="flex gap-3">
+                      {!msg.read && (
+                        <button onClick={() => msg._id && handleMarkAsRead(msg._id)} className="px-6 py-2 bg-green-500/10 text-green-500 border border-green-500/30 rounded-xl hover:bg-green-500 hover:text-black transition-all mono text-[10px] uppercase font-bold">
+                          Aknowledge
+                        </button>
+                      )}
+                      <button onClick={() => msg._id && handleDeleteMessage(msg._id)} className="px-6 py-2 bg-red-500/10 text-red-500 border border-red-500/30 rounded-xl hover:bg-red-500 hover:text-white transition-all mono text-[10px] uppercase font-bold">
+                        Purge
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+
+      <Toast show={toast.show} message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />
     </div>
   );
 };
