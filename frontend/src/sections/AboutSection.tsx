@@ -65,11 +65,11 @@ const AboutSection = () => {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    "Develop blockchain applications and smart contracts using Solidity",
-                    "Build full-stack web applications with modern frameworks",
-                    "Contribute to open-source projects and educational platforms",
-                    "Write technical articles and share knowledge on Medium",
-                    "Collaborate with HDLGenHub, DeedLink, and Team-OrByte"
+                    "Develop scalable web features and Web3 applications (Next.js, Wagmi)",
+                    "Architect high-performance systems and C++ AI engines",
+                    "Design and implement microservices and blockchain ecosystems",
+                    "Contribute to major open-source projects with 3800+ commits",
+                    "Winner and Top-tier competitor in national coding and innovation trials"
                   ].map((item, i) => (
                     <li key={i} className="text-gray-300 flex items-start text-sm md:text-base group/item">
                       <CircleCheckBig className="text-green-500 mr-4 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform" size={18} />

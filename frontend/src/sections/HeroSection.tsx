@@ -15,11 +15,11 @@ import {
 
 const HeroSection = () => {
   const typingTexts = [
+    "Full Stack Software Engineer",
     "Blockchain Developer",
-    "Full-Stack Developer",
-    "Computer Engineering Student",
-    "Problem Solver",
-    "Code Enthusiast",
+    "Computer Engineering Graduate",
+    "MERN Stack Specialist",
+    "Open Source Contributor",
   ];
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

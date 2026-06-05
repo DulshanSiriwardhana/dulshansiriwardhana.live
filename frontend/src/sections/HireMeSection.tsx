@@ -162,11 +162,7 @@ const HireMeSection = () => {
                                         PROFESSIONAL SUMMARY
                                     </h3>
                                     <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-                                        {personalInfo.bio} Experienced in developing blockchain
-                                        applications, full-stack web solutions, and contributing to
-                                        open-source projects. Strong foundation in computer
-                                        engineering with hands-on experience in Solidity, React,
-                                        Node.js, and cloud technologies.
+                                        {personalInfo.bio}
                                     </p>
                                 </div>
 
@@ -193,7 +189,7 @@ const HireMeSection = () => {
                                                         {exp.duration}
                                                     </p>
                                                     <ul className="mt-3 space-y-2">
-                                                        {exp.description.slice(0, 2).map((item, i) => (
+                                                        {exp.description.slice(0, 3).map((item, i) => (
                                                             <li
                                                                 key={i}
                                                                 className="text-gray-400 text-xs md:text-sm flex items-start gap-2"
@@ -216,20 +212,34 @@ const HireMeSection = () => {
                                                 <GraduationCap size={22} className="text-yellow-400" />
                                                 EDUCATION
                                             </h3>
-                                            <div className="bg-[#111]/50 border border-green-500/10 rounded-xl p-5 hover:border-green-500/30 transition-all group">
-                                                <h4 className="text-white font-bold group-hover:text-green-400 transition-colors">
-                                                    University of Ruhuna
-                                                </h4>
-                                                <p className="text-gray-300 text-sm mt-1 font-medium">
-                                                    B.Sc. Eng. in Computer Engineering
-                                                </p>
-                                                <p className="text-gray-500 text-xs mt-1">
-                                                    Faculty of Engineering • 2021 - Present
-                                                </p>
-                                                <div className="flex items-center gap-2 mt-3">
-                                                    <Award size={14} className="text-green-500" />
-                                                    <p className="text-green-400/90 text-[10px] uppercase font-bold tracking-widest">
-                                                        4th Year Undergraduate
+                                            <div className="space-y-4">
+                                                <div className="bg-[#111]/50 border border-green-500/10 rounded-xl p-5 hover:border-green-500/30 transition-all group">
+                                                    <h4 className="text-white font-bold group-hover:text-green-400 transition-colors">
+                                                        University of Ruhuna
+                                                    </h4>
+                                                    <p className="text-gray-300 text-sm mt-1 font-medium">
+                                                        B.Sc. Eng. in Computer Engineering
+                                                    </p>
+                                                    <p className="text-gray-500 text-xs mt-1">
+                                                        January 2026 completion • GPA 3.3
+                                                    </p>
+                                                    <div className="flex items-center gap-2 mt-3">
+                                                        <Award size={14} className="text-green-500" />
+                                                        <p className="text-green-400/90 text-[10px] uppercase font-bold tracking-widest">
+                                                            Faculty of Engineering
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-[#111]/50 border border-green-500/10 rounded-xl p-5 hover:border-green-500/30 transition-all group">
+                                                    <h4 className="text-white font-bold group-hover:text-green-400 transition-colors">
+                                                        Advanced Level
+                                                    </h4>
+                                                    <p className="text-gray-300 text-sm mt-1 font-medium">
+                                                        Physical Science (ABB)
+                                                    </p>
+                                                    <p className="text-gray-500 text-xs mt-1">
+                                                        Ch/Senanayaka Central College • 2019
                                                     </p>
                                                 </div>
                                             </div>
