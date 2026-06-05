@@ -7,8 +7,6 @@ import {
     Code2,
     Mail,
     MapPin,
-    Github,
-    Linkedin,
     Zap,
     ShieldCheck,
     Layers,
@@ -140,7 +138,7 @@ const HireMeSection = () => {
                                                 rel="noopener noreferrer"
                                                 className="flex items-center gap-2 hover:text-green-400 transition-colors"
                                             >
-                                                <Github size={14} className="text-white" />
+                                                <Terminal size={14} className="text-white" />
                                                 GitHub
                                             </a>
                                             <a
@@ -149,7 +147,7 @@ const HireMeSection = () => {
                                                 rel="noopener noreferrer"
                                                 className="flex items-center gap-2 hover:text-green-400 transition-colors"
                                             >
-                                                <Linkedin size={14} className="text-blue-500" />
+                                                <Briefcase size={14} className="text-blue-500" />
                                                 LinkedIn
                                             </a>
                                         </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { sendMessage } from "../utils/api";
-import { Send, Loader2, CheckCircle2, XCircle, ArrowRight } from "lucide-react";
+import { Send, Loader2, CheckCircle2, XCircle } from "lucide-react";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({

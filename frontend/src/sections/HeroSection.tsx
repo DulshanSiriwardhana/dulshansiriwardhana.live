@@ -2,13 +2,12 @@ import TypingAnimation from "../components/TypingAnimation";
 import { personalInfo, contactLinks } from "../constants/landingPageData";
 import profileImage from "../assets/images/dp.png";
 import {
-  Github,
-  Linkedin,
+  Terminal,
+  Briefcase,
   Mail,
-  Facebook,
+  Share2,
   Globe,
   PenTool,
-  Briefcase,
   UserPlus,
   MessageSquare,
   Code
@@ -33,10 +32,10 @@ const HeroSection = () => {
 
   const getContactIcon = (label: string) => {
     switch (label.toLowerCase()) {
-      case 'github': return <Github size={20} className="text-white" />;
-      case 'linkedin': return <Linkedin size={20} className="text-blue-500" />;
+      case 'github': return <Terminal size={20} className="text-white" />;
+      case 'linkedin': return <Briefcase size={20} className="text-blue-500" />;
       case 'email': return <Mail size={20} className="text-blue-400" />;
-      case 'facebook': return <Facebook size={20} className="text-blue-600" />;
+      case 'facebook': return <Share2 size={20} className="text-blue-600" />;
       case 'website': return <Globe size={20} className="text-green-400" />;
       case 'medium': return <PenTool size={20} className="text-orange-400" />;
       default: return null;

@@ -9,18 +9,18 @@ import {
   MapPin,
   Globe,
   ArrowRight,
-  Github,
-  Linkedin,
-  Facebook,
+  Terminal,
+  Briefcase,
+  Share2,
   PenTool
 } from "lucide-react";
 
 const ContactSection = () => {
   const getLinkIcon = (label: string) => {
     switch (label.toLowerCase()) {
-      case 'github': return <Github size={18} className="text-white" />;
-      case 'linkedin': return <Linkedin size={18} className="text-blue-500" />;
-      case 'facebook': return <Facebook size={18} className="text-blue-600" />;
+      case 'github': return <Terminal size={18} className="text-white" />;
+      case 'linkedin': return <Briefcase size={18} className="text-blue-500" />;
+      case 'facebook': return <Share2 size={18} className="text-blue-600" />;
       case 'email': return <Mail size={18} className="text-blue-400" />;
       case 'website': return <Globe size={18} className="text-green-400" />;
       case 'medium': return <PenTool size={18} className="text-orange-400" />;

@@ -3,7 +3,7 @@ import SectionTitle from "../components/SectionTitle";
 import ScrollAnimation from "../components/ScrollAnimation";
 import { projects } from "../constants/landingPageData";
 import type { Project } from "../constants/landingPageData";
-import { Github, ExternalLink, Star } from "lucide-react";
+import { Terminal, ExternalLink, Star } from "lucide-react";
 
 interface ProjectCardProps {
   project: Project;
@@ -55,7 +55,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 group/git transition-all"
           >
-            <Github size={16} className="text-white group-hover/git:scale-125 transition-transform" />
+            <Terminal size={16} className="text-white group-hover/git:scale-125 transition-transform" />
             GitHub
           </a>
         )}
@@ -90,8 +90,8 @@ const ProjectsSection = () => {
           <button
             onClick={() => setFilter("all")}
             className={`px-6 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 ${filter === "all"
-                ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-xl shadow-green-500/20"
-                : "bg-black/40 border border-gray-800 text-gray-500 hover:border-green-500/40 hover:text-green-400 hover:scale-105"
+              ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-xl shadow-green-500/20"
+              : "bg-black/40 border border-gray-800 text-gray-500 hover:border-green-500/40 hover:text-green-400 hover:scale-105"
               }`}
           >
             All Repos
@@ -101,8 +101,8 @@ const ProjectsSection = () => {
               key={tech}
               onClick={() => setFilter(tech)}
               className={`px-6 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 ${filter === tech
-                  ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-xl shadow-green-500/20"
-                  : "bg-black/40 border border-gray-800 text-gray-500 hover:border-green-500/40 hover:text-green-400 hover:scale-105"
+                ? "bg-green-500/20 border-2 border-green-500/50 text-green-400 shadow-xl shadow-green-500/20"
+                : "bg-black/40 border border-gray-800 text-gray-500 hover:border-green-500/40 hover:text-green-400 hover:scale-105"
                 }`}
             >
               {tech}
