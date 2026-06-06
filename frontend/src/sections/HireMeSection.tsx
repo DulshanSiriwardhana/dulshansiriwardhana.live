@@ -146,6 +146,10 @@ const HireMeSection = () => {
                 format: 'a4',
             });
 
+            // Find all links to add them back as clickable regions
+            const linkElements = cvElement.querySelectorAll('.cv-link');
+            const scaleToPoints = a4Width / cvElement.scrollWidth;
+
             for (let i = 0; i < pages.length; i++) {
                 if (i > 0) pdf.addPage();
 
@@ -172,6 +176,30 @@ const HireMeSection = () => {
 
                 const pageImgData = pageCanvas.toDataURL('image/png');
                 pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height);
+
+                // Add links for this page
+                // canvas pixels to points: canvasPixel / 2 * scaleToPoints
+                const pageStartYInCanvasPixels = startY;
+                const pageEndYInCanvasPixels = endY;
+
+                linkElements.forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    const elTopInCanvasPixels = (rect.top - cvRect.top) * 2;
+                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * 2;
+
+                    // Check if link is (at least partially) on this page
+                    if (elTopInCanvasPixels < pageEndYInCanvasPixels && elBottomInCanvasPixels > pageStartYInCanvasPixels) {
+                        const href = (el as HTMLAnchorElement).href;
+                        if (href) {
+                            const x = (rect.left - cvRect.left) * scaleToPoints;
+                            const y = (elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints;
+                            const w = rect.width * scaleToPoints;
+                            const h = rect.height * scaleToPoints;
+
+                            pdf.link(x, y, w, h, { url: href });
+                        }
+                    }
+                });
             }
 
             pdf.save(`${personalInfo.firstName}_${personalInfo.lastName}_CV.pdf`);
@@ -283,15 +311,15 @@ const HireMeSection = () => {
                                                 <MapPin size={16} className="text-red-500" />
                                                 {personalInfo.location}
                                             </span>
-                                            <span className="flex items-center gap-2 hover:text-white transition-colors">
+                                            <a href={`mailto:${personalInfo.email}`} className="cv-link flex items-center gap-2 hover:text-white transition-colors">
                                                 <Mail size={16} className="text-blue-500" />
                                                 {personalInfo.email}
-                                            </span>
+                                            </a>
                                             <div className="flex gap-4 pt-1">
-                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="hover:text-white transition-colors"><Terminal size={18} /></a>
-                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="hover:text-white transition-colors"><Briefcase size={18} /></a>
-                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="hover:text-white transition-colors"><Share2 size={18} /></a>
-                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="hover:text-white transition-colors"><PenTool size={18} /></a>
+                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors"><Terminal size={18} /></a>
+                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link hover:text-white transition-colors"><Briefcase size={18} /></a>
+                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="cv-link hover:text-white transition-colors"><Share2 size={18} /></a>
+                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="cv-link hover:text-white transition-colors"><PenTool size={18} /></a>
                                             </div>
                                         </div>
                                     </div>
@@ -457,7 +485,7 @@ const HireMeSection = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                         {certificates.map((cert, index) => (
-                                            <a key={index} href={cert.link} target="_blank" className="p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                            <a key={index} href={cert.link} target="_blank" className="cv-link p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
                                                 <div>
                                                     <div className="flex justify-between items-start mb-2">
                                                         <CheckCircle2 size={16} className="text-green-500 opacity-50" />
@@ -499,10 +527,10 @@ const HireMeSection = () => {
                                                     ))}
                                                 </div>
                                                 <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500 pt-4 border-t border-white/5">
-                                                    <a href={proj.github} target="_blank" className="hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                    <a href={proj.github} target="_blank" className="cv-link hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
                                                         <Terminal size={12} /> Source
                                                     </a>
-                                                    <a href={proj.link} target="_blank" className="hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                    <a href={proj.link} target="_blank" className="cv-link hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
                                                         <Globe size={12} /> Live
                                                     </a>
                                                 </div>
@@ -553,7 +581,7 @@ const HireMeSection = () => {
                                         </h3>
                                         <div className="space-y-6">
                                             {blogArticles.map((art, index) => (
-                                                <a key={index} href={art.url} target="_blank" className="block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-green-500/40 transition-all group">
+                                                <a key={index} href={art.url} target="_blank" className="cv-link block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-3">
                                                         <h4 className="text-white font-bold text-base md:text-lg uppercase leading-tight group-hover:text-green-400">{art.title}</h4>
                                                         <PenTool size={16} className="text-blue-500/50" />
@@ -593,12 +621,12 @@ const HireMeSection = () => {
                                                 <p className="text-green-400/70 text-xs font-bold uppercase tracking-widest mb-1">{ref.role}</p>
                                                 <p className="text-gray-500 text-xs font-medium italic mb-6">{ref.organization}</p>
                                                 <div className="space-y-2">
-                                                    <p className="flex items-center gap-3 text-sm text-gray-300 font-mono">
+                                                    <a href={`mailto:${ref.email}`} className="cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-green-400 transition-colors">
                                                         <Mail size={14} className="text-blue-500" /> {ref.email}
-                                                    </p>
-                                                    <p className="flex items-center gap-3 text-sm text-gray-300 font-mono">
+                                                    </a>
+                                                    <a href={`tel:${ref.phone}`} className="cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-green-400 transition-colors">
                                                         <Phone size={14} className="text-green-500" /> {ref.phone}
-                                                    </p>
+                                                    </a>
                                                 </div>
                                             </div>
                                         ))}
