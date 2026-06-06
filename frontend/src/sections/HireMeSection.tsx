@@ -73,13 +73,14 @@ const HireMeSection = () => {
             const a4Width = 595.28;
             const a4Height = 841.89;
 
-            // Minimal margins for a cleaner look without wasting space
-            const marginTop = 20;
-            const marginBottom = 20;
-            const availableHeight = a4Height - marginTop - marginBottom;
+            // 'Safe zone' padding to prevent text from sticking to borders
+            // while background remains full-bleed
+            const safePadding = 15;
+            const availableHeight = a4Height - (safePadding * 2);
 
             // Scale factor: how CSS pixels (from DOM) map to PDF points
-            const scaleToPoints = a4Width / cvElement.scrollWidth;
+            // We scale based on width minus left/right safe padding
+            const scaleToPoints = (a4Width - (safePadding * 2)) / cvElement.scrollWidth;
 
             // Available content height in canvas pixels (at 2x scale)
             const availableHeightInCanvasPixels = (availableHeight / scaleToPoints) * 2;
@@ -166,18 +167,16 @@ const HireMeSection = () => {
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-                // For the first page, we might want it to stick to the top if the header has its own padding
-                // For subsequent pages, we use the marginTop to prevent sticking
-                const currentMoveDown = j === 0 ? 0 : (marginTop / scaleToPoints * 2);
-
+                // Offset content by safePadding inside the background
                 ctx.drawImage(
                     canvas,
                     0, startY, imgWidth, sliceHeight,
-                    0, currentMoveDown, imgWidth, sliceHeight
+                    0, (safePadding / scaleToPoints * 2), imgWidth, sliceHeight
                 );
 
                 const pageImgData = pageCanvas.toDataURL('image/png');
-                pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height);
+                // Draw image centered in the X axis of A4 with safePadding
+                pdf.addImage(pageImgData, 'PNG', safePadding, 0, a4Width - (safePadding * 2), a4Height);
 
                 // Add links for this page
                 const pageStartYInCanvasPixels = startY;
@@ -191,8 +190,8 @@ const HireMeSection = () => {
                     if (elTopInCanvasPixels < pageEndYInCanvasPixels && elBottomInCanvasPixels > pageStartYInCanvasPixels) {
                         const href = (el as HTMLAnchorElement).href;
                         if (href) {
-                            const x = (rect.left - cvRect.left) * scaleToPoints;
-                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + (j === 0 ? 0 : marginTop);
+                            const x = ((rect.left - cvRect.left) * scaleToPoints) + safePadding;
+                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + safePadding;
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
