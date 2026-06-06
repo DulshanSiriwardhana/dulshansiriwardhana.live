@@ -73,33 +73,29 @@ const HireMeSection = () => {
             const a4Width = 595.28;
             const a4Height = 841.89;
 
-            // 'Safe zone' padding to prevent text from sticking to borders
-            // while background remains full-bleed
-            const safePadding = 15;
-            const availableHeight = a4Height - (safePadding * 2);
+            // Remove all safePadding as per user request to remove side margins
+            const safePadding = 0;
+            const availableHeight = a4Height;
 
-            // Scale factor: how CSS pixels (from DOM) map to PDF points
-            // We scale based on width minus left/right safe padding
-            const scaleToPoints = (a4Width - (safePadding * 2)) / cvElement.scrollWidth;
+            // Scale factor to map CSS pixels to PDF points (edge-to-edge)
+            const scaleToPoints = a4Width / cvElement.scrollWidth;
 
             // Available content height in canvas pixels (at 2x scale)
             const availableHeightInCanvasPixels = (availableHeight / scaleToPoints) * 2;
 
-            // Get section break points by measuring data-cv-section elements
+            // Get section break points
             const sections = cvElement.querySelectorAll('[data-cv-section]');
             const cvRect = cvElement.getBoundingClientRect();
 
-            // Build list of safe break points (top of each section in canvas pixels, at 2x scale)
-            const breakPoints: number[] = [0]; // Always start at 0
+            const breakPoints: number[] = [0];
             sections.forEach((section) => {
                 const sectionRect = section.getBoundingClientRect();
-                // Position relative to CV container, scaled to canvas resolution (2x)
                 const relativeTop = (sectionRect.top - cvRect.top) * 2;
                 if (relativeTop > 0 && relativeTop < imgHeight) {
                     breakPoints.push(Math.round(relativeTop));
                 }
             });
-            breakPoints.push(imgHeight); // End of content
+            breakPoints.push(imgHeight);
 
             // Remove duplicates and sort
             const uniqueBreaks = [...new Set(breakPoints)].sort((a, b) => a - b);
@@ -114,14 +110,12 @@ const HireMeSection = () => {
 
                 if (heightWithNextSection > availableHeightInCanvasPixels) {
                     if (uniqueBreaks[i - 1] > currentPageStart) {
-                        // Break before the current section
                         pages.push({
                             startY: currentPageStart,
                             endY: uniqueBreaks[i - 1],
                         });
                         currentPageStart = uniqueBreaks[i - 1];
                     } else {
-                        // Single section is larger than a page, force break
                         pages.push({
                             startY: currentPageStart,
                             endY: uniqueBreaks[i],
@@ -134,7 +128,6 @@ const HireMeSection = () => {
                 }
             }
 
-            // Add the last page if content remains
             if (currentPageStart < imgHeight) {
                 pages.push({
                     startY: currentPageStart,
@@ -146,9 +139,9 @@ const HireMeSection = () => {
                 orientation: 'portrait',
                 unit: 'pt',
                 format: 'a4',
+                compress: true, // Internal PDF compression
             });
 
-            // Find all links to add them back as clickable regions
             const linkElements = cvElement.querySelectorAll('.cv-link');
 
             for (let j = 0; j < pages.length; j++) {
@@ -157,28 +150,24 @@ const HireMeSection = () => {
                 const { startY, endY } = pages[j];
                 const sliceHeight = endY - startY;
 
-                // Create a canvas for this page
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
                 pageCanvas.height = Math.round(a4Height / scaleToPoints * 2);
                 const ctx = pageCanvas.getContext('2d')!;
 
-                // Fill entire page with background color
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-                // Offset content by safePadding inside the background
                 ctx.drawImage(
                     canvas,
                     0, startY, imgWidth, sliceHeight,
-                    0, (safePadding / scaleToPoints * 2), imgWidth, sliceHeight
+                    0, 0, imgWidth, sliceHeight
                 );
 
-                const pageImgData = pageCanvas.toDataURL('image/png');
-                // Draw image centered in the X axis of A4 with safePadding
-                pdf.addImage(pageImgData, 'PNG', safePadding, 0, a4Width - (safePadding * 2), a4Height);
+                // Use JPEG with 0.8 quality to drastically reduce file size from 50MB+ to ~2-5MB
+                const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.8);
+                pdf.addImage(pageImgData, 'JPEG', 0, 0, a4Width, a4Height, undefined, 'FAST');
 
-                // Add links for this page
                 const pageStartYInCanvasPixels = startY;
                 const pageEndYInCanvasPixels = endY;
 
@@ -190,8 +179,8 @@ const HireMeSection = () => {
                     if (elTopInCanvasPixels < pageEndYInCanvasPixels && elBottomInCanvasPixels > pageStartYInCanvasPixels) {
                         const href = (el as HTMLAnchorElement).href;
                         if (href) {
-                            const x = ((rect.left - cvRect.left) * scaleToPoints) + safePadding;
-                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + safePadding;
+                            const x = (rect.left - cvRect.left) * scaleToPoints;
+                            const y = (elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints;
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
