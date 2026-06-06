@@ -20,7 +20,7 @@ const AboutSection = () => {
       id="about"
       className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-[1720px] w-full space-y-12">
+      <div className="max-w-[1440px] w-full space-y-12">
         <SectionTitle title="About Me" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

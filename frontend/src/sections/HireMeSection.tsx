@@ -71,7 +71,7 @@ const HireMeSection = () => {
                 id="hire"
                 className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
             >
-                <div className="max-w-[1720px] w-full space-y-10">
+                <div className="max-w-[1440px] w-full space-y-10">
                     <SectionTitle
                         title="Hire Me"
                         subtitle="Open to new opportunities — let's build something great together"

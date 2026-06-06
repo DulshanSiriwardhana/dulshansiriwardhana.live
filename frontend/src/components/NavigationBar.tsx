@@ -46,7 +46,7 @@ const NavigationBar = () => {
         : "bg-transparent"
         }`}
     >
-      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <a
             href="#hero"
@@ -101,9 +101,9 @@ const NavigationBar = () => {
         </div>
 
         <div
-          className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen
-            ? "max-h-screen opacity-100 py-6"
-            : "max-h-0 opacity-0 py-0"
+          className={`md:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen
+            ? "max-h-[80vh] opacity-100 py-6 overflow-y-auto"
+            : "max-h-0 opacity-0 py-0 overflow-hidden"
             }`}
         >
           <div className="space-y-2 border-t border-white/5 pt-6">

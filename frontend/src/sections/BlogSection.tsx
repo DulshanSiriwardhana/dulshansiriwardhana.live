@@ -72,7 +72,7 @@ const BlogSection = () => {
       id="blog"
       className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-[1720px] w-full space-y-12">
+      <div className="max-w-[1440px] w-full space-y-12">
         <SectionTitle
           title="Blog & Articles"
           subtitle="Sharing knowledge and insights about technology"

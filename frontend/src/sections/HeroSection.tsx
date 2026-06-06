@@ -47,7 +47,7 @@ const HeroSection = () => {
       id="hero"
       className="min-h-screen flex flex-col items-center justify-center p-4 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-[1720px] w-full space-y-12">
+      <div className="max-w-[1440px] w-full space-y-12">
         <div className="text-center space-y-6">
           <div className="flex justify-center mb-6 animate-fade-in">
             <div className="relative">

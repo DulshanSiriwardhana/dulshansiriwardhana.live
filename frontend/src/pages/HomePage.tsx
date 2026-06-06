@@ -17,22 +17,20 @@ const HomePage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-black text-white font-spectral relative overflow-hidden">
+    <div className="w-full min-h-screen bg-black text-white font-spectral relative overflow-x-hidden">
       <Background />
-      
+
       {isTerminalOpen ? (
         <div
-          className={`min-h-screen flex items-center justify-center p-4 relative z-10 transition-opacity duration-500 ${
-            isTransitioning ? "opacity-0" : "opacity-100"
-          }`}
+          className={`min-h-screen flex items-center justify-center p-4 relative z-10 transition-opacity duration-500 ${isTransitioning ? "opacity-0" : "opacity-100"
+            }`}
         >
           <Terminal onComplete={handleTerminalComplete} />
         </div>
       ) : (
         <div
-          className={`transition-opacity duration-500 ${
-            isTransitioning ? "opacity-0" : "opacity-100"
-          }`}
+          className={`transition-opacity duration-500 ${isTransitioning ? "opacity-0" : "opacity-100"
+            }`}
         >
           <LandingPage />
         </div>
