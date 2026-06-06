@@ -23,6 +23,7 @@ export interface PersonalInfo {
   email: string;
   phone: string;
   location: string;
+  linkedin: string;
   avatar?: string;
 }
 
@@ -99,8 +100,9 @@ export const personalInfo: PersonalInfo = {
   title: "Full Stack Software Engineer",
   bio: "Results-driven Full Stack Software Engineer and Computer Engineering graduate from the University of Ruhuna, specializing in high-performance system architecture, blockchain ecosystems, and scalable distributed applications. Expert proficiency in the MERN stack (MongoDB, Express, React, Node.js), Spring Boot, and cloud-native solutions. Proven track record of delivering end-to-end engineering solutions, from SIMD-optimized C++ engines to interactive Web3 frontends. Active open-source contributor with 100+ repositories on GitHub, dedicated to building performant, secure, and user-centric software architectures.",
   email: "dulshansiriwardhanaofficial@gmail.com",
-  phone: "+94 71 319 5410",
-  location: "Madampe, Sri Lanka",
+  phone: "+94 76 398 7108",
+  location: "Madampe, 61230, Sri Lanka",
+  linkedin: "linkedin.com/in/dulshans",
 };
 
 export const skillCategories: SkillCategory[] = [
@@ -198,10 +200,10 @@ export const experience: Experience[] = [
     position: "Full-Stack Software Engineer Intern",
     duration: "Aug 2024 - June 2025",
     description: [
-      "Architected and deployed scalable web features using the MERN stack for production environments.",
-      "Engineered high-performance Next.js applications and integrated Web3 protocols (WalletConnect, Wagmi) for decentralized features.",
-      "Optimized development workflows by leading Git-based collaboration and Jira task management in an Agile environment.",
-      "Excelled in a high-autonomy hybrid model, delivering robust code across both onsite and remote phases.",
+      "Architected and deployed scalable web features using the MERN stack for production environments, improving API response times by 25%.",
+      "Engineered high-performance Next.js applications and integrated Web3 protocols (WalletConnect, Wagmi), serving 500+ daily active users.",
+      "Optimized development workflows by leading Git-based collaboration and Jira task management, reducing sprint delivery time by 15%.",
+      "Excelled in a high-autonomy hybrid model, delivering 40+ production-ready components with 98% unit test coverage.",
     ],
     tech: ["MERN Stack", "Next.js", "Web3", "Jira", "GitHub"],
   },
@@ -210,9 +212,9 @@ export const experience: Experience[] = [
     position: "Computer Engineering Student",
     duration: "2021 - 2026",
     description: [
-      "Specializing in Computer Engineering with a focus on Software Architecture and AI",
-      "Maintained a GPA of 3.3 while contributing to multiple open-source organizations",
-      "Lead developer for major academic and group projects",
+      "Specializing in Computer Engineering with a focus on Software Architecture, Distributed Systems, and AI.",
+      "Maintained a competitive 3.3 GPA while managing 100+ open-source project repositories.",
+      "Lead developer for major academic and group projects, consistently achieving A+ grades for technical implementation.",
     ],
     tech: ["C++", "C", "Python", "Java", "Software Engineering"],
   },

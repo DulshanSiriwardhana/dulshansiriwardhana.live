@@ -361,6 +361,8 @@ const HireMeSection = () => {
                                                 <Phone size={16} className="text-green-500" />
                                                 {personalInfo.phone}
                                             </a>
+                                            <span className="sr-only">LinkedIn: {personalInfo.linkedin}</span>
+                                            <span className="sr-only">Location: {personalInfo.location}</span>
                                             <div className="flex gap-4 pt-1">
                                                 <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors">
                                                     <Terminal size={18} />
@@ -389,11 +391,11 @@ const HireMeSection = () => {
                                 <div data-cv-section="summary">
                                     <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-3">
                                         <Search size={22} className="text-blue-500" />
-                                        PROFESSIONAL SUMMARY
+                                        SUMMARY
                                         <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                     </h3>
                                     <p className="text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-green-500/20 pl-6 py-2">
-                                        {personalInfo.bio}
+                                        Professional Summary: {personalInfo.bio} Dedicated Full-Stack Engineer with a deep focus on performance optimization, distributed systems, and modern architectural patterns. Expert in delivering high-fidelity user experiences and robust backend infrastructures.
                                     </p>
                                 </div>
 
@@ -438,7 +440,7 @@ const HireMeSection = () => {
                                         <div data-cv-section="achievements">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Trophy size={22} className="text-yellow-500" />
-                                                ACHIEVEMENTS
+                                                KEY ACHIEVEMENTS
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
                                             <div className="space-y-4">
@@ -467,10 +469,10 @@ const HireMeSection = () => {
                                             <div className="space-y-6">
                                                 <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">University of Ruhuna, Sri Lanka</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">MAR 2021 - APR 2026</span>
+                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">BSc. (Hons) in Computer Engineering</h4>
+                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka | MAR 2021 - APR 2026</span>
                                                     </div>
-                                                    <p className="text-gray-300 text-sm font-bold italic">BSc. (Hons) in Computer Engineering</p>
+                                                    <p className="text-gray-300 text-sm font-bold italic">Specializing in Software Architecture and AI</p>
                                                     <div className="flex items-center gap-4 mt-4">
                                                         <div className="flex items-center gap-2 text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full uppercase tracking-widest">
                                                             <Award size={14} />
@@ -494,14 +496,14 @@ const HireMeSection = () => {
                                         <div data-cv-section="skills">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Code2 size={24} className="text-purple-400" />
-                                                TECHNICAL SKILLS
+                                                SKILLS
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
 
-                                            {/* Plain text skills list for ATS */}
                                             <div className="sr-only">
+                                                <h4>Skills and Proficiencies</h4>
                                                 {skillCategories.map(cat => `${cat.category}: ${cat.skills.join(', ')}`).join('. ')}
-                                                {skillLevels.map(skill => `${skill.skill} (${skill.level}% proficiency)`).join('. ')}
+                                                Primary Competencies: {skillLevels.map(skill => `${skill.skill}`).join(', ')}
                                             </div>
 
                                             <div className="space-y-5">
