@@ -21,6 +21,7 @@ export interface PersonalInfo {
   title: string;
   bio: string;
   email: string;
+  phone: string;
   location: string;
   avatar?: string;
 }
@@ -96,8 +97,9 @@ export const personalInfo: PersonalInfo = {
   firstName: "Rasindu Dulshan",
   lastName: "Siriwardhana",
   title: "Full Stack Software Engineer",
-  bio: "Computer Engineering graduate from the University of Ruhuna with a strong foundation in full-stack development, blockchain systems, and distributed applications. Proficient in MERN stack, Spring Boot, and cloud technologies. Active open-source contributor with 100+ repositories on GitHub, demonstrating continuous learning and practical engineering experience.",
+  bio: "Results-driven Full Stack Software Engineer and Computer Engineering graduate from the University of Ruhuna, specializing in high-performance system architecture, blockchain ecosystems, and scalable distributed applications. Expert proficiency in the MERN stack (MongoDB, Express, React, Node.js), Spring Boot, and cloud-native solutions. Proven track record of delivering end-to-end engineering solutions, from SIMD-optimized C++ engines to interactive Web3 frontends. Active open-source contributor with 100+ repositories on GitHub, dedicated to building performant, secure, and user-centric software architectures.",
   email: "dulshansiriwardhanaofficial@gmail.com",
+  phone: "+94 71 319 5410",
   location: "Madampe, Sri Lanka",
 };
 
@@ -196,10 +198,10 @@ export const experience: Experience[] = [
     position: "Full-Stack Software Engineer Intern",
     duration: "Aug 2024 - June 2025",
     description: [
-      "Developed scalable web features using the MERN stack",
-      "Gained experience in developing Next.js web applications and Web3 development (WalletConnect, Wagmi)",
-      "Collaborated with the team using Jira and GitHub workflow",
-      "Worked in a hybrid model: 6 months onsite and 4 months part-time",
+      "Architected and deployed scalable web features using the MERN stack for production environments.",
+      "Engineered high-performance Next.js applications and integrated Web3 protocols (WalletConnect, Wagmi) for decentralized features.",
+      "Optimized development workflows by leading Git-based collaboration and Jira task management in an Agile environment.",
+      "Excelled in a high-autonomy hybrid model, delivering robust code across both onsite and remote phases.",
     ],
     tech: ["MERN Stack", "Next.js", "Web3", "Jira", "GitHub"],
   },

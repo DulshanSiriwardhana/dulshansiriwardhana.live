@@ -357,11 +357,27 @@ const HireMeSection = () => {
                                                 <Mail size={16} className="text-blue-500" />
                                                 {personalInfo.email}
                                             </a>
+                                            <a href={`tel:${personalInfo.phone.replace(/\s/g, '')}`} className="cv-link flex items-center gap-2 hover:text-white transition-colors">
+                                                <Phone size={16} className="text-green-500" />
+                                                {personalInfo.phone}
+                                            </a>
                                             <div className="flex gap-4 pt-1">
-                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors"><Terminal size={18} /></a>
-                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link hover:text-white transition-colors"><Briefcase size={18} /></a>
-                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="cv-link hover:text-white transition-colors"><Share2 size={18} /></a>
-                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="cv-link hover:text-white transition-colors"><PenTool size={18} /></a>
+                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                    <Terminal size={18} />
+                                                    <span className="sr-only">GitHub: github.com/DulshanSiriwardhana</span>
+                                                </a>
+                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                    <Briefcase size={18} />
+                                                    <span className="sr-only">LinkedIn: linkedin.com/in/dulshans</span>
+                                                </a>
+                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                    <Share2 size={18} />
+                                                    <span className="sr-only">Facebook: Rasindu Dulshan Siriwardhana</span>
+                                                </a>
+                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                    <PenTool size={18} />
+                                                    <span className="sr-only">Medium: @dulshansiriwardhanaofficial</span>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -451,10 +467,10 @@ const HireMeSection = () => {
                                             <div className="space-y-6">
                                                 <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">University of Ruhuna</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">2021 - 2026</span>
+                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">University of Ruhuna, Sri Lanka</h4>
+                                                        <span className="text-xs text-gray-500 font-mono">MAR 2021 - APR 2026</span>
                                                     </div>
-                                                    <p className="text-gray-300 text-sm font-bold italic">Faculty of Engineering, Computer Engineering</p>
+                                                    <p className="text-gray-300 text-sm font-bold italic">BSc. (Hons) in Computer Engineering</p>
                                                     <div className="flex items-center gap-4 mt-4">
                                                         <div className="flex items-center gap-2 text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full uppercase tracking-widest">
                                                             <Award size={14} />
@@ -481,6 +497,13 @@ const HireMeSection = () => {
                                                 TECHNICAL SKILLS
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
+
+                                            {/* Plain text skills list for ATS */}
+                                            <div className="sr-only">
+                                                {skillCategories.map(cat => `${cat.category}: ${cat.skills.join(', ')}`).join('. ')}
+                                                {skillLevels.map(skill => `${skill.skill} (${skill.level}% proficiency)`).join('. ')}
+                                            </div>
+
                                             <div className="space-y-5">
                                                 {skillLevels.map((skill, index) => (
                                                     <div key={index} className="space-y-1.5 group">
