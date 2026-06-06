@@ -73,9 +73,16 @@ const HireMeSection = () => {
             const a4Width = 595.28;
             const a4Height = 841.89;
 
-            // Scale factor: how canvas pixels map to PDF points
-            const scaleFactor = a4Width / imgWidth;
+            // Define margins in points
+            const marginTop = 40;
+            const marginBottom = 40;
+            const availableHeight = a4Height - marginTop - marginBottom;
 
+            // Scale factor: how CSS pixels (from DOM) map to PDF points
+            const scaleToPoints = a4Width / cvElement.scrollWidth;
+
+            // Available content height in canvas pixels (at 2x scale)
+            const availableHeightInCanvasPixels = (availableHeight / scaleToPoints) * 2;
 
             // Get section break points by measuring data-cv-section elements
             const sections = cvElement.querySelectorAll('[data-cv-section]');
@@ -96,10 +103,6 @@ const HireMeSection = () => {
             // Remove duplicates and sort
             const uniqueBreaks = [...new Set(breakPoints)].sort((a, b) => a - b);
 
-            // Now group sections into pages so no section is split
-            // Each page can hold a4Height / scaleFactor canvas pixels
-            const pageHeightInCanvasPixels = a4Height / scaleFactor;
-
             const pages: { startY: number; endY: number }[] = [];
             let currentPageStart = 0;
 
@@ -108,7 +111,7 @@ const HireMeSection = () => {
                 const potentialPageEnd = uniqueBreaks[i];
                 const heightWithNextSection = potentialPageEnd - currentPageStart;
 
-                if (heightWithNextSection > pageHeightInCanvasPixels) {
+                if (heightWithNextSection > availableHeightInCanvasPixels) {
                     if (uniqueBreaks[i - 1] > currentPageStart) {
                         // We have multiple sections, break before the current one
                         pages.push({
@@ -148,37 +151,35 @@ const HireMeSection = () => {
 
             // Find all links to add them back as clickable regions
             const linkElements = cvElement.querySelectorAll('.cv-link');
-            const scaleToPoints = a4Width / cvElement.scrollWidth;
 
-            for (let i = 0; i < pages.length; i++) {
-                if (i > 0) pdf.addPage();
+            for (let j = 0; j < pages.length; j++) {
+                if (j > 0) pdf.addPage();
 
-                const { startY, endY } = pages[i];
+                const { startY, endY } = pages[j];
                 const sliceHeight = endY - startY;
 
                 // Create a canvas for this page (always full A4 height for consistent page size)
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
-                pageCanvas.height = Math.round(pageHeightInCanvasPixels);
+                pageCanvas.height = Math.round(a4Height / scaleToPoints * 2);
                 const ctx = pageCanvas.getContext('2d')!;
 
                 // Fill entire page with CV background color
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-                // Draw the content slice at the top of the page
-                const drawHeight = Math.min(sliceHeight, Math.round(pageHeightInCanvasPixels));
+                // Draw the content slice, offset by marginTop for the top margin
+                const drawHeight = sliceHeight;
                 ctx.drawImage(
                     canvas,
                     0, startY, imgWidth, drawHeight,
-                    0, 0, imgWidth, drawHeight
+                    0, (marginTop / scaleToPoints * 2), imgWidth, drawHeight
                 );
 
                 const pageImgData = pageCanvas.toDataURL('image/png');
                 pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height);
 
                 // Add links for this page
-                // canvas pixels to points: canvasPixel / 2 * scaleToPoints
                 const pageStartYInCanvasPixels = startY;
                 const pageEndYInCanvasPixels = endY;
 
@@ -192,7 +193,8 @@ const HireMeSection = () => {
                         const href = (el as HTMLAnchorElement).href;
                         if (href) {
                             const x = (rect.left - cvRect.left) * scaleToPoints;
-                            const y = (elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints;
+                            // Add marginTop offset to link position
+                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + marginTop;
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
