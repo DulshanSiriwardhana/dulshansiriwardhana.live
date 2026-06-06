@@ -417,7 +417,7 @@ const HireMeSection = () => {
                                                             {exp.position}
                                                         </h4>
                                                         <p className="text-green-400/80 text-sm font-bold tracking-widest uppercase mt-1">
-                                                            {exp.company}
+                                                            {exp.company}, Colombo, Sri Lanka
                                                         </p>
                                                         <div className="flex items-center gap-2 text-gray-500 text-xs mt-1 font-mono uppercase tracking-tighter">
                                                             <Calendar size={12} />
@@ -470,7 +470,7 @@ const HireMeSection = () => {
                                                 <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
                                                         <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">BSc. (Hons) in Computer Engineering</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka | MAR 2021 - APR 2026</span>
+                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka • {experience[1].duration}</span>
                                                     </div>
                                                     <p className="text-gray-300 text-sm font-bold italic">Specializing in Software Architecture and AI</p>
                                                     <div className="flex items-center gap-4 mt-4">
@@ -501,9 +501,9 @@ const HireMeSection = () => {
                                             </h3>
 
                                             <div className="sr-only">
-                                                <h4>Skills and Proficiencies</h4>
+                                                <h4>TECHNICAL SKILLS AND CORE COMPETENCIES</h4>
                                                 {skillCategories.map(cat => `${cat.category}: ${cat.skills.join(', ')}`).join('. ')}
-                                                Primary Competencies: {skillLevels.map(skill => `${skill.skill}`).join(', ')}
+                                                Full Stack Proficiency: {skillLevels.map(skill => `${skill.skill}`).join(', ')}
                                             </div>
 
                                             <div className="space-y-5">

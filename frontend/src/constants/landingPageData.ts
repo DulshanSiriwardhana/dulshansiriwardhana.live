@@ -98,10 +98,10 @@ export const personalInfo: PersonalInfo = {
   firstName: "Rasindu Dulshan",
   lastName: "Siriwardhana",
   title: "Full Stack Software Engineer",
-  bio: "Results-driven Full Stack Software Engineer and Computer Engineering graduate from the University of Ruhuna, specializing in high-performance system architecture, blockchain ecosystems, and scalable distributed applications. Expert proficiency in the MERN stack (MongoDB, Express, React, Node.js), Spring Boot, and cloud-native solutions. Proven track record of delivering end-to-end engineering solutions, from SIMD-optimized C++ engines to interactive Web3 frontends. Active open-source contributor with 100+ repositories on GitHub, dedicated to building performant, secure, and user-centric software architectures.",
+  bio: "Results-driven Full Stack Software Engineer and Computer Engineering graduate from the University of Ruhuna, specializing in high-performance system architecture, blockchain ecosystems, and scalable distributed applications. Expert proficiency in the MERN stack (MongoDB, Express, React, Node.js), Spring Boot, and cloud-native solutions. Proven track record of delivering end-to-end engineering solutions, from SIMD-optimized C++ engines to interactive Web3 frontends. Active open-source contributor with 100+ repositories on GitHub, dedicated to building performant, secure, and user-centric software architectures. Passionate about leveraging cutting-edge technologies to solve complex real-world problems and driving innovation through clean, maintainable, and efficient code.",
   email: "dulshansiriwardhanaofficial@gmail.com",
   phone: "+94 76 398 7108",
-  location: "Madampe, 61230, Sri Lanka",
+  location: "Madampe, Northwestern Province, Sri Lanka",
   linkedin: "linkedin.com/in/dulshans",
 };
 
@@ -198,7 +198,7 @@ export const experience: Experience[] = [
   {
     company: "BotCalm (PVT) Ltd",
     position: "Full-Stack Software Engineer Intern",
-    duration: "Aug 2024 - June 2025",
+    duration: "08/2024 - 06/2025",
     description: [
       "Architected and deployed scalable web features using the MERN stack for production environments, improving API response times by 25%.",
       "Engineered high-performance Next.js applications and integrated Web3 protocols (WalletConnect, Wagmi), serving 500+ daily active users.",
@@ -209,8 +209,8 @@ export const experience: Experience[] = [
   },
   {
     company: "University of Ruhuna",
-    position: "Computer Engineering Student",
-    duration: "2021 - 2026",
+    position: "BSc. (Hons) in Computer Engineering",
+    duration: "03/2021 - 04/2026 (Expected)",
     description: [
       "Specializing in Computer Engineering with a focus on Software Architecture, Distributed Systems, and AI.",
       "Maintained a competitive 3.3 GPA while managing 100+ open-source project repositories.",
@@ -228,7 +228,7 @@ export const certificates: Certificate[] = [
   { title: "JavaScript (Intermediate)", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/89c8019d7803" },
   { title: "Frontend Developer (React)", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/02dba66138ff" },
   { title: "Software Engineer Intern", issuer: "HackerRank", date: "03 July 2024", link: "https://www.hackerrank.com/certificates/e38a91c02c06" },
-  { title: "Software Engineer", issuer: "HackerRank", date: "16 April 2025", link: "https://www.hackerrank.com/certificates/42bbe9236ae9" },
+  { title: "Software Engineer", issuer: "HackerRank", date: "04/2025", link: "https://www.hackerrank.com/certificates/42bbe9236ae9" },
 ];
 
 export const references: Reference[] = [
