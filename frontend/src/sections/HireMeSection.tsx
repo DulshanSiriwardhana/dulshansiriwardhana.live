@@ -73,15 +73,15 @@ const HireMeSection = () => {
             const a4Width = 595.28;
             const a4Height = 841.89;
 
-            // Remove all safePadding as per user request to remove side margins
-            // const safePadding = 0;
-            const availableHeight = a4Height;
+            // Padding specifically for pages after the first one
+            const topPaddingForSubsequentPages = 30;
 
             // Scale factor to map CSS pixels to PDF points (edge-to-edge)
             const scaleToPoints = a4Width / cvElement.scrollWidth;
 
-            // Available content height in canvas pixels (at 2x scale)
-            const availableHeightInCanvasPixels = (availableHeight / scaleToPoints) * 2;
+            // Content height limits
+            const heightLimitP1 = (a4Height / scaleToPoints) * 2;
+            const heightLimitPN = ((a4Height - topPaddingForSubsequentPages) / scaleToPoints) * 2;
 
             // Get section break points
             const sections = cvElement.querySelectorAll('[data-cv-section]');
@@ -108,16 +108,19 @@ const HireMeSection = () => {
                 const potentialPageEnd = uniqueBreaks[i];
                 const heightWithNextSection = potentialPageEnd - currentPageStart;
 
-                if (heightWithNextSection > availableHeightInCanvasPixels) {
+                // Use P1 limit for the first page, PN limit for others
+                const currentLimit = pages.length === 0 ? heightLimitP1 : heightLimitPN;
+
+                if (heightWithNextSection > currentLimit) {
                     if (uniqueBreaks[i - 1] > currentPageStart) {
                         pages.push({
-                            startY: currentPageStart - 10,
+                            startY: currentPageStart,
                             endY: uniqueBreaks[i - 1],
                         });
                         currentPageStart = uniqueBreaks[i - 1];
                     } else {
                         pages.push({
-                            startY: currentPageStart - 10,
+                            startY: currentPageStart,
                             endY: uniqueBreaks[i],
                         });
                         currentPageStart = uniqueBreaks[i];
@@ -158,10 +161,13 @@ const HireMeSection = () => {
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
+                // No offset for 1st page, but use padding for others
+                const verticalOffsetInCanvas = j === 0 ? 0 : (topPaddingForSubsequentPages / scaleToPoints * 2);
+
                 ctx.drawImage(
                     canvas,
                     0, startY, imgWidth, sliceHeight,
-                    0, 0, imgWidth, sliceHeight
+                    0, verticalOffsetInCanvas, imgWidth, sliceHeight
                 );
 
                 // Use JPEG with 0.8 quality to drastically reduce file size from 50MB+ to ~2-5MB
@@ -180,7 +186,9 @@ const HireMeSection = () => {
                         const href = (el as HTMLAnchorElement).href;
                         if (href) {
                             const x = (rect.left - cvRect.left) * scaleToPoints;
-                            const y = (elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints;
+                            // Add padding offset starting from 2nd page
+                            const currentTopPaddingInPoints = j === 0 ? 0 : topPaddingForSubsequentPages;
+                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + currentTopPaddingInPoints;
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
