@@ -198,7 +198,7 @@ export const experience: Experience[] = [
   {
     company: "BotCalm (PVT) Ltd",
     position: "Full-Stack Software Engineer Intern",
-    duration: "08/2024 - 06/2025",
+    duration: "August 2024 - June 2025",
     description: [
       "Architected and deployed scalable web features using the MERN stack for production environments, improving API response times by 25%.",
       "Engineered high-performance Next.js applications and integrated Web3 protocols (WalletConnect, Wagmi), serving 500+ daily active users.",
@@ -210,7 +210,7 @@ export const experience: Experience[] = [
   {
     company: "University of Ruhuna",
     position: "BSc. (Hons) in Computer Engineering",
-    duration: "03/2021 - 04/2026 (Expected)",
+    duration: "March 2021 - April 2026",
     description: [
       "Specializing in Computer Engineering with a focus on Software Architecture, Distributed Systems, and AI.",
       "Maintained a competitive 3.3 GPA while managing 100+ open-source project repositories.",

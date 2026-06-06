@@ -183,6 +183,7 @@ const HireMeSection = () => {
                         const text = Array.from(el.childNodes)
                             .filter(node => node.nodeType === Node.TEXT_NODE)
                             .map(node => node.textContent?.trim())
+                            .filter(Boolean)
                             .join(' ');
 
                         if (text) {
@@ -361,8 +362,10 @@ const HireMeSection = () => {
                                                 <Phone size={16} className="text-green-500" />
                                                 {personalInfo.phone}
                                             </a>
-                                            <span className="sr-only">LinkedIn: {personalInfo.linkedin}</span>
-                                            <span className="sr-only">Location: {personalInfo.location}</span>
+                                            <span className="flex items-center gap-2">
+                                                <MapPin size={16} className="text-red-500" />
+                                                {personalInfo.location}
+                                            </span>
                                             <div className="flex gap-4 pt-1">
                                                 <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors">
                                                     <Terminal size={18} />
@@ -391,7 +394,7 @@ const HireMeSection = () => {
                                 <div data-cv-section="summary">
                                     <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-3">
                                         <Search size={22} className="text-blue-500" />
-                                        SUMMARY
+                                        PROFESSIONAL SUMMARY
                                         <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                     </h3>
                                     <p className="text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-green-500/20 pl-6 py-2">
@@ -405,7 +408,7 @@ const HireMeSection = () => {
                                         <div data-cv-section="experience">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Briefcase size={22} className="text-orange-500" />
-                                                EXPERIENCE
+                                                WORK EXPERIENCE
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
                                             <div className="space-y-10">
@@ -470,7 +473,7 @@ const HireMeSection = () => {
                                                 <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
                                                         <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">BSc. (Hons) in Computer Engineering</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka • {experience[1].duration}</span>
+                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka, {experience[1].duration}</span>
                                                     </div>
                                                     <p className="text-gray-300 text-sm font-bold italic">Specializing in Software Architecture and AI</p>
                                                     <div className="flex items-center gap-4 mt-4">
@@ -496,7 +499,7 @@ const HireMeSection = () => {
                                         <div data-cv-section="skills">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Code2 size={24} className="text-purple-400" />
-                                                SKILLS
+                                                TECHNICAL SKILLS
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
 
