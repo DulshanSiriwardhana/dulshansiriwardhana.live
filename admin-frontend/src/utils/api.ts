@@ -235,3 +235,24 @@ export const deleteMessage = async (id: string) => {
   return response.json();
 };
 
+export const getCvTheme = async () => {
+  const response = await fetch(`${API_URL}/api/settings/cv-theme`);
+  return response.json();
+};
+
+export const updateCvTheme = async (theme: string) => {
+  const response = await fetch(`${API_URL}/api/settings/cv-theme`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ value: theme }),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to update CV theme');
+  }
+
+  return response.json();
+};
+

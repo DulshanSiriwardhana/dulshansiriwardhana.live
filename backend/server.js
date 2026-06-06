@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import messageRoutes from './routes/messages.js';
 import projectEulerRoutes from './routes/projectEuler.js';
 import authRoutes from './routes/auth.js';
+import settingsRoutes from './routes/settings.js';
 import User from './models/User.js';
 
 dotenv.config();
@@ -46,6 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/project-euler', projectEulerRoutes);
+app.use('/api/settings', settingsRoutes);
 
 app.get('/api/health', async (req, res) => {
   try {

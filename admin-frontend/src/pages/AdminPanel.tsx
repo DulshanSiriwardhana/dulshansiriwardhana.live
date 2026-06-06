@@ -9,6 +9,8 @@ import {
   getMessages,
   markMessageAsRead,
   deleteMessage,
+  getCvTheme,
+  updateCvTheme,
 } from '../utils/api';
 import type { ProjectEulerArticle, Message } from '../utils/api';
 import Toast from '../components/Toast';
@@ -19,7 +21,7 @@ interface ToastState {
   type: 'success' | 'error' | 'info';
 }
 
-type TabType = 'articles' | 'messages' | 'dashboard';
+type TabType = 'articles' | 'messages' | 'dashboard' | 'settings';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -28,6 +30,8 @@ const AdminPanel = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<ProjectEulerArticle | null>(null);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [cvTheme, setCvTheme] = useState('emerald');
+  const [themeSaving, setThemeSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [articlesLoading, setArticlesLoading] = useState(true);
@@ -61,6 +65,7 @@ const AdminPanel = () => {
     }
     loadArticles();
     loadMessages();
+    loadCvTheme();
   }, []);
 
   useEffect(() => {
@@ -101,6 +106,28 @@ const AdminPanel = () => {
       showToast('Failed to load messages', 'error');
     } finally {
       setMessagesLoading(false);
+    }
+  };
+
+  const loadCvTheme = async () => {
+    try {
+      const response = await getCvTheme();
+      if (response && response.value) setCvTheme(response.value);
+    } catch (error) {
+      console.error('Failed to load CV theme');
+    }
+  };
+
+  const handleUpdateTheme = async (theme: string) => {
+    setThemeSaving(true);
+    try {
+      await updateCvTheme(theme);
+      setCvTheme(theme);
+      showToast('CV theme synchronized', 'success');
+    } catch (error: any) {
+      showToast(error.message || 'Synchronization failed', 'error');
+    } finally {
+      setThemeSaving(false);
     }
   };
 
@@ -233,13 +260,14 @@ const AdminPanel = () => {
               { id: 'dashboard', label: 'Monitor', icon: '📊' },
               { id: 'articles', label: 'Euler Engine', icon: '🧮' },
               { id: 'messages', label: 'Comms', icon: '📡' },
+              { id: 'settings', label: 'Configs', icon: '⚙️' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as TabType)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 mono text-xs uppercase tracking-widest ${activeTab === tab.id
-                    ? 'bg-green-500/10 text-green-400 border border-green-500/30 active-tab-glow'
-                    : 'text-gray-500 hover:text-green-400 hover:bg-green-500/5 border border-transparent'
+                  ? 'bg-green-500/10 text-green-400 border border-green-500/30 active-tab-glow'
+                  : 'text-gray-500 hover:text-green-400 hover:bg-green-500/5 border border-transparent'
                   }`}
               >
                 <span>{tab.icon}</span>
@@ -460,6 +488,63 @@ const AdminPanel = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="max-w-4xl mx-auto">
+              <div className="glass-panel p-8 rounded-3xl border-green-500/20">
+                <header className="mb-8">
+                  <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-2">System Configs</h3>
+                  <div className="h-0.5 w-16 bg-green-500 rounded-full"></div>
+                </header>
+
+                <div className="space-y-10">
+                  <section className="p-6 bg-white/5 border border-white/5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <h4 className="text-lg font-bold text-white uppercase tracking-tight mb-1 font-spectral italic">CV Atmosphere Synthesis</h4>
+                        <p className="text-xs text-gray-500 uppercase mono">Select a global chromatic spectrum for the live CV</p>
+                      </div>
+                      {themeSaving && (
+                        <div className="flex items-center gap-2 text-green-400 mono text-[10px] animate-pulse">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                          UPLOADING...
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {[
+                        { id: 'emerald', name: 'Emerald', class: 'bg-green-500', glow: 'shadow-green-500/50' },
+                        { id: 'ruby', name: 'Ruby', class: 'bg-red-500', glow: 'shadow-red-500/50' },
+                        { id: 'ocean', name: 'Ocean', class: 'bg-blue-500', glow: 'shadow-blue-500/50' },
+                        { id: 'amber', name: 'Amber', class: 'bg-yellow-500', glow: 'shadow-yellow-500/50' },
+                      ].map((theme) => (
+                        <button
+                          key={theme.id}
+                          onClick={() => handleUpdateTheme(theme.id)}
+                          className={`relative p-5 rounded-2xl border-2 transition-all duration-500 group overflow-hidden ${cvTheme === theme.id ? 'border-white/40' : 'border-transparent hover:border-white/10'}`}
+                        >
+                          <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${theme.class}`}></div>
+                          <div className="relative z-10 flex flex-col items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg ${theme.class} ${cvTheme === theme.id ? `shadow-lg ${theme.glow} scale-110` : 'scale-100'} transition-all`}></div>
+                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] mono ${cvTheme === theme.id ? 'text-white' : 'text-gray-500'}`}>{theme.name}</span>
+                          </div>
+                          {cvTheme === theme.id && <div className="absolute top-2 right-2 text-[8px] text-white mono font-bold">ACTIVE</div>}
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="p-6 bg-yellow-500/5 border border-yellow-500/10 rounded-2xl">
+                    <h4 className="text-sm font-bold text-yellow-500 uppercase tracking-widest mb-2 font-spectral italic">Warning: Runtime Environment</h4>
+                    <p className="text-[10px] text-gray-500 mono leading-relaxed mb-4">
+                      Theme changes are broadcast instantly to the frontend. Changes will manifest in both the digital interface and the dynamic PDF exporter.
+                    </p>
+                  </section>
+                </div>
+              </div>
             </div>
           )}
         </main>
