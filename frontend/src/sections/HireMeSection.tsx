@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import html2canvas from "html2canvas-pro";
+import { jsPDF } from "jspdf";
 import SectionTitle from "../components/SectionTitle";
 import ScrollAnimation from "../components/ScrollAnimation";
 import profileImage from "../assets/images/dp.png";
@@ -46,12 +48,88 @@ const HireMeSection = () => {
     const [isGenerating, setIsGenerating] = useState(false);
     const cvRef = useRef<HTMLDivElement>(null);
 
-    const handleDownloadCV = () => {
+    const handleDownloadCV = async () => {
+        if (!cvRef.current || isGenerating) return;
         setIsGenerating(true);
-        setTimeout(() => {
+
+        try {
+            // Capture the CV element at 2x resolution for crisp output
+            const canvas = await html2canvas(cvRef.current, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#080808',
+                logging: false,
+                windowWidth: cvRef.current.scrollWidth,
+                windowHeight: cvRef.current.scrollHeight,
+            });
+
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+
+            // A4 dimensions in points (595.28 x 841.89)
+            const pdfWidth = 595.28;
+            const pdfPageHeight = 841.89;
+
+            // Scale image to fit A4 width
+            const scaledWidth = pdfWidth;
+            const scaledHeight = (imgHeight * pdfWidth) / imgWidth;
+
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'pt',
+                format: 'a4',
+            });
+
+            // If the CV is taller than one page, split across multiple pages
+            let yOffset = 0;
+            let remainingHeight = scaledHeight;
+
+            while (remainingHeight > 0) {
+                if (yOffset > 0) {
+                    pdf.addPage();
+                }
+
+                // Calculate the source region for this page
+                const sourceY = (yOffset / scaledHeight) * imgHeight;
+                const sourceHeight = Math.min(
+                    (pdfPageHeight / scaledHeight) * imgHeight,
+                    imgHeight - sourceY
+                );
+                const destHeight = Math.min(pdfPageHeight, remainingHeight);
+
+                // Create a temporary canvas for this page slice
+                const pageCanvas = document.createElement('canvas');
+                pageCanvas.width = imgWidth;
+                pageCanvas.height = sourceHeight;
+                const ctx = pageCanvas.getContext('2d')!;
+
+                // Fill with the CV background color
+                ctx.fillStyle = '#080808';
+                ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+
+                // Draw the slice
+                ctx.drawImage(
+                    canvas,
+                    0, sourceY, imgWidth, sourceHeight,
+                    0, 0, imgWidth, sourceHeight
+                );
+
+                const pageImgData = pageCanvas.toDataURL('image/png');
+                pdf.addImage(pageImgData, 'PNG', 0, 0, scaledWidth, destHeight);
+
+                yOffset += pdfPageHeight;
+                remainingHeight -= pdfPageHeight;
+            }
+
+            pdf.save(`${personalInfo.firstName}_${personalInfo.lastName}_CV.pdf`);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            // Fallback to print
             window.print();
+        } finally {
             setIsGenerating(false);
-        }, 300);
+        }
     };
 
     const handleSmoothScroll = (
@@ -540,85 +618,7 @@ const HireMeSection = () => {
                 </div>
             </section>
 
-            <style>{`
-        @media print {
-          @page {
-            margin: 0;
-            size: auto;
-          }
-          body {
-            background: #000 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          body * {
-            visibility: hidden;
-          }
-          #cv-preview, #cv-preview * {
-            visibility: visible !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          #cv-preview {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            background: #080808 !important;
-          }
-          /* Ensure all background gradients and colors are preserved */
-          .bg-gradient-to-r {
-            background-image: linear-gradient(to right, var(--tw-gradient-stops)) !important;
-          }
-          .from-\\[\\#111\\] {
-            --tw-gradient-from: #111 !important;
-            --tw-gradient-to: rgb(17 17 17 / 0) !important;
-            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
-          }
-          .via-\\[\\#0a0a0a\\] {
-            --tw-gradient-to: rgb(10 10 10 / 0) !important;
-            --tw-gradient-stops: var(--tw-gradient-from), #0a0a0a var(--tw-gradient-via-perc, 50%), var(--tw-gradient-to) !important;
-          }
-          .to-\\[\\#111\\] {
-            --tw-gradient-to: #111 !important;
-          }
-          .bg-white\\/5 {
-            background-color: rgba(255, 255, 255, 0.05) !important;
-          }
-          .bg-green-500\\/10 {
-            background-color: rgba(34, 197, 94, 0.1) !important;
-          }
-          .bg-green-500\\/5 {
-            background-color: rgba(34, 197, 94, 0.05) !important;
-          }
-          .border-green-500\\/30 {
-            border-color: rgba(34, 197, 94, 0.3) !important;
-          }
-          .border-white\\/10 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-          }
-          .border-white\\/5 {
-            border-color: rgba(255, 255, 255, 0.05) !important;
-          }
-          .text-green-400 {
-            color: #4ade80 !important;
-          }
-          .text-gray-400 {
-            color: #9ca3af !important;
-          }
-          .text-gray-300 {
-            color: #d1d5db !important;
-          }
-          .text-gray-500 {
-            color: #6b7280 !important;
-          }
-        }
-      `}</style>
+
         </>
     );
 };
