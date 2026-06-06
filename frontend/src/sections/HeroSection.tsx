@@ -47,7 +47,7 @@ const HeroSection = () => {
       id="hero"
       className="min-h-screen flex flex-col items-center justify-center p-4 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-5xl w-full space-y-12">
+      <div className="max-w-[1720px] w-full space-y-12">
         <div className="text-center space-y-6">
           <div className="flex justify-center mb-6 animate-fade-in">
             <div className="relative">
@@ -64,8 +64,8 @@ const HeroSection = () => {
             System Identity: {personalInfo.firstName}
           </p>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4 leading-tight">
-            <span className="block text-white animate-slide-up bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 font-spectral italic">{personalInfo.firstName}</span>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight px-4 leading-tight">
+            <span className="block text-white animate-slide-up bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 font-spectral italic break-words">{personalInfo.firstName}</span>
             <span className="block text-green-400 mt-2 animate-slide-up-delayed font-black">
               {personalInfo.lastName}
             </span>

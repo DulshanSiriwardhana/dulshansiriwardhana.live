@@ -33,7 +33,7 @@ const ContactSection = () => {
       id="contact"
       className="min-h-screen flex flex-col items-center justify-center p-4 py-16 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-6xl w-full space-y-8 md:space-y-10">
+      <div className="max-w-[1720px] w-full space-y-8 md:space-y-10">
         <SectionTitle
           title="Get In Touch"
           subtitle="I'm always open to discussing new projects and opportunities"

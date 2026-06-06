@@ -3,7 +3,7 @@ import { personalInfo, contactLinks } from "../constants/landingPageData";
 const Footer = () => {
   return (
     <footer className="bg-[#0a0a0a] border-t border-green-500/10 py-12 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">

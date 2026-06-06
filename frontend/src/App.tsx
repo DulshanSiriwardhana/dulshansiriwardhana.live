@@ -18,7 +18,7 @@ function App() {
         .then(() => setIsPlaying(true))
         .catch(() => console.log("Autoplay blocked. Waiting for interaction."));
     }
-  }; 
+  };
 
   useEffect(() => {
     handlePlay();
@@ -26,19 +26,19 @@ function App() {
 
   return (
     <div
-      className="w-full min-h-screen bg-black text-white font-spectral flex items-center justify-center relative"
+      className="w-full min-h-screen bg-black text-white font-spectral relative"
       onClick={!isPlaying ? handlePlay : undefined}
     >
-    <TypingSoundProvider>
+      <TypingSoundProvider>
         {environment === "development" ? (
           <ConstructionAreaPopupProvider>
             <UnderDevelopment />
             <audio ref={audioRef} src={hammerSound} loop />
           </ConstructionAreaPopupProvider>
         ) : (
-          <HomePage/>
+          <HomePage />
         )}
-    </TypingSoundProvider>
+      </TypingSoundProvider>
     </div>
   );
 }

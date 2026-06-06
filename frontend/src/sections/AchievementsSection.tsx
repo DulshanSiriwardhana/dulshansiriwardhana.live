@@ -21,7 +21,7 @@ const AchievementsSection = () => {
       id="achievements"
       className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-6xl w-full space-y-12">
+      <div className="max-w-[1720px] w-full space-y-12">
         <SectionTitle
           title="Recognition Hub"
           subtitle="Milestones and professional certifications validated by global entities"

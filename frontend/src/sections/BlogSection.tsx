@@ -72,7 +72,7 @@ const BlogSection = () => {
       id="blog"
       className="min-h-screen flex flex-col items-center justify-center p-4 py-20 pt-24 md:pt-28 relative z-10"
     >
-      <div className="max-w-6xl w-full space-y-12">
+      <div className="max-w-[1720px] w-full space-y-12">
         <SectionTitle
           title="Blog & Articles"
           subtitle="Sharing knowledge and insights about technology"
@@ -81,21 +81,19 @@ const BlogSection = () => {
         <div className="flex gap-4 border-b border-green-500/20 mb-8">
           <button
             onClick={() => setActiveTab('blog')}
-            className={`px-6 py-3 font-medium transition-all ${
-              activeTab === 'blog'
+            className={`px-6 py-3 font-medium transition-all ${activeTab === 'blog'
                 ? 'text-green-400 border-b-2 border-green-400'
                 : 'text-gray-400 hover:text-gray-300'
-            }`}
+              }`}
           >
             Blog Articles
           </button>
           <button
             onClick={() => setActiveTab('project-euler')}
-            className={`px-6 py-3 font-medium transition-all ${
-              activeTab === 'project-euler'
+            className={`px-6 py-3 font-medium transition-all ${activeTab === 'project-euler'
                 ? 'text-green-400 border-b-2 border-green-400'
                 : 'text-gray-400 hover:text-gray-300'
-            }`}
+              }`}
           >
             Project Euler Solutions
           </button>
@@ -325,11 +323,10 @@ const BlogSection = () => {
                           <button
                             key={pageNum}
                             onClick={() => setCurrentPage(pageNum)}
-                            className={`w-10 h-10 rounded-lg border transition-all font-medium ${
-                              currentPage === pageNum
+                            className={`w-10 h-10 rounded-lg border transition-all font-medium ${currentPage === pageNum
                                 ? 'bg-green-500/20 border-green-500/50 text-green-400'
                                 : 'bg-[#1a1a1a]/50 border-green-500/20 text-gray-400 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-400'
-                            }`}
+                              }`}
                           >
                             {pageNum}
                           </button>
