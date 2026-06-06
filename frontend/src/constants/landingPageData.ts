@@ -24,6 +24,7 @@ export interface PersonalInfo {
   phone: string;
   location: string;
   linkedin: string;
+  website: string;
   avatar?: string;
 }
 
@@ -103,6 +104,7 @@ export const personalInfo: PersonalInfo = {
   phone: "+94 76 398 7108",
   location: "Madampe, Northwestern Province, Sri Lanka",
   linkedin: "linkedin.com/in/dulshans",
+  website: "dulshansiriwardhana.live",
 };
 
 export const skillCategories: SkillCategory[] = [

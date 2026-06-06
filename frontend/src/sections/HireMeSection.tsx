@@ -362,10 +362,10 @@ const HireMeSection = () => {
                                                 <Phone size={16} className="text-green-500" />
                                                 {personalInfo.phone}
                                             </a>
-                                            <span className="flex items-center gap-2">
-                                                <MapPin size={16} className="text-red-500" />
-                                                {personalInfo.location}
-                                            </span>
+                                            <a href={`https://${personalInfo.website}`} target="_blank" className="cv-link flex items-center gap-2 hover:text-white transition-colors">
+                                                <Globe size={16} className="text-purple-500" />
+                                                {personalInfo.website}
+                                            </a>
                                             <div className="flex gap-4 pt-1">
                                                 <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors">
                                                     <Terminal size={18} />
