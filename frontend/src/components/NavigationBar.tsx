@@ -41,7 +41,7 @@ const NavigationBar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isMobileMenuOpen
         ? "bg-black/90 backdrop-blur-xl border-b border-green-500/30 shadow-2xl shadow-green-500/10"
         : "bg-transparent"
         }`}
@@ -102,7 +102,7 @@ const NavigationBar = () => {
 
         <div
           className={`md:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen
-            ? "max-h-[80vh] opacity-100 py-6 overflow-y-auto"
+            ? "max-h-[80vh] opacity-100 py-6 overflow-y-auto bg-black/80 backdrop-blur-2xl rounded-b-3xl border-b border-green-500/20 px-4"
             : "max-h-0 opacity-0 py-0 overflow-hidden"
             }`}
         >
