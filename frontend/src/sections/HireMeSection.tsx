@@ -53,27 +53,92 @@ const HireMeSection = () => {
         setIsGenerating(true);
 
         try {
+            const cvElement = cvRef.current;
+
             // Capture the CV element at 2x resolution for crisp output
-            const canvas = await html2canvas(cvRef.current, {
+            const canvas = await html2canvas(cvElement, {
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
                 backgroundColor: '#080808',
                 logging: false,
-                windowWidth: cvRef.current.scrollWidth,
-                windowHeight: cvRef.current.scrollHeight,
+                windowWidth: cvElement.scrollWidth,
+                windowHeight: cvElement.scrollHeight,
             });
 
             const imgWidth = canvas.width;
             const imgHeight = canvas.height;
 
-            // A4 dimensions in points (595.28 x 841.89)
-            const pdfWidth = 595.28;
-            const pdfPageHeight = 841.89;
+            // A4 dimensions in points
+            const a4Width = 595.28;
+            const a4Height = 841.89;
 
-            // Scale image to fit A4 width
-            const scaledWidth = pdfWidth;
-            const scaledHeight = (imgHeight * pdfWidth) / imgWidth;
+            // Scale factor: how canvas pixels map to PDF points
+            const scaleFactor = a4Width / imgWidth;
+
+
+            // Get section break points by measuring data-cv-section elements
+            const sections = cvElement.querySelectorAll('[data-cv-section]');
+            const cvRect = cvElement.getBoundingClientRect();
+
+            // Build list of safe break points (top of each section in canvas pixels, at 2x scale)
+            const breakPoints: number[] = [0]; // Always start at 0
+            sections.forEach((section) => {
+                const sectionRect = section.getBoundingClientRect();
+                // Position relative to CV container, scaled to canvas resolution (2x)
+                const relativeTop = (sectionRect.top - cvRect.top) * 2;
+                if (relativeTop > 0 && relativeTop < imgHeight) {
+                    breakPoints.push(Math.round(relativeTop));
+                }
+            });
+            breakPoints.push(imgHeight); // End of content
+
+            // Remove duplicates and sort
+            const uniqueBreaks = [...new Set(breakPoints)].sort((a, b) => a - b);
+
+            // Now group sections into pages so no section is split
+            // Each page can hold a4Height / scaleFactor canvas pixels
+            const pageHeightInCanvasPixels = a4Height / scaleFactor;
+
+            const pages: { startY: number; endY: number }[] = [];
+            let currentPageStart = 0;
+
+            let i = 1;
+            while (i < uniqueBreaks.length) {
+                const potentialPageEnd = uniqueBreaks[i];
+                const heightWithNextSection = potentialPageEnd - currentPageStart;
+
+                if (heightWithNextSection > pageHeightInCanvasPixels) {
+                    if (uniqueBreaks[i - 1] > currentPageStart) {
+                        // We have multiple sections, break before the current one
+                        pages.push({
+                            startY: currentPageStart,
+                            endY: uniqueBreaks[i - 1],
+                        });
+                        currentPageStart = uniqueBreaks[i - 1];
+                        // Don't increment i, re-evaluate this section for the next page
+                    } else {
+                        // This single section is already larger than a page
+                        // We must include it (it will be scaled or overflow vertically on this page)
+                        pages.push({
+                            startY: currentPageStart,
+                            endY: uniqueBreaks[i],
+                        });
+                        currentPageStart = uniqueBreaks[i];
+                        i++;
+                    }
+                } else {
+                    i++;
+                }
+            }
+
+            // Add the last page if there's remaining content
+            if (currentPageStart < imgHeight) {
+                pages.push({
+                    startY: currentPageStart,
+                    endY: imgHeight,
+                });
+            }
 
             const pdf = new jsPDF({
                 orientation: 'portrait',
@@ -81,51 +146,37 @@ const HireMeSection = () => {
                 format: 'a4',
             });
 
-            // If the CV is taller than one page, split across multiple pages
-            let yOffset = 0;
-            let remainingHeight = scaledHeight;
+            for (let i = 0; i < pages.length; i++) {
+                if (i > 0) pdf.addPage();
 
-            while (remainingHeight > 0) {
-                if (yOffset > 0) {
-                    pdf.addPage();
-                }
+                const { startY, endY } = pages[i];
+                const sliceHeight = endY - startY;
 
-                // Calculate the source region for this page
-                const sourceY = (yOffset / scaledHeight) * imgHeight;
-                const sourceHeight = Math.min(
-                    (pdfPageHeight / scaledHeight) * imgHeight,
-                    imgHeight - sourceY
-                );
-                const destHeight = Math.min(pdfPageHeight, remainingHeight);
-
-                // Create a temporary canvas for this page slice
+                // Create a canvas for this page (always full A4 height for consistent page size)
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
-                pageCanvas.height = sourceHeight;
+                pageCanvas.height = Math.round(pageHeightInCanvasPixels);
                 const ctx = pageCanvas.getContext('2d')!;
 
-                // Fill with the CV background color
+                // Fill entire page with CV background color
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-                // Draw the slice
+                // Draw the content slice at the top of the page
+                const drawHeight = Math.min(sliceHeight, Math.round(pageHeightInCanvasPixels));
                 ctx.drawImage(
                     canvas,
-                    0, sourceY, imgWidth, sourceHeight,
-                    0, 0, imgWidth, sourceHeight
+                    0, startY, imgWidth, drawHeight,
+                    0, 0, imgWidth, drawHeight
                 );
 
                 const pageImgData = pageCanvas.toDataURL('image/png');
-                pdf.addImage(pageImgData, 'PNG', 0, 0, scaledWidth, destHeight);
-
-                yOffset += pdfPageHeight;
-                remainingHeight -= pdfPageHeight;
+                pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height);
             }
 
             pdf.save(`${personalInfo.firstName}_${personalInfo.lastName}_CV.pdf`);
         } catch (error) {
             console.error('Error generating PDF:', error);
-            // Fallback to print
             window.print();
         } finally {
             setIsGenerating(false);
@@ -205,7 +256,7 @@ const HireMeSection = () => {
                             className="bg-[#080808] border border-green-500/30 rounded-3xl overflow-hidden hover:border-green-500/50 transition-all duration-700 shadow-2xl hover:shadow-green-500/20"
                         >
                             {/* CV Header */}
-                            <div className="bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-green-500/30 p-8 md:p-12">
+                            <div data-cv-section="header" className="bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-green-500/30 p-8 md:p-12">
                                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
                                     <div className="relative group">
                                         <div className="absolute inset-0 bg-green-500/20 rounded-3xl blur-2xl group-hover:bg-green-500/40 transition-all duration-500"></div>
@@ -249,7 +300,7 @@ const HireMeSection = () => {
 
                             <div className="p-8 md:p-12 space-y-12">
                                 {/* Professional Summary */}
-                                <div>
+                                <div data-cv-section="summary">
                                     <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-3">
                                         <Search size={22} className="text-blue-500" />
                                         PROFESSIONAL SUMMARY
@@ -263,7 +314,7 @@ const HireMeSection = () => {
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                                     {/* Experience Column */}
                                     <div className="space-y-10">
-                                        <div>
+                                        <div data-cv-section="experience">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Briefcase size={22} className="text-orange-500" />
                                                 EXPERIENCE
@@ -271,7 +322,7 @@ const HireMeSection = () => {
                                             </h3>
                                             <div className="space-y-10">
                                                 {experience.map((exp, index) => (
-                                                    <div key={index} className="relative group pl-8">
+                                                    <div key={index} data-cv-section={`exp-${index}`} className="relative group pl-8">
                                                         <div className="absolute left-0 top-0 bottom-0 w-px bg-green-500/20 group-hover:bg-green-500/50 transition-all"></div>
                                                         <div className="absolute left-[-4px] top-2 w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
                                                         <h4 className="text-white font-bold text-base md:text-lg uppercase group-hover:text-green-400 transition-colors">
@@ -298,7 +349,7 @@ const HireMeSection = () => {
                                         </div>
 
                                         {/* Achievements */}
-                                        <div>
+                                        <div data-cv-section="achievements">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Trophy size={22} className="text-yellow-500" />
                                                 ACHIEVEMENTS
@@ -306,7 +357,7 @@ const HireMeSection = () => {
                                             </h3>
                                             <div className="space-y-4">
                                                 {achievements.map((ach, index) => (
-                                                    <div key={index} className="p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                                    <div key={index} data-cv-section={`ach-${index}`} className="p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
                                                         <div className="flex justify-between items-start mb-1">
                                                             <h4 className="text-white font-bold text-sm md:text-base group-hover:text-green-400 transition-all uppercase">{ach.title}</h4>
                                                             <span className="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full font-bold border border-green-500/20">{ach.date}</span>
@@ -321,14 +372,14 @@ const HireMeSection = () => {
 
                                     {/* Education & Skills Column */}
                                     <div className="space-y-12">
-                                        <div>
+                                        <div data-cv-section="education">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <GraduationCap size={22} className="text-yellow-500" />
                                                 EDUCATION
                                                 <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
                                             </h3>
                                             <div className="space-y-6">
-                                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
                                                         <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">University of Ruhuna</h4>
                                                         <span className="text-xs text-gray-500 font-mono">2021 - 2026</span>
@@ -341,7 +392,7 @@ const HireMeSection = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                <div data-cv-section="edu-2" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
                                                     <div className="flex justify-between items-start mb-2">
                                                         <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">Advanced Level</h4>
                                                         <span className="text-xs text-gray-500 font-mono">JAN 2019</span>
@@ -354,7 +405,7 @@ const HireMeSection = () => {
                                             </div>
                                         </div>
 
-                                        <div>
+                                        <div data-cv-section="skills">
                                             <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                                 <Code2 size={24} className="text-purple-400" />
                                                 TECHNICAL SKILLS
@@ -398,7 +449,7 @@ const HireMeSection = () => {
                                 </div>
 
                                 {/* Certificates */}
-                                <div>
+                                <div data-cv-section="certificates">
                                     <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                         <ShieldCheck size={24} className="text-emerald-500" />
                                         CERTIFICATES
@@ -424,7 +475,7 @@ const HireMeSection = () => {
                                 </div>
 
                                 {/* Full Projects Section */}
-                                <div>
+                                <div data-cv-section="projects">
                                     <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                         <Code2 size={24} className="text-cyan-400" />
                                         KEY PROJECTS
@@ -432,7 +483,7 @@ const HireMeSection = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         {projects.map((proj, index) => (
-                                            <div key={index} className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-green-500/30 transition-all group h-full flex flex-col">
+                                            <div key={index} data-cv-section={`proj-${index}`} className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-green-500/30 transition-all group h-full flex flex-col">
                                                 <h4 className="text-white font-black text-base uppercase mb-3 flex items-center justify-between">
                                                     {proj.title}
                                                     {proj.featured && <Star size={12} className="text-yellow-500 fill-yellow-500" />}
@@ -461,7 +512,7 @@ const HireMeSection = () => {
                                 </div>
 
                                 {/* Stats & Publications */}
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                                <div data-cv-section="stats" className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                                     <div>
                                         <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
                                             <Terminal size={22} className="text-white" />
@@ -529,7 +580,7 @@ const HireMeSection = () => {
                                 </div>
 
                                 {/* References */}
-                                <div>
+                                <div data-cv-section="references">
                                     <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3 uppercase tracking-tighter">
                                         <CheckCircle2 size={24} className="text-green-500" />
                                         REFERENCES
