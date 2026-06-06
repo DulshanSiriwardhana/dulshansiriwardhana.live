@@ -8,7 +8,13 @@ interface AnimatedCounterProps {
 
 const AnimatedCounter = ({ value, suffix = "", duration = 2000 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0);
-  const numericValue = parseInt(value.replace(/\D/g, "")) || 0;
+
+  // Detect if the value is a decimal
+  const isDecimal = value.includes(".");
+  const decimalPlaces = isDecimal ? value.split(".")[1].length : 0;
+
+  // Parse as float but remove non-numeric chars except the decimal point
+  const numericValue = parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
 
   useEffect(() => {
     let startTime: number;
@@ -17,10 +23,10 @@ const AnimatedCounter = ({ value, suffix = "", duration = 2000 }: AnimatedCounte
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
+
       // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeOutQuart * numericValue));
+      setCount(easeOutQuart * numericValue);
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
@@ -33,7 +39,9 @@ const AnimatedCounter = ({ value, suffix = "", duration = 2000 }: AnimatedCounte
 
   return (
     <span>
-      {count.toLocaleString()}
+      {isDecimal
+        ? count.toFixed(decimalPlaces)
+        : Math.floor(count).toLocaleString()}
       {suffix}
     </span>
   );

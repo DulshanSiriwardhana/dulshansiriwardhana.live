@@ -279,11 +279,11 @@ const HireMeSection = () => {
                         </div>
                     </ScrollAnimation>
 
-                    <ScrollAnimation direction="up" delay={100}>
+                    <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
                         <div
                             ref={cvRef}
                             id="cv-preview"
-                            className="bg-[#080808] border border-green-500/30 rounded-3xl overflow-hidden hover:border-green-500/50 transition-all duration-700 shadow-2xl hover:shadow-green-500/20"
+                            className="bg-[#080808] border border-green-500/30 rounded-3xl overflow-hidden hover:border-green-500/50 transition-all duration-700 shadow-2xl hover:shadow-green-500/20 min-w-[320px]"
                         >
                             {/* CV Header */}
                             <div data-cv-section="header" className="bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-green-500/30 p-8 md:p-12">
@@ -636,7 +636,7 @@ const HireMeSection = () => {
                                 </div>
                             </div>
                         </div>
-                    </ScrollAnimation>
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                         {[
