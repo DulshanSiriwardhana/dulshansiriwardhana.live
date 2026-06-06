@@ -73,9 +73,9 @@ const HireMeSection = () => {
             const a4Width = 595.28;
             const a4Height = 841.89;
 
-            // Define margins in points
-            const marginTop = 40;
-            const marginBottom = 40;
+            // Minimal margins for a cleaner look without wasting space
+            const marginTop = 20;
+            const marginBottom = 20;
             const availableHeight = a4Height - marginTop - marginBottom;
 
             // Scale factor: how CSS pixels (from DOM) map to PDF points
@@ -113,16 +113,14 @@ const HireMeSection = () => {
 
                 if (heightWithNextSection > availableHeightInCanvasPixels) {
                     if (uniqueBreaks[i - 1] > currentPageStart) {
-                        // We have multiple sections, break before the current one
+                        // Break before the current section
                         pages.push({
                             startY: currentPageStart,
                             endY: uniqueBreaks[i - 1],
                         });
                         currentPageStart = uniqueBreaks[i - 1];
-                        // Don't increment i, re-evaluate this section for the next page
                     } else {
-                        // This single section is already larger than a page
-                        // We must include it (it will be scaled or overflow vertically on this page)
+                        // Single section is larger than a page, force break
                         pages.push({
                             startY: currentPageStart,
                             endY: uniqueBreaks[i],
@@ -135,7 +133,7 @@ const HireMeSection = () => {
                 }
             }
 
-            // Add the last page if there's remaining content
+            // Add the last page if content remains
             if (currentPageStart < imgHeight) {
                 pages.push({
                     startY: currentPageStart,
@@ -158,22 +156,24 @@ const HireMeSection = () => {
                 const { startY, endY } = pages[j];
                 const sliceHeight = endY - startY;
 
-                // Create a canvas for this page (always full A4 height for consistent page size)
+                // Create a canvas for this page
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
                 pageCanvas.height = Math.round(a4Height / scaleToPoints * 2);
                 const ctx = pageCanvas.getContext('2d')!;
 
-                // Fill entire page with CV background color
+                // Fill entire page with background color
                 ctx.fillStyle = '#080808';
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-                // Draw the content slice, offset by marginTop for the top margin
-                const drawHeight = sliceHeight;
+                // For the first page, we might want it to stick to the top if the header has its own padding
+                // For subsequent pages, we use the marginTop to prevent sticking
+                const currentMoveDown = j === 0 ? 0 : (marginTop / scaleToPoints * 2);
+
                 ctx.drawImage(
                     canvas,
-                    0, startY, imgWidth, drawHeight,
-                    0, (marginTop / scaleToPoints * 2), imgWidth, drawHeight
+                    0, startY, imgWidth, sliceHeight,
+                    0, currentMoveDown, imgWidth, sliceHeight
                 );
 
                 const pageImgData = pageCanvas.toDataURL('image/png');
@@ -188,13 +188,11 @@ const HireMeSection = () => {
                     const elTopInCanvasPixels = (rect.top - cvRect.top) * 2;
                     const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * 2;
 
-                    // Check if link is (at least partially) on this page
                     if (elTopInCanvasPixels < pageEndYInCanvasPixels && elBottomInCanvasPixels > pageStartYInCanvasPixels) {
                         const href = (el as HTMLAnchorElement).href;
                         if (href) {
                             const x = (rect.left - cvRect.left) * scaleToPoints;
-                            // Add marginTop offset to link position
-                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + marginTop;
+                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + (j === 0 ? 0 : marginTop);
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
