@@ -44,6 +44,7 @@ import {
     stats
 } from "../constants/landingPageData";
 import { getCvTheme } from "../utils/api";
+import { themes } from "../constants/themeConfig";
 
 const HireMeSection = () => {
     const [isGenerating, setIsGenerating] = useState(false);
@@ -58,8 +59,9 @@ const HireMeSection = () => {
         fetchTheme();
     }, []);
 
-    const themeBaseColor = theme === 'emerald' ? 'green' : theme === 'ruby' ? 'red' : theme === 'ocean' ? 'blue' : 'yellow';
-    const c = themeBaseColor;
+    const currentTheme = themes.find(t => t.id === theme) || themes[0];
+    const t = currentTheme;
+    const c = t.baseColor;
 
     const handleDownloadCV = async () => {
         if (!cvRef.current || isGenerating) return;
@@ -73,7 +75,7 @@ const HireMeSection = () => {
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: '#080808',
+                backgroundColor: t.isDark ? '#080808' : '#ffffff',
                 logging: false,
                 windowWidth: cvElement.scrollWidth,
                 windowHeight: cvElement.scrollHeight,
@@ -302,10 +304,10 @@ const HireMeSection = () => {
                                         <div className={`absolute inset-0 w-4 h-4 bg-${c}-400 rounded-full animate-ping opacity-30`}></div>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                                        <h3 className={`text-xl md:text-2xl font-bold ${t.textColor} flex items-center gap-2`}>
                                             Status: Available for Hire
                                         </h3>
-                                        <p className="text-gray-400 text-sm md:text-base mt-1 italic uppercase tracking-widest font-mono">
+                                        <p className={`${t.mutedTextColor} text-sm md:text-base mt-1 italic uppercase tracking-widest font-mono`}>
                                             [Full-time • Contract • Freelance • Remote]
                                         </p>
                                     </div>
@@ -323,7 +325,7 @@ const HireMeSection = () => {
                                     <button
                                         onClick={handleDownloadCV}
                                         disabled={isGenerating}
-                                        className={`px-6 py-3 bg-transparent border border-gray-600 rounded-xl text-gray-300 hover:border-${c}-500/50 hover:text-${c}-400 hover:scale-105 hover:bg-${c}-500/10 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider`}
+                                        className={`px-6 py-3 bg-transparent border border-gray-600 rounded-xl ${t.mutedTextColor} hover:border-${c}-500/50 hover:text-${c}-400 hover:scale-105 hover:bg-${c}-500/10 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider`}
                                     >
                                         <Download size={18} className={isGenerating ? "animate-bounce" : ""} />
                                         {isGenerating ? "Generating..." : "Download Full CV"}
@@ -337,10 +339,10 @@ const HireMeSection = () => {
                         <div
                             ref={cvRef}
                             id="cv-preview"
-                            className={`bg-[#080808] border border-${c}-500/30 rounded-3xl overflow-hidden hover:border-${c}-500/50 transition-all duration-700 shadow-2xl hover:shadow-${c}-500/20 min-w-[320px]`}
+                            className={`${t.backgroundColor} border ${t.borderColor} rounded-3xl overflow-hidden hover:border-${c}-500/50 transition-all duration-700 shadow-2xl hover:shadow-${c}-500/20 min-w-[320px]`}
                         >
                             {/* CV Header */}
-                            <div data-cv-section="header" className={`bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-${c}-500/30 p-8 md:p-12`}>
+                            <div data-cv-section="header" className={`${t.cardColor} border-b ${t.borderColor} p-8 md:p-12`}>
                                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
                                     <div className="relative group">
                                         <div className={`absolute inset-0 bg-${c}-500/20 rounded-3xl blur-2xl group-hover:bg-${c}-500/40 transition-all duration-500`}></div>
@@ -354,7 +356,7 @@ const HireMeSection = () => {
                                     </div>
                                     <div className="text-center lg:text-left space-y-4">
                                         <div>
-                                            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic">
+                                            <h2 className={`text-4xl md:text-5xl font-black ${t.textColor} tracking-tighter uppercase italic`}>
                                                 {personalInfo.firstName} {personalInfo.lastName}
                                             </h2>
                                             <p className={`text-${c}-400 font-bold text-xl md:text-2xl mt-2 flex items-center justify-center lg:justify-start gap-3`}>
@@ -362,37 +364,37 @@ const HireMeSection = () => {
                                                 {personalInfo.title}
                                             </p>
                                         </div>
-                                        <div className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-3 text-sm text-gray-400 font-medium">
-                                            <span className="flex items-center gap-2 hover:text-white transition-colors">
+                                        <div className={`flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-3 text-sm ${t.mutedTextColor} font-medium`}>
+                                            <span className={`flex items-center gap-2 hover:${t.textColor} transition-colors`}>
                                                 <MapPin size={16} className="text-red-500" />
                                                 {personalInfo.location}
                                             </span>
-                                            <a href={`mailto:${personalInfo.email}`} className="cv-link flex items-center gap-2 hover:text-white transition-colors">
+                                            <a href={`mailto:${personalInfo.email}`} className={`cv-link flex items-center gap-2 hover:${t.textColor} transition-colors`}>
                                                 <Mail size={16} className="text-blue-500" />
                                                 {personalInfo.email}
                                             </a>
-                                            <a href={`tel:${personalInfo.phone.replace(/\s/g, '')}`} className="cv-link flex items-center gap-2 hover:text-white transition-colors">
+                                            <a href={`tel:${personalInfo.phone.replace(/\s/g, '')}`} className={`cv-link flex items-center gap-2 hover:${t.textColor} transition-colors`}>
                                                 <Phone size={16} className={`text-${c}-500`} />
                                                 {personalInfo.phone}
                                             </a>
-                                            <a href={`https://${personalInfo.website}`} target="_blank" className="cv-link flex items-center gap-2 hover:text-white transition-colors">
+                                            <a href={`https://${personalInfo.website}`} target="_blank" className={`cv-link flex items-center gap-2 hover:${t.textColor} transition-colors`}>
                                                 <Globe size={16} className="text-purple-500" />
                                                 {personalInfo.website}
                                             </a>
                                             <div className="flex gap-4 pt-1">
-                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                <a href="https://github.com/DulshanSiriwardhana" target="_blank" className={`cv-link hover:${t.textColor} transition-colors`}>
                                                     <Terminal size={18} />
                                                     <span className="sr-only">GitHub: github.com/DulshanSiriwardhana</span>
                                                 </a>
-                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                <a href="https://linkedin.com/in/dulshans" target="_blank" className={`cv-link hover:${t.textColor} transition-colors`}>
                                                     <Briefcase size={18} />
                                                     <span className="sr-only">LinkedIn: linkedin.com/in/dulshans</span>
                                                 </a>
-                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                <a href="https://facebook.com/profile.php?id=61568544393764" target="_blank" className={`cv-link hover:${t.textColor} transition-colors`}>
                                                     <Share2 size={18} />
                                                     <span className="sr-only">Facebook: Rasindu Dulshan Siriwardhana</span>
                                                 </a>
-                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className="cv-link hover:text-white transition-colors">
+                                                <a href="https://medium.com/@dulshansiriwardhanaofficial" target="_blank" className={`cv-link hover:${t.textColor} transition-colors`}>
                                                     <PenTool size={18} />
                                                     <span className="sr-only">Medium: @dulshansiriwardhanaofficial</span>
                                                 </a>
@@ -410,7 +412,7 @@ const HireMeSection = () => {
                                         PROFESSIONAL SUMMARY
                                         <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                     </h3>
-                                    <p className={`text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-${c}-500/20 pl-6 py-2`}>
+                                    <p className={`${t.mutedTextColor} leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-${c}-500/20 pl-6 py-2`}>
                                         Professional Summary: {personalInfo.bio} Dedicated Full-Stack Engineer with a deep focus on performance optimization, distributed systems, and modern architectural patterns. Expert in delivering high-fidelity user experiences and robust backend infrastructures.
                                     </p>
                                 </div>
@@ -429,21 +431,21 @@ const HireMeSection = () => {
                                                     <div key={index} data-cv-section={`exp-${index}`} className="relative group pl-8">
                                                         <div className={`absolute left-0 top-0 bottom-0 w-px bg-${c}-500/20 group-hover:bg-${c}-500/50 transition-all`}></div>
                                                         <div className={`absolute left-[-4px] top-2 w-2 h-2 bg-${c}-400 rounded-full shadow-lg shadow-${c}-500/50`}></div>
-                                                        <h4 className={`text-white font-bold text-base md:text-lg uppercase group-hover:text-${c}-400 transition-colors`}>
+                                                        <h4 className={`font-bold text-base md:text-lg uppercase group-hover:text-${c}-400 transition-colors ${t.textColor}`}>
                                                             {exp.position}
                                                         </h4>
                                                         <p className={`text-${c}-400/80 text-sm font-bold tracking-widest uppercase mt-1`}>
                                                             {exp.company}, Colombo, Sri Lanka
                                                         </p>
-                                                        <div className="flex items-center gap-2 text-gray-500 text-xs mt-1 font-mono uppercase tracking-tighter">
+                                                        <div className={`flex items-center gap-2 ${t.mutedTextColor} text-xs mt-1 font-mono uppercase tracking-tighter`}>
                                                             <Calendar size={12} />
                                                             {exp.duration}
                                                         </div>
                                                         <ul className="mt-4 space-y-2">
                                                             {exp.description.map((item, i) => (
-                                                                <li key={i} className="text-gray-400 text-xs md:text-sm flex items-start gap-3 group/li">
+                                                                <li key={i} className={`${t.mutedTextColor} text-xs md:text-sm flex items-start gap-3 group/li`}>
                                                                     <ChevronRight size={14} className={`text-${c}-500 flex-shrink-0 mt-1 group-hover/li:translate-x-1 transition-transform`} />
-                                                                    <span className="group-hover/li:text-gray-200 transition-colors">{item}</span>
+                                                                    <span className={`group-hover:${t.textColor} transition-colors`}>{item}</span>
                                                                 </li>
                                                             ))}
                                                         </ul>
@@ -461,13 +463,13 @@ const HireMeSection = () => {
                                             </h3>
                                             <div className="space-y-4">
                                                 {achievements.map((ach, index) => (
-                                                    <div key={index} data-cv-section={`ach-${index}`} className={`p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
+                                                    <div key={index} data-cv-section={`ach-${index}`} className={`p-4 ${t.cardColor} border ${t.borderColor} rounded-2xl hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
                                                         <div className="flex justify-between items-start mb-1">
-                                                            <h4 className={`text-white font-bold text-sm md:text-base group-hover:text-${c}-400 transition-all uppercase`}>{ach.title}</h4>
+                                                            <h4 className={`${t.textColor} font-bold text-sm md:text-base group-hover:text-${c}-400 transition-all uppercase`}>{ach.title}</h4>
                                                             <span className={`text-[10px] bg-${c}-500/10 text-${c}-400 px-2 py-0.5 rounded-full font-bold border border-${c}-500/20`}>{ach.date}</span>
                                                         </div>
-                                                        <p className="text-gray-500 text-xs font-bold uppercase tracking-tight mb-2 italic">{ach.issuer}</p>
-                                                        <p className="text-gray-400 text-xs md:text-sm">{ach.description}</p>
+                                                        <p className={`${t.mutedTextColor} text-xs font-bold uppercase tracking-tight mb-2 italic`}>{ach.issuer}</p>
+                                                        <p className={`${t.mutedTextColor} text-xs md:text-sm`}>{ach.description}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -483,12 +485,12 @@ const HireMeSection = () => {
                                                 <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                             </h3>
                                             <div className="space-y-6">
-                                                <div data-cv-section="edu-1" className={`bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
+                                                <div data-cv-section="edu-1" className={`${t.cardColor} border ${t.borderColor} rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className={`text-white font-bold text-lg uppercase group-hover:text-${c}-400`}>BSc. (Hons) in Computer Engineering</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka, {experience[1].duration}</span>
+                                                        <h4 className={`${t.textColor} font-bold text-lg uppercase group-hover:text-${c}-400`}>BSc. (Hons) in Computer Engineering</h4>
+                                                        <span className={`text-xs ${t.mutedTextColor} font-mono`}>University of Ruhuna, Sri Lanka, {experience[1].duration}</span>
                                                     </div>
-                                                    <p className="text-gray-300 text-sm font-bold italic">Specializing in Software Architecture and AI</p>
+                                                    <p className={`${t.mutedTextColor} text-sm font-bold italic`}>Specializing in Software Architecture and AI</p>
                                                     <div className="flex items-center gap-4 mt-4">
                                                         <div className={`flex items-center gap-2 text-${c}-400 text-xs font-black px-3 py-1 bg-${c}-500/10 border border-${c}-500/20 rounded-full uppercase tracking-widest`}>
                                                             <Award size={14} />
@@ -496,12 +498,12 @@ const HireMeSection = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div data-cv-section="edu-2" className={`bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
+                                                <div data-cv-section="edu-2" className={`${t.cardColor} border ${t.borderColor} rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className={`text-white font-bold text-lg uppercase group-hover:text-${c}-400`}>Advanced Level</h4>
-                                                        <span className="text-xs text-gray-500 font-mono">JAN 2019</span>
+                                                        <h4 className={`${t.textColor} font-bold text-lg uppercase group-hover:text-${c}-400`}>Advanced Level</h4>
+                                                        <span className={`text-xs ${t.mutedTextColor} font-mono`}>JAN 2019</span>
                                                     </div>
-                                                    <p className="text-gray-300 text-sm font-bold italic">Ch/Senanayaka Central College, Physical Science</p>
+                                                    <p className={`${t.mutedTextColor} text-sm font-bold italic`}>Ch/Senanayaka Central College, Physical Science</p>
                                                     <div className="mt-4 flex items-center gap-4">
                                                         <span className={`text-${c}-400 text-xs font-black px-3 py-1 bg-${c}-500/10 border border-${c}-500/20 rounded-full tracking-[0.2em]`}>ABB</span>
                                                     </div>
@@ -526,10 +528,10 @@ const HireMeSection = () => {
                                                 {skillLevels.map((skill, index) => (
                                                     <div key={index} className="space-y-1.5 group">
                                                         <div className="flex justify-between text-xs uppercase tracking-widest font-black">
-                                                            <span className="text-gray-300 group-hover:text-white transition-colors">{skill.skill}</span>
+                                                            <span className={`${t.mutedTextColor} group-hover:${t.textColor} transition-colors`}>{skill.skill}</span>
                                                             <span className={`text-${c}-400 italic`}>{skill.level}%</span>
                                                         </div>
-                                                        <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                                                        <div className={`w-full h-1.5 ${t.cardColor} rounded-full overflow-hidden border ${t.borderColor}`}>
                                                             <div
                                                                 className={`h-full bg-gradient-to-r from-${c}-600 via-${c}-400 to-${c}-300 rounded-full transition-all duration-1000`}
                                                                 style={{ width: `${skill.level}%` }}
@@ -540,8 +542,8 @@ const HireMeSection = () => {
                                             </div>
                                             <div className="mt-8 grid grid-cols-1 gap-4">
                                                 {skillCategories.map((cat, i) => (
-                                                    <div key={i} className="p-4 bg-black/40 border border-white/5 rounded-2xl group transition-all">
-                                                        <p className="text-[10px] text-gray-600 font-black mb-3 uppercase tracking-[0.3em] flex items-center gap-2">
+                                                    <div key={i} className={`p-4 ${t.cardColor} border ${t.borderColor} rounded-2xl group transition-all`}>
+                                                        <p className={`text-[10px] ${t.mutedTextColor} font-black mb-3 uppercase tracking-[0.3em] flex items-center gap-2`}>
                                                             <Layers size={12} className={`text-${c}-500/50`} />
                                                             {cat.category}
                                                         </p>
@@ -568,16 +570,16 @@ const HireMeSection = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                         {certificates.map((cert, index) => (
-                                            <a key={index} href={cert.link} target="_blank" className={`cv-link p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
+                                            <a key={index} href={cert.link} target="_blank" className={`cv-link p-5 ${t.cardColor} border ${t.borderColor} rounded-2xl flex flex-col justify-between hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
                                                 <div>
                                                     <div className="flex justify-between items-start mb-2">
                                                         <CheckCircle2 size={16} className={`text-${c}-500 opacity-50`} />
-                                                        <span className="text-[10px] text-gray-600 font-mono italic">{cert.date}</span>
+                                                        <span className={`text-[10px] ${t.mutedTextColor} font-mono italic`}>{cert.date}</span>
                                                     </div>
-                                                    <h4 className={`text-white font-bold text-sm uppercase group-hover:text-${c}-400 transition-colors leading-tight mb-2`}>
+                                                    <h4 className={`${t.textColor} font-bold text-sm uppercase group-hover:text-${c}-400 transition-colors leading-tight mb-2`}>
                                                         {cert.title}
                                                     </h4>
-                                                    <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest">{cert.issuer}</p>
+                                                    <p className={`${t.mutedTextColor} text-[10px] font-black uppercase tracking-widest`}>{cert.issuer}</p>
                                                 </div>
                                                 <ExternalLink size={12} className={`mt-4 text-${c}-500/40 group-hover:text-${c}-500 transition-all self-end`} />
                                             </a>
@@ -594,12 +596,12 @@ const HireMeSection = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         {projects.map((proj, index) => (
-                                            <div key={index} data-cv-section={`proj-${index}`} className={`p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-${c}-500/30 transition-all group h-full flex flex-col`}>
-                                                <h4 className="text-white font-black text-base uppercase mb-3 flex items-center justify-between">
+                                            <div key={index} data-cv-section={`proj-${index}`} className={`p-6 ${t.cardColor} border ${t.borderColor} rounded-2xl hover:border-${c}-500/30 transition-all group h-full flex flex-col`}>
+                                                <h4 className={`${t.textColor} font-black text-base uppercase mb-3 flex items-center justify-between`}>
                                                     {proj.title}
                                                     {proj.featured && <Star size={12} className="text-yellow-500 fill-yellow-500" />}
                                                 </h4>
-                                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed flex-grow italic mb-4">
+                                                <p className={`${t.mutedTextColor} text-xs md:text-sm leading-relaxed flex-grow italic mb-4`}>
                                                     {proj.description}
                                                 </p>
                                                 <div className="flex flex-wrap gap-1.5 mb-4">
@@ -609,7 +611,7 @@ const HireMeSection = () => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                                <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500 pt-4 border-t border-white/5">
+                                                <div className={`flex items-center gap-4 text-[10px] font-bold ${t.mutedTextColor} pt-4 border-t ${t.borderColor}`}>
                                                     <a href={proj.github} target="_blank" className={`cv-link hover:text-${c}-400 transition-all uppercase flex items-center gap-1.5`}>
                                                         <Terminal size={12} /> Source
                                                     </a>
@@ -626,31 +628,31 @@ const HireMeSection = () => {
                                 <div data-cv-section="stats" className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                                     <div>
                                         <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
-                                            <Terminal size={22} className="text-white" />
+                                            <Terminal size={22} className={`${t.textColor}`} />
                                             ONLINE PROFILES & STATS
                                             <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                         </h3>
                                         <div className="grid grid-cols-2 gap-4">
                                             {stats.map((s, index) => (
-                                                <div key={index} className={`p-6 bg-black/40 border border-white/5 rounded-3xl text-center group hover:border-${c}-500/30 transition-all`}>
-                                                    <p className={`text-3xl font-black text-white group-hover:text-${c}-400 transition-colors tracking-tighter`}>
+                                                <div key={index} className={`p-6 ${t.cardColor} border ${t.borderColor} rounded-3xl text-center group hover:border-${c}-500/30 transition-all`}>
+                                                    <p className={`text-3xl font-black ${t.textColor} group-hover:text-${c}-400 transition-colors tracking-tighter`}>
                                                         {s.value}{s.suffix}
                                                     </p>
-                                                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">{s.label}</p>
+                                                    <p className={`${t.mutedTextColor} text-[10px] font-bold uppercase tracking-[0.2em] mt-2`}>{s.label}</p>
                                                 </div>
                                             ))}
                                         </div>
-                                        <div className="mt-6 p-6 bg-white/5 border border-white/5 rounded-3xl space-y-4">
+                                        <div className={`mt-6 p-6 ${t.cardColor} border ${t.borderColor} rounded-3xl space-y-4`}>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Top 10 Contributor</span>
+                                                <span className={`text-xs font-bold ${t.mutedTextColor} uppercase tracking-widest`}>Top 10 Contributor</span>
                                                 <span className={`text-xs font-black text-${c}-400`}>SRI LANKA</span>
                                             </div>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Public Repos</span>
+                                                <span className={`text-xs font-bold ${t.mutedTextColor} uppercase tracking-widest`}>Public Repos</span>
                                                 <span className={`text-xs font-black text-${c}-400`}>100+</span>
                                             </div>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Commits</span>
+                                                <span className={`text-xs font-bold ${t.mutedTextColor} uppercase tracking-widest`}>Commits</span>
                                                 <span className={`text-xs font-black text-${c}-400`}>3800+</span>
                                             </div>
                                         </div>
@@ -664,12 +666,12 @@ const HireMeSection = () => {
                                         </h3>
                                         <div className="space-y-6">
                                             {blogArticles.map((art, index) => (
-                                                <a key={index} href={art.url} target="_blank" className={`cv-link block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-${c}-500/40 transition-all group`}>
+                                                <a key={index} href={art.url} target="_blank" className={`cv-link block p-6 ${t.cardColor} border ${t.borderColor} rounded-3xl hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-3">
-                                                        <h4 className={`text-white font-bold text-base md:text-lg uppercase leading-tight group-hover:text-${c}-400`}>{art.title}</h4>
+                                                        <h4 className={`${t.textColor} font-bold text-base md:text-lg uppercase leading-tight group-hover:text-${c}-400`}>{art.title}</h4>
                                                         <PenTool size={16} className="text-blue-500/50" />
                                                     </div>
-                                                    <p className="text-gray-400 text-xs md:text-sm italic mb-4">{art.description}</p>
+                                                    <p className={`${t.mutedTextColor} text-xs md:text-sm italic mb-4`}>{art.description}</p>
                                                     <div className="flex flex-wrap gap-2">
                                                         {art.tags.map((t, i) => (
                                                             <span key={i} className="text-[10px] text-blue-400/80 bg-blue-500/10 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest">{t}</span>
@@ -677,12 +679,12 @@ const HireMeSection = () => {
                                                     </div>
                                                 </a>
                                             ))}
-                                            <div className="p-6 bg-white/5 border border-white/10 rounded-3xl group">
+                                            <div className={`p-6 ${t.cardColor} border ${t.borderColor} rounded-3xl group`}>
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <h4 className={`text-white font-bold text-base uppercase group-hover:text-${c}-400`}>Presenter – Rextro 2026</h4>
+                                                    <h4 className={`${t.textColor} font-bold text-base uppercase group-hover:text-${c}-400`}>Presenter – Rextro 2026</h4>
                                                     <User size={16} className="text-yellow-500/50" />
                                                 </div>
-                                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed">
+                                                <p className={`${t.mutedTextColor} text-xs md:text-sm leading-relaxed`}>
                                                     Demonstrated a technical project to a live audience, explaining system architecture and answering technical questions on practical engineering applications.
                                                 </p>
                                             </div>
@@ -699,15 +701,15 @@ const HireMeSection = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {references.map((ref, index) => (
-                                            <div key={index} className={`p-8 bg-white/5 border border-white/5 rounded-3xl group hover:border-${c}-500/30 transition-all`}>
-                                                <h4 className={`text-white font-black text-xl uppercase mb-2 group-hover:text-${c}-400`}>{ref.name}</h4>
+                                            <div key={index} className={`p-8 ${t.cardColor} border ${t.borderColor} rounded-3xl group hover:border-${c}-500/30 transition-all`}>
+                                                <h4 className={`${t.textColor} font-black text-xl uppercase mb-2 group-hover:text-${c}-400`}>{ref.name}</h4>
                                                 <p className={`text-${c}-400/70 text-xs font-bold uppercase tracking-widest mb-1`}>{ref.role}</p>
-                                                <p className="text-gray-500 text-xs font-medium italic mb-6">{ref.organization}</p>
+                                                <p className={`${t.mutedTextColor} text-xs font-medium italic mb-6`}>{ref.organization}</p>
                                                 <div className="space-y-2">
-                                                    <a href={`mailto:${ref.email}`} className={`cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-${c}-400 transition-colors`}>
+                                                    <a href={`mailto:${ref.email}`} className={`cv-link flex items-center gap-3 text-sm ${t.mutedTextColor} font-mono hover:text-${c}-400 transition-colors`}>
                                                         <Mail size={14} className="text-blue-500" /> {ref.email}
                                                     </a>
-                                                    <a href={`tel:${ref.phone}`} className={`cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-${c}-400 transition-colors`}>
+                                                    <a href={`tel:${ref.phone}`} className={`cv-link flex items-center gap-3 text-sm ${t.mutedTextColor} font-mono hover:text-${c}-400 transition-colors`}>
                                                         <Phone size={14} className={`text-${c}-500`} /> {ref.phone}
                                                     </a>
                                                 </div>
@@ -738,14 +740,14 @@ const HireMeSection = () => {
                             },
                         ].map((item, index) => (
                             <ScrollAnimation key={index} direction="up" delay={index * 100 + 200}>
-                                <div className={`group bg-[#111]/80 backdrop-blur-md border border-${c}-500/10 rounded-2xl p-8 hover:border-${c}-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-2xl hover:shadow-${c}-500/10 transition-all duration-500 hover:-translate-y-2 h-full`}>
-                                    <div className={`mb-6 p-3 bg-white/5 rounded-xl inline-block group-hover:scale-110 group-hover:bg-${c}-500/10 transition-all duration-500`}>
+                                <div className={`group ${t.backgroundColor}/80 backdrop-blur-md border ${t.borderColor} rounded-2xl p-8 hover:border-${c}-500/40 hover:bg-white/5 hover:shadow-2xl hover:shadow-${c}-500/10 transition-all duration-500 hover:-translate-y-2 h-full`}>
+                                    <div className={`mb-6 p-3 ${t.cardColor} rounded-xl inline-block group-hover:scale-110 group-hover:bg-${c}-500/10 transition-all duration-500`}>
                                         {item.icon}
                                     </div>
-                                    <h4 className={`text-xl font-bold text-white mb-3 group-hover:text-${c}-400 transition-colors uppercase tracking-tight`}>
+                                    <h4 className={`text-xl font-bold ${t.textColor} mb-3 group-hover:text-${c}-400 transition-colors uppercase tracking-tight`}>
                                         {item.title}
                                     </h4>
-                                    <p className="text-gray-400 text-sm leading-relaxed font-medium">
+                                    <p className={`${t.mutedTextColor} text-sm leading-relaxed font-medium`}>
                                         {item.desc}
                                     </p>
                                 </div>
@@ -755,7 +757,7 @@ const HireMeSection = () => {
 
                     <ScrollAnimation direction="up" delay={300}>
                         <div className="text-center space-y-6 pt-10 pb-20">
-                            <p className="text-gray-300 text-lg md:text-xl font-medium">
+                            <p className={`${t.textColor} text-lg md:text-xl font-medium opacity-80`}>
                                 Looking for a high-performance engineer to join your mission?
                             </p>
                             <div className="flex flex-wrap justify-center gap-5">
@@ -769,7 +771,7 @@ const HireMeSection = () => {
                                 </a>
                                 <a
                                     href={`mailto:${personalInfo.email}?subject=Job Opportunity&body=Hi Dulshan,%0D%0A%0D%0AI came across your portfolio and I'd like to discuss a potential opportunity.%0D%0A%0D%0ABest regards`}
-                                    className="px-10 py-5 bg-transparent border border-gray-700 rounded-2xl text-gray-400 hover:border-white hover:text-white hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3"
+                                    className={`px-10 py-5 bg-transparent border ${t.borderColor} rounded-2xl ${t.mutedTextColor} hover:border-${c}-500 hover:${t.textColor} hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3`}
                                 >
                                     <Mail size={22} />
                                     Direct Link

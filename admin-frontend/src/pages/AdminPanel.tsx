@@ -12,6 +12,7 @@ import {
   getCvTheme,
   updateCvTheme,
 } from '../utils/api';
+import { themes } from '../constants/themeConfig';
 import type { ProjectEulerArticle, Message } from '../utils/api';
 import Toast from '../components/Toast';
 
@@ -514,24 +515,19 @@ const AdminPanel = () => {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {[
-                        { id: 'emerald', name: 'Emerald', class: 'bg-green-500', glow: 'shadow-green-500/50' },
-                        { id: 'ruby', name: 'Ruby', class: 'bg-red-500', glow: 'shadow-red-500/50' },
-                        { id: 'ocean', name: 'Ocean', class: 'bg-blue-500', glow: 'shadow-blue-500/50' },
-                        { id: 'amber', name: 'Amber', class: 'bg-yellow-500', glow: 'shadow-yellow-500/50' },
-                      ].map((theme) => (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                      {themes.map((theme) => (
                         <button
                           key={theme.id}
                           onClick={() => handleUpdateTheme(theme.id)}
                           className={`relative p-5 rounded-2xl border-2 transition-all duration-500 group overflow-hidden ${cvTheme === theme.id ? 'border-white/40' : 'border-transparent hover:border-white/10'}`}
                         >
-                          <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${theme.class}`}></div>
+                          <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${theme.backgroundColor}`}></div>
                           <div className="relative z-10 flex flex-col items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg ${theme.class} ${cvTheme === theme.id ? `shadow-lg ${theme.glow} scale-110` : 'scale-100'} transition-all`}></div>
+                            <div className={`w-8 h-8 rounded-lg bg-${theme.baseColor}-500 ${cvTheme === theme.id ? 'shadow-lg shadow-white/20 scale-110' : 'scale-100'} transition-all`}></div>
                             <span className={`text-[10px] font-bold uppercase tracking-[0.2em] mono ${cvTheme === theme.id ? 'text-white' : 'text-gray-500'}`}>{theme.name}</span>
                           </div>
-                          {cvTheme === theme.id && <div className="absolute top-2 right-2 text-[8px] text-white mono font-bold">ACTIVE</div>}
+                          {cvTheme === theme.id && <div className="absolute top-2 right-2 text-[8px] text-white mono font-bold bg-green-500 px-1 rounded">ACTIVE</div>}
                         </button>
                       ))}
                     </div>
