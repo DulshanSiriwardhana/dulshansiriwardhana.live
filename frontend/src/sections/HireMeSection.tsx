@@ -542,46 +542,80 @@ const HireMeSection = () => {
 
             <style>{`
         @media print {
+          @page {
+            margin: 0;
+            size: auto;
+          }
+          body {
+            background: #000 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
           body * {
             visibility: hidden;
           }
           #cv-preview, #cv-preview * {
             visibility: visible !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           #cv-preview {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
-            background: white !important;
+            margin: 0 !important;
+            padding: 0 !important;
             border: none !important;
             border-radius: 0 !important;
             box-shadow: none !important;
+            background: #080808 !important;
           }
-          #cv-preview * {
-            color: #111 !important;
-            border-color: #ddd !important;
-            background: white !important;
+          /* Ensure all background gradients and colors are preserved */
+          .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops)) !important;
           }
-          #cv-preview h2, #cv-preview h3, #cv-preview h4 {
-            color: #111 !important;
+          .from-\\[\\#111\\] {
+            --tw-gradient-from: #111 !important;
+            --tw-gradient-to: rgb(17 17 17 / 0) !important;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
           }
-          #cv-preview .text-green-400,
-          #cv-preview .text-green-400\\/80,
-          #cv-preview .text-green-400\\/70 {
-            color: #166534 !important;
+          .via-\\[\\#0a0a0a\\] {
+            --tw-gradient-to: rgb(10 10 10 / 0) !important;
+            --tw-gradient-stops: var(--tw-gradient-from), #0a0a0a var(--tw-gradient-via-perc, 50%), var(--tw-gradient-to) !important;
           }
-          #cv-preview .text-gray-400,
-          #cv-preview .text-gray-500,
-          #cv-preview .text-gray-300 {
-            color: #444 !important;
+          .to-\\[\\#111\\] {
+            --tw-gradient-to: #111 !important;
           }
-          #cv-preview .bg-gradient-to-r {
-            background: #f8f8f8 !important;
+          .bg-white\\/5 {
+            background-color: rgba(255, 255, 255, 0.05) !important;
           }
-          @page {
-            margin: 0.5cm;
-            size: A4;
+          .bg-green-500\\/10 {
+            background-color: rgba(34, 197, 94, 0.1) !important;
+          }
+          .bg-green-500\\/5 {
+            background-color: rgba(34, 197, 94, 0.05) !important;
+          }
+          .border-green-500\\/30 {
+            border-color: rgba(34, 197, 94, 0.3) !important;
+          }
+          .border-white\\/10 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+          }
+          .border-white\\/5 {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+          }
+          .text-green-400 {
+            color: #4ade80 !important;
+          }
+          .text-gray-400 {
+            color: #9ca3af !important;
+          }
+          .text-gray-300 {
+            color: #d1d5db !important;
+          }
+          .text-gray-500 {
+            color: #6b7280 !important;
           }
         }
       `}</style>
