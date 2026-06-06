@@ -59,6 +59,25 @@ const AdminPanel = () => {
   const [tagInput, setTagInput] = useState('');
   const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
+  const colorMap: Record<string, string> = {
+    emerald: '#10b981',
+    ruby: '#e11d48',
+    rose: '#f43f5e',
+    blue: '#3b82f6',
+    amber: '#f59e0b',
+    slate: '#64748b',
+    violet: '#8b5cf6',
+    orange: '#f97316',
+    purple: '#a855f7',
+    indigo: '#6366f1',
+    lime: '#84cc16',
+    green: '#22c55e',
+    red: '#ef4444',
+    pink: '#ec4899',
+    teal: '#14b8a6',
+    yellow: '#eab308'
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('admin_user');
     if (storedUser) {
@@ -515,19 +534,66 @@ const AdminPanel = () => {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                       {themes.map((theme) => (
                         <button
                           key={theme.id}
                           onClick={() => handleUpdateTheme(theme.id)}
-                          className={`relative p-5 rounded-2xl border-2 transition-all duration-500 group overflow-hidden ${cvTheme === theme.id ? 'border-white/40' : 'border-transparent hover:border-white/10'}`}
+                          className={`relative p-0 rounded-3xl border-2 transition-all duration-500 group overflow-hidden flex flex-col text-left ${cvTheme === theme.id ? 'border-white/40 ring-4 ring-white/10' : 'border-white/5 hover:border-white/20'}`}
                         >
-                          <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${theme.backgroundColor}`}></div>
-                          <div className="relative z-10 flex flex-col items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg bg-${theme.baseColor}-500 ${cvTheme === theme.id ? 'shadow-lg shadow-white/20 scale-110' : 'scale-100'} transition-all`}></div>
-                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] mono ${cvTheme === theme.id ? 'text-white' : 'text-gray-500'}`}>{theme.name}</span>
+                          {/* Visual Preview */}
+                          <div className={`h-24 w-full relative ${theme.backgroundColor}`}>
+                            <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-gradient-to-br from-white/20 to-transparent"></div>
+
+                            {/* Theme Details Badge */}
+                            <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
+                              <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter ${theme.isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black'}`}>
+                                {theme.isDark ? 'Dark Mode' : 'Light Mode'}
+                              </span>
+                              {cvTheme === theme.id && (
+                                <span className="text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter bg-green-500 text-white animate-pulse">
+                                  Synchronized
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Color Swatches */}
+                            <div className="absolute bottom-3 left-4 flex gap-1.5 items-center">
+                              <div
+                                className="w-5 h-5 rounded-full border border-white/20 shadow-lg"
+                                style={{ backgroundColor: colorMap[theme.baseColor] || '#555' }}
+                              ></div>
+                              <div
+                                className="w-3 h-3 rounded-full border border-white/10 opacity-60"
+                                style={{ backgroundColor: theme.textColor.match(/\[(.*?)\]/)?.[1] || (theme.textColor.includes('white') ? '#fff' : '#000') }}
+                              ></div>
+                            </div>
                           </div>
-                          {cvTheme === theme.id && <div className="absolute top-2 right-2 text-[8px] text-white mono font-bold bg-green-500 px-1 rounded">ACTIVE</div>}
+
+                          {/* Info Area */}
+                          <div className="p-4 bg-[#0a0a0a] flex-grow">
+                            <h5 className="text-sm font-bold text-white mb-1 group-hover:text-green-400 transition-colors">{theme.name}</h5>
+                            <div className="flex flex-col gap-0.5">
+                              <div className="flex items-center justify-between text-[9px] uppercase font-mono tracking-tighter">
+                                <span className="text-gray-600">Base:</span>
+                                <span className="text-gray-400">{theme.baseColor}</span>
+                              </div>
+                              <div className="flex items-center justify-between text-[9px] uppercase font-mono tracking-tighter">
+                                <span className="text-gray-600">Palette:</span>
+                                <span className="text-gray-400 truncate max-w-[80px]">{theme.mutedTextColor.match(/\[(.*?)\]/)?.[1] || theme.mutedTextColor}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Hover Overlay Detail */}
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center pointer-events-none">
+                            <span className="text-[10px] font-bold text-white uppercase tracking-[0.3em] mb-2">Deploy Theme</span>
+                            <div className="flex gap-2">
+                              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colorMap[theme.baseColor] }}></div>
+                              <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                              <div className="w-2 h-2 rounded-full bg-white/5"></div>
+                            </div>
+                          </div>
                         </button>
                       ))}
                     </div>

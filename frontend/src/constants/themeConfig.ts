@@ -18,8 +18,8 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#030303]',
         cardColor: 'bg-white/5',
         textColor: 'text-white',
-        mutedTextColor: 'text-gray-400',
-        borderColor: 'border-white/10',
+        mutedTextColor: 'text-emerald-500/60',
+        borderColor: 'border-emerald-500/20',
         isDark: true
     },
     {
@@ -29,8 +29,8 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#050101]',
         cardColor: 'bg-white/5',
         textColor: 'text-white',
-        mutedTextColor: 'text-gray-400',
-        borderColor: 'border-white/10',
+        mutedTextColor: 'text-rose-500/60',
+        borderColor: 'border-rose-500/20',
         isDark: true
     },
     {
@@ -40,8 +40,8 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#01040a]',
         cardColor: 'bg-white/5',
         textColor: 'text-white',
-        mutedTextColor: 'text-gray-400',
-        borderColor: 'border-white/10',
+        mutedTextColor: 'text-blue-500/60',
+        borderColor: 'border-blue-500/20',
         isDark: true
     },
     {
@@ -51,8 +51,8 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#080501]',
         cardColor: 'bg-white/5',
         textColor: 'text-white',
-        mutedTextColor: 'text-gray-400',
-        borderColor: 'border-white/10',
+        mutedTextColor: 'text-amber-500/60',
+        borderColor: 'border-amber-500/20',
         isDark: true
     },
     {
@@ -138,8 +138,8 @@ export const themes: ThemeConfig[] = [
         baseColor: 'green',
         backgroundColor: 'bg-[#010502]',
         cardColor: 'bg-green-900/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-green-300/40',
+        textColor: 'text-green-50',
+        mutedTextColor: 'text-green-500/50',
         borderColor: 'border-green-800/20',
         isDark: true
     },
@@ -172,7 +172,7 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-black',
         cardColor: 'bg-black',
         textColor: 'text-green-500',
-        mutedTextColor: 'text-green-800',
+        mutedTextColor: 'text-green-500/50',
         borderColor: 'border-green-500/30',
         isDark: true
     },
@@ -216,7 +216,7 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#0a0800]',
         cardColor: 'bg-yellow-900/10',
         textColor: 'text-white',
-        mutedTextColor: 'text-yellow-200/40',
+        mutedTextColor: 'text-yellow-500/50',
         borderColor: 'border-yellow-500/20',
         isDark: true
     },
@@ -227,7 +227,7 @@ export const themes: ThemeConfig[] = [
         backgroundColor: 'bg-[#111111]',
         cardColor: 'bg-[#1a1a1a]',
         textColor: 'text-white',
-        mutedTextColor: 'text-slate-500',
+        mutedTextColor: 'text-slate-400',
         borderColor: 'border-slate-800',
         isDark: true
     }
