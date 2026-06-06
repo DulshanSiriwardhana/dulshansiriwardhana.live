@@ -74,7 +74,7 @@ const HireMeSection = () => {
             const a4Height = 841.89;
 
             // Remove all safePadding as per user request to remove side margins
-            //const safePadding = 0;
+            // const safePadding = 0;
             const availableHeight = a4Height;
 
             // Scale factor to map CSS pixels to PDF points (edge-to-edge)
@@ -111,13 +111,13 @@ const HireMeSection = () => {
                 if (heightWithNextSection > availableHeightInCanvasPixels) {
                     if (uniqueBreaks[i - 1] > currentPageStart) {
                         pages.push({
-                            startY: currentPageStart,
+                            startY: currentPageStart - 10,
                             endY: uniqueBreaks[i - 1],
                         });
                         currentPageStart = uniqueBreaks[i - 1];
                     } else {
                         pages.push({
-                            startY: currentPageStart,
+                            startY: currentPageStart - 10,
                             endY: uniqueBreaks[i],
                         });
                         currentPageStart = uniqueBreaks[i];
