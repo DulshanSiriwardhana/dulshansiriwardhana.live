@@ -138,6 +138,15 @@ const HireMeSection = () => {
                 });
             }
 
+            // Prepare text layer for ATS
+            const textElements = Array.from(cvElement.querySelectorAll('h1, h2, h3, h4, p, li, span, a, div, h2 > span'))
+                .filter(el => {
+                    const hasDirectText = Array.from(el.childNodes).some(node =>
+                        node.nodeType === Node.TEXT_NODE && node.textContent?.trim()
+                    );
+                    return hasDirectText;
+                });
+
             const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'pt',
@@ -152,6 +161,43 @@ const HireMeSection = () => {
 
                 const { startY, endY } = pages[j];
                 const sliceHeight = endY - startY;
+
+                // Add Text Layer (Invisible to humans, readable by ATS) for ATS Scanners
+                pdf.setTextColor(200, 200, 200); // Use a light gray (hidden behind the image)
+                pdf.setFont('helvetica', 'normal');
+
+                textElements.forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    const elTopInCanvasPixels = (rect.top - cvRect.top) * 2;
+                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * 2;
+
+                    // Check if element is visible on this page
+                    if (elTopInCanvasPixels < endY && elBottomInCanvasPixels > startY) {
+                        const style = window.getComputedStyle(el);
+                        const fontSizeInPoints = parseFloat(style.fontSize) * scaleToPoints;
+                        const x = (rect.left - cvRect.left) * scaleToPoints;
+                        const currentTopPaddingInPoints = j === 0 ? 0 : topPaddingForSubsequentPages;
+                        const y = ((elTopInCanvasPixels - startY) / 2 * scaleToPoints) + currentTopPaddingInPoints + (fontSizeInPoints * 0.8); // +fontSize*0.8 for baseline alignment
+
+                        // Extract clean text (excluding Lucide icons text if any)
+                        const text = Array.from(el.childNodes)
+                            .filter(node => node.nodeType === Node.TEXT_NODE)
+                            .map(node => node.textContent?.trim())
+                            .join(' ');
+
+                        if (text) {
+                            pdf.setFontSize(fontSizeInPoints);
+                            // Also check weight
+                            const fontWeight = style.fontWeight;
+                            if (parseInt(fontWeight) >= 700 || fontWeight === 'bold') {
+                                pdf.setFont('helvetica', 'bold');
+                            } else {
+                                pdf.setFont('helvetica', 'normal');
+                            }
+                            pdf.text(text, x, y);
+                        }
+                    }
+                });
 
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
