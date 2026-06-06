@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas-pro";
 import { jsPDF } from "jspdf";
 import SectionTitle from "../components/SectionTitle";
@@ -43,10 +43,23 @@ import {
     references,
     stats
 } from "../constants/landingPageData";
+import { getCvTheme } from "../utils/api";
 
 const HireMeSection = () => {
     const [isGenerating, setIsGenerating] = useState(false);
     const cvRef = useRef<HTMLDivElement>(null);
+    const [theme, setTheme] = useState('emerald');
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const data = await getCvTheme();
+            if (data && data.value) setTheme(data.value);
+        };
+        fetchTheme();
+    }, []);
+
+    const themeBaseColor = theme === 'emerald' ? 'green' : theme === 'ruby' ? 'red' : theme === 'ocean' ? 'blue' : 'yellow';
+    const c = themeBaseColor;
 
     const handleDownloadCV = async () => {
         if (!cvRef.current || isGenerating) return;
@@ -278,15 +291,15 @@ const HireMeSection = () => {
                     />
 
                     <ScrollAnimation direction="up">
-                        <div className="relative overflow-hidden bg-gradient-to-r from-green-500/10 via-green-600/5 to-green-500/10 border border-green-500/30 rounded-3xl p-6 md:p-8">
-                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
-                            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent"></div>
+                        <div className={`relative overflow-hidden bg-gradient-to-r from-${c}-500/10 via-${c}-600/5 to-${c}-500/10 border border-${c}-500/30 rounded-3xl p-6 md:p-8`}>
+                            <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-${c}-400 to-transparent`}></div>
+                            <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-${c}-400/50 to-transparent`}></div>
 
                             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                                 <div className="flex items-center gap-4">
                                     <div className="relative">
-                                        <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
-                                        <div className="absolute inset-0 w-4 h-4 bg-green-400 rounded-full animate-ping opacity-30"></div>
+                                        <div className={`w-4 h-4 bg-${c}-400 rounded-full animate-pulse`}></div>
+                                        <div className={`absolute inset-0 w-4 h-4 bg-${c}-400 rounded-full animate-ping opacity-30`}></div>
                                     </div>
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
@@ -302,7 +315,7 @@ const HireMeSection = () => {
                                     <a
                                         href="#contact"
                                         onClick={(e) => handleSmoothScroll(e, "#contact")}
-                                        className="px-6 py-3 bg-green-500/20 border border-green-500/50 rounded-xl text-green-400 hover:bg-green-500/30 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base flex items-center gap-2 uppercase tracking-wider"
+                                        className={`px-6 py-3 bg-${c}-500/20 border border-${c}-500/50 rounded-xl text-${c}-400 hover:bg-${c}-500/30 hover:border-${c}-500 hover:scale-105 hover:shadow-lg hover:shadow-${c}-500/20 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base flex items-center gap-2 uppercase tracking-wider`}
                                     >
                                         <Send size={18} />
                                         Contact Me
@@ -310,7 +323,7 @@ const HireMeSection = () => {
                                     <button
                                         onClick={handleDownloadCV}
                                         disabled={isGenerating}
-                                        className="px-6 py-3 bg-transparent border border-gray-600 rounded-xl text-gray-300 hover:border-green-500/50 hover:text-green-400 hover:scale-105 hover:bg-green-500/10 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider"
+                                        className={`px-6 py-3 bg-transparent border border-gray-600 rounded-xl text-gray-300 hover:border-${c}-500/50 hover:text-${c}-400 hover:scale-105 hover:bg-${c}-500/10 active:scale-100 transition-all duration-300 font-bold text-sm md:text-base disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider`}
                                     >
                                         <Download size={18} className={isGenerating ? "animate-bounce" : ""} />
                                         {isGenerating ? "Generating..." : "Download Full CV"}
@@ -324,14 +337,14 @@ const HireMeSection = () => {
                         <div
                             ref={cvRef}
                             id="cv-preview"
-                            className="bg-[#080808] border border-green-500/30 rounded-3xl overflow-hidden hover:border-green-500/50 transition-all duration-700 shadow-2xl hover:shadow-green-500/20 min-w-[320px]"
+                            className={`bg-[#080808] border border-${c}-500/30 rounded-3xl overflow-hidden hover:border-${c}-500/50 transition-all duration-700 shadow-2xl hover:shadow-${c}-500/20 min-w-[320px]`}
                         >
                             {/* CV Header */}
-                            <div data-cv-section="header" className="bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-green-500/30 p-8 md:p-12">
+                            <div data-cv-section="header" className={`bg-gradient-to-r from-[#111] via-[#0a0a0a] to-[#111] border-b border-${c}-500/30 p-8 md:p-12`}>
                                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
                                     <div className="relative group">
-                                        <div className="absolute inset-0 bg-green-500/20 rounded-3xl blur-2xl group-hover:bg-green-500/40 transition-all duration-500"></div>
-                                        <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#111] border-2 border-green-500/40 p-1 flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-all duration-500">
+                                        <div className={`absolute inset-0 bg-${c}-500/20 rounded-3xl blur-2xl group-hover:bg-${c}-500/40 transition-all duration-500`}></div>
+                                        <div className={`relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#111] border-2 border-${c}-500/40 p-1 flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-all duration-500`}>
                                             <img
                                                 src={profileImage}
                                                 alt={`${personalInfo.firstName} ${personalInfo.lastName}`}
@@ -344,7 +357,7 @@ const HireMeSection = () => {
                                             <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic">
                                                 {personalInfo.firstName} {personalInfo.lastName}
                                             </h2>
-                                            <p className="text-green-400 font-bold text-xl md:text-2xl mt-2 flex items-center justify-center lg:justify-start gap-3">
+                                            <p className={`text-${c}-400 font-bold text-xl md:text-2xl mt-2 flex items-center justify-center lg:justify-start gap-3`}>
                                                 <Terminal size={24} />
                                                 {personalInfo.title}
                                             </p>
@@ -359,7 +372,7 @@ const HireMeSection = () => {
                                                 {personalInfo.email}
                                             </a>
                                             <a href={`tel:${personalInfo.phone.replace(/\s/g, '')}`} className="cv-link flex items-center gap-2 hover:text-white transition-colors">
-                                                <Phone size={16} className="text-green-500" />
+                                                <Phone size={16} className={`text-${c}-500`} />
                                                 {personalInfo.phone}
                                             </a>
                                             <a href={`https://${personalInfo.website}`} target="_blank" className="cv-link flex items-center gap-2 hover:text-white transition-colors">
@@ -392,12 +405,12 @@ const HireMeSection = () => {
                             <div className="p-8 md:p-12 space-y-12">
                                 {/* Professional Summary */}
                                 <div data-cv-section="summary">
-                                    <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-3">
+                                    <h3 className={`text-xl font-bold text-${c}-400 mb-6 flex items-center gap-3`}>
                                         <Search size={22} className="text-blue-500" />
                                         PROFESSIONAL SUMMARY
-                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                     </h3>
-                                    <p className="text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-green-500/20 pl-6 py-2">
+                                    <p className={`text-gray-300 leading-relaxed text-sm md:text-lg font-medium font-spectral italic border-l-4 border-${c}-500/20 pl-6 py-2`}>
                                         Professional Summary: {personalInfo.bio} Dedicated Full-Stack Engineer with a deep focus on performance optimization, distributed systems, and modern architectural patterns. Expert in delivering high-fidelity user experiences and robust backend infrastructures.
                                     </p>
                                 </div>
@@ -406,20 +419,20 @@ const HireMeSection = () => {
                                     {/* Experience Column */}
                                     <div className="space-y-10">
                                         <div data-cv-section="experience">
-                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                                 <Briefcase size={22} className="text-orange-500" />
                                                 WORK EXPERIENCE
-                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                                <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                             </h3>
                                             <div className="space-y-10">
                                                 {experience.map((exp, index) => (
                                                     <div key={index} data-cv-section={`exp-${index}`} className="relative group pl-8">
-                                                        <div className="absolute left-0 top-0 bottom-0 w-px bg-green-500/20 group-hover:bg-green-500/50 transition-all"></div>
-                                                        <div className="absolute left-[-4px] top-2 w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
-                                                        <h4 className="text-white font-bold text-base md:text-lg uppercase group-hover:text-green-400 transition-colors">
+                                                        <div className={`absolute left-0 top-0 bottom-0 w-px bg-${c}-500/20 group-hover:bg-${c}-500/50 transition-all`}></div>
+                                                        <div className={`absolute left-[-4px] top-2 w-2 h-2 bg-${c}-400 rounded-full shadow-lg shadow-${c}-500/50`}></div>
+                                                        <h4 className={`text-white font-bold text-base md:text-lg uppercase group-hover:text-${c}-400 transition-colors`}>
                                                             {exp.position}
                                                         </h4>
-                                                        <p className="text-green-400/80 text-sm font-bold tracking-widest uppercase mt-1">
+                                                        <p className={`text-${c}-400/80 text-sm font-bold tracking-widest uppercase mt-1`}>
                                                             {exp.company}, Colombo, Sri Lanka
                                                         </p>
                                                         <div className="flex items-center gap-2 text-gray-500 text-xs mt-1 font-mono uppercase tracking-tighter">
@@ -429,7 +442,7 @@ const HireMeSection = () => {
                                                         <ul className="mt-4 space-y-2">
                                                             {exp.description.map((item, i) => (
                                                                 <li key={i} className="text-gray-400 text-xs md:text-sm flex items-start gap-3 group/li">
-                                                                    <ChevronRight size={14} className="text-green-500 flex-shrink-0 mt-1 group-hover/li:translate-x-1 transition-transform" />
+                                                                    <ChevronRight size={14} className={`text-${c}-500 flex-shrink-0 mt-1 group-hover/li:translate-x-1 transition-transform`} />
                                                                     <span className="group-hover/li:text-gray-200 transition-colors">{item}</span>
                                                                 </li>
                                                             ))}
@@ -441,17 +454,17 @@ const HireMeSection = () => {
 
                                         {/* Achievements */}
                                         <div data-cv-section="achievements">
-                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                                 <Trophy size={22} className="text-yellow-500" />
                                                 KEY ACHIEVEMENTS
-                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                                <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                             </h3>
                                             <div className="space-y-4">
                                                 {achievements.map((ach, index) => (
-                                                    <div key={index} data-cv-section={`ach-${index}`} className="p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                                    <div key={index} data-cv-section={`ach-${index}`} className={`p-4 bg-white/5 border border-white/5 rounded-2xl hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
                                                         <div className="flex justify-between items-start mb-1">
-                                                            <h4 className="text-white font-bold text-sm md:text-base group-hover:text-green-400 transition-all uppercase">{ach.title}</h4>
-                                                            <span className="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full font-bold border border-green-500/20">{ach.date}</span>
+                                                            <h4 className={`text-white font-bold text-sm md:text-base group-hover:text-${c}-400 transition-all uppercase`}>{ach.title}</h4>
+                                                            <span className={`text-[10px] bg-${c}-500/10 text-${c}-400 px-2 py-0.5 rounded-full font-bold border border-${c}-500/20`}>{ach.date}</span>
                                                         </div>
                                                         <p className="text-gray-500 text-xs font-bold uppercase tracking-tight mb-2 italic">{ach.issuer}</p>
                                                         <p className="text-gray-400 text-xs md:text-sm">{ach.description}</p>
@@ -464,43 +477,43 @@ const HireMeSection = () => {
                                     {/* Education & Skills Column */}
                                     <div className="space-y-12">
                                         <div data-cv-section="education">
-                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                                 <GraduationCap size={22} className="text-yellow-500" />
                                                 EDUCATION
-                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                                <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                             </h3>
                                             <div className="space-y-6">
-                                                <div data-cv-section="edu-1" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                <div data-cv-section="edu-1" className={`bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">BSc. (Hons) in Computer Engineering</h4>
+                                                        <h4 className={`text-white font-bold text-lg uppercase group-hover:text-${c}-400`}>BSc. (Hons) in Computer Engineering</h4>
                                                         <span className="text-xs text-gray-500 font-mono">University of Ruhuna, Sri Lanka, {experience[1].duration}</span>
                                                     </div>
                                                     <p className="text-gray-300 text-sm font-bold italic">Specializing in Software Architecture and AI</p>
                                                     <div className="flex items-center gap-4 mt-4">
-                                                        <div className="flex items-center gap-2 text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full uppercase tracking-widest">
+                                                        <div className={`flex items-center gap-2 text-${c}-400 text-xs font-black px-3 py-1 bg-${c}-500/10 border border-${c}-500/20 rounded-full uppercase tracking-widest`}>
                                                             <Award size={14} />
                                                             GPA: 3.3
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div data-cv-section="edu-2" className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-green-500/40 transition-all group">
+                                                <div data-cv-section="edu-2" className={`bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <h4 className="text-white font-bold text-lg uppercase group-hover:text-green-400">Advanced Level</h4>
+                                                        <h4 className={`text-white font-bold text-lg uppercase group-hover:text-${c}-400`}>Advanced Level</h4>
                                                         <span className="text-xs text-gray-500 font-mono">JAN 2019</span>
                                                     </div>
                                                     <p className="text-gray-300 text-sm font-bold italic">Ch/Senanayaka Central College, Physical Science</p>
                                                     <div className="mt-4 flex items-center gap-4">
-                                                        <span className="text-green-400 text-xs font-black px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full tracking-[0.2em]">ABB</span>
+                                                        <span className={`text-${c}-400 text-xs font-black px-3 py-1 bg-${c}-500/10 border border-${c}-500/20 rounded-full tracking-[0.2em]`}>ABB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div data-cv-section="skills">
-                                            <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                            <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                                 <Code2 size={24} className="text-purple-400" />
                                                 TECHNICAL SKILLS
-                                                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                                <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                             </h3>
 
                                             <div className="sr-only">
@@ -514,11 +527,11 @@ const HireMeSection = () => {
                                                     <div key={index} className="space-y-1.5 group">
                                                         <div className="flex justify-between text-xs uppercase tracking-widest font-black">
                                                             <span className="text-gray-300 group-hover:text-white transition-colors">{skill.skill}</span>
-                                                            <span className="text-green-400 italic">{skill.level}%</span>
+                                                            <span className={`text-${c}-400 italic`}>{skill.level}%</span>
                                                         </div>
                                                         <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
                                                             <div
-                                                                className="h-full bg-gradient-to-r from-green-600 via-green-400 to-green-300 rounded-full transition-all duration-1000"
+                                                                className={`h-full bg-gradient-to-r from-${c}-600 via-${c}-400 to-${c}-300 rounded-full transition-all duration-1000`}
                                                                 style={{ width: `${skill.level}%` }}
                                                             ></div>
                                                         </div>
@@ -529,12 +542,12 @@ const HireMeSection = () => {
                                                 {skillCategories.map((cat, i) => (
                                                     <div key={i} className="p-4 bg-black/40 border border-white/5 rounded-2xl group transition-all">
                                                         <p className="text-[10px] text-gray-600 font-black mb-3 uppercase tracking-[0.3em] flex items-center gap-2">
-                                                            <Layers size={12} className="text-green-500/50" />
+                                                            <Layers size={12} className={`text-${c}-500/50`} />
                                                             {cat.category}
                                                         </p>
                                                         <div className="flex flex-wrap gap-2">
                                                             {cat.skills.map((s, j) => (
-                                                                <span key={j} className="text-[10px] md:text-xs text-green-400/80 font-bold px-2 py-1 bg-green-500/5 border border-green-500/10 rounded-lg group-hover:border-green-500/30 transition-all uppercase tracking-tight">
+                                                                <span key={j} className={`text-[10px] md:text-xs text-${c}-400/80 font-bold px-2 py-1 bg-${c}-500/5 border border-${c}-500/10 rounded-lg group-hover:border-${c}-500/30 transition-all uppercase tracking-tight`}>
                                                                     {s}
                                                                 </span>
                                                             ))}
@@ -548,25 +561,25 @@ const HireMeSection = () => {
 
                                 {/* Certificates */}
                                 <div data-cv-section="certificates">
-                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
-                                        <ShieldCheck size={24} className="text-emerald-500" />
+                                    <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
+                                        <ShieldCheck size={24} className={`text-${c}-500`} />
                                         CERTIFICATES
-                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                         {certificates.map((cert, index) => (
-                                            <a key={index} href={cert.link} target="_blank" className="cv-link p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-green-500/5 hover:border-green-500/30 transition-all group">
+                                            <a key={index} href={cert.link} target="_blank" className={`cv-link p-5 bg-white/5 border border-white/5 rounded-2xl flex flex-col justify-between hover:bg-${c}-500/5 hover:border-${c}-500/30 transition-all group`}>
                                                 <div>
                                                     <div className="flex justify-between items-start mb-2">
-                                                        <CheckCircle2 size={16} className="text-green-500 opacity-50" />
+                                                        <CheckCircle2 size={16} className={`text-${c}-500 opacity-50`} />
                                                         <span className="text-[10px] text-gray-600 font-mono italic">{cert.date}</span>
                                                     </div>
-                                                    <h4 className="text-white font-bold text-sm uppercase group-hover:text-green-400 transition-colors leading-tight mb-2">
+                                                    <h4 className={`text-white font-bold text-sm uppercase group-hover:text-${c}-400 transition-colors leading-tight mb-2`}>
                                                         {cert.title}
                                                     </h4>
                                                     <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest">{cert.issuer}</p>
                                                 </div>
-                                                <ExternalLink size={12} className="mt-4 text-green-500/40 group-hover:text-green-500 transition-all self-end" />
+                                                <ExternalLink size={12} className={`mt-4 text-${c}-500/40 group-hover:text-${c}-500 transition-all self-end`} />
                                             </a>
                                         ))}
                                     </div>
@@ -574,14 +587,14 @@ const HireMeSection = () => {
 
                                 {/* Full Projects Section */}
                                 <div data-cv-section="projects">
-                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                    <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                         <Code2 size={24} className="text-cyan-400" />
                                         KEY PROJECTS
-                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         {projects.map((proj, index) => (
-                                            <div key={index} data-cv-section={`proj-${index}`} className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-green-500/30 transition-all group h-full flex flex-col">
+                                            <div key={index} data-cv-section={`proj-${index}`} className={`p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-${c}-500/30 transition-all group h-full flex flex-col`}>
                                                 <h4 className="text-white font-black text-base uppercase mb-3 flex items-center justify-between">
                                                     {proj.title}
                                                     {proj.featured && <Star size={12} className="text-yellow-500 fill-yellow-500" />}
@@ -591,16 +604,16 @@ const HireMeSection = () => {
                                                 </p>
                                                 <div className="flex flex-wrap gap-1.5 mb-4">
                                                     {proj.tech.slice(0, 4).map((t, i) => (
-                                                        <span key={i} className="text-[8px] md:text-[10px] text-green-500/80 border border-green-500/20 px-2 py-0.5 rounded-md font-black uppercase">
+                                                        <span key={i} className={`text-[8px] md:text-[10px] text-${c}-500/80 border border-${c}-500/20 px-2 py-0.5 rounded-md font-black uppercase`}>
                                                             {t}
                                                         </span>
                                                     ))}
                                                 </div>
                                                 <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500 pt-4 border-t border-white/5">
-                                                    <a href={proj.github} target="_blank" className="cv-link hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                    <a href={proj.github} target="_blank" className={`cv-link hover:text-${c}-400 transition-all uppercase flex items-center gap-1.5`}>
                                                         <Terminal size={12} /> Source
                                                     </a>
-                                                    <a href={proj.link} target="_blank" className="cv-link hover:text-green-400 transition-all uppercase flex items-center gap-1.5">
+                                                    <a href={proj.link} target="_blank" className={`cv-link hover:text-${c}-400 transition-all uppercase flex items-center gap-1.5`}>
                                                         <Globe size={12} /> Live
                                                     </a>
                                                 </div>
@@ -612,15 +625,15 @@ const HireMeSection = () => {
                                 {/* Stats & Publications */}
                                 <div data-cv-section="stats" className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                                     <div>
-                                        <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                        <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                             <Terminal size={22} className="text-white" />
                                             ONLINE PROFILES & STATS
-                                            <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                            <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                         </h3>
                                         <div className="grid grid-cols-2 gap-4">
                                             {stats.map((s, index) => (
-                                                <div key={index} className="p-6 bg-black/40 border border-white/5 rounded-3xl text-center group hover:border-green-500/30 transition-all">
-                                                    <p className="text-3xl font-black text-white group-hover:text-green-400 transition-colors tracking-tighter">
+                                                <div key={index} className={`p-6 bg-black/40 border border-white/5 rounded-3xl text-center group hover:border-${c}-500/30 transition-all`}>
+                                                    <p className={`text-3xl font-black text-white group-hover:text-${c}-400 transition-colors tracking-tighter`}>
                                                         {s.value}{s.suffix}
                                                     </p>
                                                     <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">{s.label}</p>
@@ -630,30 +643,30 @@ const HireMeSection = () => {
                                         <div className="mt-6 p-6 bg-white/5 border border-white/5 rounded-3xl space-y-4">
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Top 10 Contributor</span>
-                                                <span className="text-xs font-black text-green-400">SRI LANKA</span>
+                                                <span className={`text-xs font-black text-${c}-400`}>SRI LANKA</span>
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Public Repos</span>
-                                                <span className="text-xs font-black text-green-400">100+</span>
+                                                <span className={`text-xs font-black text-${c}-400`}>100+</span>
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Commits</span>
-                                                <span className="text-xs font-black text-green-400">3800+</span>
+                                                <span className={`text-xs font-black text-${c}-400`}>3800+</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3">
+                                        <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3`}>
                                             <BookOpen size={22} className="text-blue-400" />
                                             PUBLICATIONS & PRESENTATIONS
-                                            <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                            <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                         </h3>
                                         <div className="space-y-6">
                                             {blogArticles.map((art, index) => (
-                                                <a key={index} href={art.url} target="_blank" className="cv-link block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-green-500/40 transition-all group">
+                                                <a key={index} href={art.url} target="_blank" className={`cv-link block p-6 bg-white/5 border border-white/10 rounded-3xl hover:border-${c}-500/40 transition-all group`}>
                                                     <div className="flex justify-between items-start mb-3">
-                                                        <h4 className="text-white font-bold text-base md:text-lg uppercase leading-tight group-hover:text-green-400">{art.title}</h4>
+                                                        <h4 className={`text-white font-bold text-base md:text-lg uppercase leading-tight group-hover:text-${c}-400`}>{art.title}</h4>
                                                         <PenTool size={16} className="text-blue-500/50" />
                                                     </div>
                                                     <p className="text-gray-400 text-xs md:text-sm italic mb-4">{art.description}</p>
@@ -666,7 +679,7 @@ const HireMeSection = () => {
                                             ))}
                                             <div className="p-6 bg-white/5 border border-white/10 rounded-3xl group">
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <h4 className="text-white font-bold text-base uppercase group-hover:text-green-400">Presenter – Rextro 2026</h4>
+                                                    <h4 className={`text-white font-bold text-base uppercase group-hover:text-${c}-400`}>Presenter – Rextro 2026</h4>
                                                     <User size={16} className="text-yellow-500/50" />
                                                 </div>
                                                 <p className="text-gray-400 text-xs md:text-sm leading-relaxed">
@@ -679,23 +692,23 @@ const HireMeSection = () => {
 
                                 {/* References */}
                                 <div data-cv-section="references">
-                                    <h3 className="text-xl font-bold text-green-400 mb-8 flex items-center gap-3 uppercase tracking-tighter">
-                                        <CheckCircle2 size={24} className="text-green-500" />
+                                    <h3 className={`text-xl font-bold text-${c}-400 mb-8 flex items-center gap-3 uppercase tracking-tighter`}>
+                                        <CheckCircle2 size={24} className={`text-${c}-500`} />
                                         REFERENCES
-                                        <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent ml-4"></div>
+                                        <div className={`h-px flex-1 bg-gradient-to-r from-${c}-500/30 to-transparent ml-4`}></div>
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {references.map((ref, index) => (
-                                            <div key={index} className="p-8 bg-white/5 border border-white/5 rounded-3xl group hover:border-green-500/30 transition-all">
-                                                <h4 className="text-white font-black text-xl uppercase mb-2 group-hover:text-green-400">{ref.name}</h4>
-                                                <p className="text-green-400/70 text-xs font-bold uppercase tracking-widest mb-1">{ref.role}</p>
+                                            <div key={index} className={`p-8 bg-white/5 border border-white/5 rounded-3xl group hover:border-${c}-500/30 transition-all`}>
+                                                <h4 className={`text-white font-black text-xl uppercase mb-2 group-hover:text-${c}-400`}>{ref.name}</h4>
+                                                <p className={`text-${c}-400/70 text-xs font-bold uppercase tracking-widest mb-1`}>{ref.role}</p>
                                                 <p className="text-gray-500 text-xs font-medium italic mb-6">{ref.organization}</p>
                                                 <div className="space-y-2">
-                                                    <a href={`mailto:${ref.email}`} className="cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-green-400 transition-colors">
+                                                    <a href={`mailto:${ref.email}`} className={`cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-${c}-400 transition-colors`}>
                                                         <Mail size={14} className="text-blue-500" /> {ref.email}
                                                     </a>
-                                                    <a href={`tel:${ref.phone}`} className="cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-green-400 transition-colors">
-                                                        <Phone size={14} className="text-green-500" /> {ref.phone}
+                                                    <a href={`tel:${ref.phone}`} className={`cv-link flex items-center gap-3 text-sm text-gray-300 font-mono hover:text-${c}-400 transition-colors`}>
+                                                        <Phone size={14} className={`text-${c}-500`} /> {ref.phone}
                                                     </a>
                                                 </div>
                                             </div>
@@ -716,7 +729,7 @@ const HireMeSection = () => {
                             {
                                 title: "Blockchain Architect",
                                 desc: "Designing secure, transparent ecosystems with Solidity smart contracts and Web3 integration.",
-                                icon: <ShieldCheck className="text-emerald-400" size={24} />
+                                icon: <ShieldCheck className={`text-${c}-400`} size={24} />
                             },
                             {
                                 title: "Engineering Mindset",
@@ -725,11 +738,11 @@ const HireMeSection = () => {
                             },
                         ].map((item, index) => (
                             <ScrollAnimation key={index} direction="up" delay={index * 100 + 200}>
-                                <div className="group bg-[#111]/80 backdrop-blur-md border border-green-500/10 rounded-2xl p-8 hover:border-green-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:-translate-y-2 h-full">
-                                    <div className="mb-6 p-3 bg-white/5 rounded-xl inline-block group-hover:scale-110 group-hover:bg-green-500/10 transition-all duration-500">
+                                <div className={`group bg-[#111]/80 backdrop-blur-md border border-${c}-500/10 rounded-2xl p-8 hover:border-${c}-500/40 hover:bg-[#1a1a1a]/60 hover:shadow-2xl hover:shadow-${c}-500/10 transition-all duration-500 hover:-translate-y-2 h-full`}>
+                                    <div className={`mb-6 p-3 bg-white/5 rounded-xl inline-block group-hover:scale-110 group-hover:bg-${c}-500/10 transition-all duration-500`}>
                                         {item.icon}
                                     </div>
-                                    <h4 className="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors uppercase tracking-tight">
+                                    <h4 className={`text-xl font-bold text-white mb-3 group-hover:text-${c}-400 transition-colors uppercase tracking-tight`}>
                                         {item.title}
                                     </h4>
                                     <p className="text-gray-400 text-sm leading-relaxed font-medium">
@@ -749,7 +762,7 @@ const HireMeSection = () => {
                                 <a
                                     href="#contact"
                                     onClick={(e) => handleSmoothScroll(e, "#contact")}
-                                    className="group px-10 py-5 bg-green-500/10 border border-green-500/40 rounded-2xl text-green-400 hover:bg-green-500 hover:text-black hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-lg hover:shadow-green-500/30"
+                                    className={`group px-10 py-5 bg-${c}-500/10 border border-${c}-500/40 rounded-2xl text-${c}-400 hover:bg-${c}-500 hover:text-black hover:scale-105 active:scale-95 transition-all duration-500 font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-lg hover:shadow-${c}-500/30`}
                                 >
                                     <Send size={22} />
                                     Initiate Session

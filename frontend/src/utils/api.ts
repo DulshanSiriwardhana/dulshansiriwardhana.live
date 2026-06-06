@@ -216,3 +216,13 @@ export const deleteProjectEulerArticle = async (id: string) => {
   return response.json();
 };
 
+export const getCvTheme = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/settings/cv-theme`);
+    if (!response.ok) return { value: 'emerald' };
+    return response.json();
+  } catch (error) {
+    return { value: 'emerald' };
+  }
+};
+
