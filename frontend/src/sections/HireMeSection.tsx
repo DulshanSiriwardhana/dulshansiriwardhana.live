@@ -108,6 +108,34 @@ const HireMeSection = () => {
             cvElement.style.setProperty('border-radius', '0', 'important');
             cvElement.style.setProperty('box-shadow', 'none', 'important');
 
+            // --- Pre-convert all <img> elements to base64 data URLs ---
+            // html2canvas cannot read locally-bundled Vite assets at capture time
+            // (same-origin taint restrictions). Pre-baking them as data URLs fixes this.
+            const imgElements = Array.from(cvElement.querySelectorAll('img')) as HTMLImageElement[];
+            const originalSrcs = imgElements.map(img => img.src);
+
+            await Promise.all(imgElements.map(img => new Promise<void>((resolve) => {
+                const convert = (imgEl: HTMLImageElement) => {
+                    try {
+                        const tmpCanvas = document.createElement('canvas');
+                        tmpCanvas.width = imgEl.naturalWidth || 200;
+                        tmpCanvas.height = imgEl.naturalHeight || 200;
+                        const tmpCtx = tmpCanvas.getContext('2d')!;
+                        tmpCtx.drawImage(imgEl, 0, 0);
+                        img.src = tmpCanvas.toDataURL('image/png');
+                    } catch {
+                        // If tainted, leave as-is
+                    }
+                    resolve();
+                };
+                if (imgEl.complete && imgEl.naturalWidth > 0) {
+                    convert(imgEl);
+                } else {
+                    imgEl.onload = () => convert(imgEl);
+                    imgEl.onerror = () => resolve();
+                }
+            })));
+
             // Capture the CV element at 3x resolution for high-quality output
             const SCALE = 3;
             const canvas = await html2canvas(cvElement, {
@@ -118,8 +146,11 @@ const HireMeSection = () => {
                 logging: false,
                 windowWidth: cvElement.scrollWidth,
                 windowHeight: cvElement.scrollHeight,
-                imageTimeout: 0,
+                imageTimeout: 15000,
             });
+
+            // Restore original image srcs after capture
+            imgElements.forEach((img, i) => { img.src = originalSrcs[i]; });
 
 
             const imgWidth = canvas.width;
