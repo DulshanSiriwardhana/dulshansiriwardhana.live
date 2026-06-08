@@ -96,8 +96,17 @@ const HireMeSection = () => {
         try {
             const cvElement = cvRef.current;
 
+            // Store original classes to restore them later
+            const originalClassName = cvElement.className;
+
+            // Remove presentation-only styles (border, rounded corners, shadow) for the PDF
+            cvElement.classList.remove('border', 'rounded-3xl', 'shadow-2xl', 'hover:border-emerald-500/50', 'hover:border-blue-500/50', 'hover:border-rose-500/50', 'hover:border-amber-500/50');
+            cvElement.style.borderRadius = '0';
+            cvElement.style.border = 'none';
+
             // Capture the CV element at 2x resolution for crisp output
             const canvas = await html2canvas(cvElement, {
+
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
@@ -291,8 +300,15 @@ const HireMeSection = () => {
             console.error('Error generating PDF:', error);
             window.print();
         } finally {
+            // RESTORE original styles to the UI preview
+            if (cvRef.current) {
+                cvRef.current.style.borderRadius = '';
+                cvRef.current.style.border = '';
+                // The className restoration handles the rest
+            }
             setIsGenerating(false);
         }
+
     };
 
     const handleSmoothScroll = (
