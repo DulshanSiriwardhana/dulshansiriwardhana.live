@@ -115,23 +115,22 @@ const HireMeSection = () => {
             const originalSrcs = imgElements.map(img => img.src);
 
             await Promise.all(imgElements.map(img => new Promise<void>((resolve) => {
-                const convert = (imgEl: HTMLImageElement) => {
+                const bakeToDataUrl = () => {
                     try {
                         const tmpCanvas = document.createElement('canvas');
-                        tmpCanvas.width = imgEl.naturalWidth || 200;
-                        tmpCanvas.height = imgEl.naturalHeight || 200;
-                        const tmpCtx = tmpCanvas.getContext('2d')!;
-                        tmpCtx.drawImage(imgEl, 0, 0);
+                        tmpCanvas.width = img.naturalWidth || 200;
+                        tmpCanvas.height = img.naturalHeight || 200;
+                        tmpCanvas.getContext('2d')!.drawImage(img, 0, 0);
                         img.src = tmpCanvas.toDataURL('image/png');
                     } catch {
-                        // If tainted, leave as-is
+                        // If tainted/cross-origin, leave as-is
                     }
                     resolve();
                 };
                 if (img.complete && img.naturalWidth > 0) {
-                    convert(img);
+                    bakeToDataUrl();
                 } else {
-                    img.onload = () => convert(img);
+                    img.onload = bakeToDataUrl;
                     img.onerror = () => resolve();
                 }
             })));
