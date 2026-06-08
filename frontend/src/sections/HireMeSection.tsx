@@ -575,10 +575,11 @@ const HireMeSection = () => {
                                                         </p>
                                                         <div className="flex flex-wrap gap-2">
                                                             {cat.skills.map((s, j) => (
-                                                                <span key={j} className={`text-[10px] md:text-xs text-${c}-400/80 font-bold px-2 py-1 bg-${c}-500/5 border border-${c}-500/10 rounded-lg group-hover:border-${c}-500/30 transition-all uppercase tracking-tight`}>
+                                                                <span key={j} className={`text-[10px] md:text-xs ${accentText} font-bold px-2.5 py-1 ${accentBg} border ${accentBorder} rounded-lg group-hover:border-${c}-500 transition-all uppercase tracking-tight`}>
                                                                     {s}
                                                                 </span>
                                                             ))}
+
                                                         </div>
                                                     </div>
                                                 ))}
