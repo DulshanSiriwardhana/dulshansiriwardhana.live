@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ToastProps {
   show: boolean;
@@ -18,32 +20,43 @@ const Toast = ({ show, message, type, onClose, duration = 3000 }: ToastProps) =>
     }
   }, [show, duration, onClose]);
 
-  if (!show) return null;
-
   const colors = {
-    success: 'border-green-500/50 text-green-400 bg-green-500/10',
-    error: 'border-red-500/50 text-red-400 bg-red-500/10',
-    info: 'border-blue-500/50 text-blue-400 bg-blue-500/10',
+    success: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/5',
+    error: 'border-rose-500/20 text-rose-400 bg-rose-500/5',
+    info: 'border-blue-500/20 text-blue-400 bg-blue-500/5',
   };
 
-  const icons = {
-    success: '[OK]',
-    error: '[FAIL]',
-    info: '[INFO]',
+  const Icons = {
+    success: CheckCircle2,
+    error: AlertCircle,
+    info: Info,
   };
+
+  const Icon = Icons[type];
 
   return (
-    <div className={`fixed top-6 right-6 z-[100] px-6 py-4 glass-panel border rounded-xl shadow-2xl animate-slide-in ${colors[type]} flex items-center gap-4 min-w-[320px]`}>
-      <span className="mono text-[10px] font-bold tracking-tighter shrink-0">{icons[type]}</span>
-      <span className="flex-1 text-sm font-bold uppercase tracking-wider">{message}</span>
-      <button
-        onClick={onClose}
-        className="text-current opacity-40 hover:opacity-100 transition-opacity text-lg mono"
-      >
-        [X]
-      </button>
-    </div>
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 0, y: -20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+          className={`fixed top-6 right-6 z-[100] px-5 py-3.5 glass-panel border rounded-2xl shadow-2xl ${colors[type]} flex items-center gap-4 min-w-[300px] max-w-[450px] overflow-hidden`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+          <Icon size={20} className="shrink-0" />
+          <span className="flex-1 text-sm font-semibold tracking-tight leading-snug">{message}</span>
+          <button
+            onClick={onClose}
+            className="p-1.5 hover:bg-white/10 rounded-lg transition-colors shrink-0"
+          >
+            <X size={16} />
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
 export default Toast;
+

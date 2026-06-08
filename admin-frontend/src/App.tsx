@@ -43,8 +43,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (isAuthenticated === null) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-green-400 text-xl">Loading...</div>
+      <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center gap-6">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 border-4 border-blue-500/10 rounded-full" />
+          <div className="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+        <p className="text-[10px] text-slate-500 uppercase tracking-[0.4em] font-black animate-pulse">Siriwardhana // Verifying Identity</p>
       </div>
     );
   }
