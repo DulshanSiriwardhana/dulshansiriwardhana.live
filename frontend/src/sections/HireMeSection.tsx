@@ -260,9 +260,10 @@ const HireMeSection = () => {
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
                 pageCanvas.height = Math.round(a4Height / scaleToPoints * SCALE);
-                const ctx = pageCanvas.getContext('2d')!;
+                // alpha: false forces RGB mode — avoids RGBA→RGB color encoding issues in jsPDF
+                const ctx = pageCanvas.getContext('2d', { alpha: false })!;
 
-                // Use the theme's background color instead of hardcoded #080808
+                // Fill background before drawing (required when alpha:false)
                 ctx.fillStyle = themeBgColor;
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
@@ -276,9 +277,10 @@ const HireMeSection = () => {
                     0, verticalOffsetInCanvas, imgWidth, sliceHeight
                 );
 
-                // Use PNG for lossless quality — larger file but pixel-perfect output
-                const pageImgData = pageCanvas.toDataURL('image/png');
-                pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height, undefined, 'SLOW');
+                // JPEG at 95% quality: avoids jsPDF's RGBA/color-space encoding bug with PNG,
+                // while still delivering near-lossless visual quality at 3x capture scale.
+                const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.95);
+                pdf.addImage(pageImgData, 'JPEG', 0, 0, a4Width, a4Height, undefined, 'MEDIUM');
 
                 const pageStartYInCanvasPixels = startY;
                 const pageEndYInCanvasPixels = endY;
