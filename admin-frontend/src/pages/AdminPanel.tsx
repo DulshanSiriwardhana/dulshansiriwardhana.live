@@ -143,12 +143,15 @@ const AdminPanel = () => {
 
   const loadCvTheme = async () => {
     try {
-      const theme = await getCvTheme();
-      setCvTheme(theme);
+      const data = await getCvTheme();
+      // The API returns { key: 'cv_theme', value: '...' } or just the value
+      const themeValue = data?.value || data || 'emerald';
+      setCvTheme(themeValue);
     } catch (error) {
       console.error('Error loading CV theme:', error);
     }
   };
+
 
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
     setToast({ show: true, message, type });
@@ -227,8 +230,9 @@ const AdminPanel = () => {
   const handleUpdateTheme = async (themeId: string) => {
     setThemeSaving(true);
     try {
-      await updateCvTheme(themeId);
-      setCvTheme(themeId);
+      const data = await updateCvTheme(themeId);
+      const newValue = data?.value || data || themeId;
+      setCvTheme(newValue);
       showToast(`Atmosphere synchronized to ${themeId}`, 'success');
     } catch (error) {
       showToast('Atmosphere sync failed', 'error');
@@ -236,6 +240,7 @@ const AdminPanel = () => {
       setThemeSaving(false);
     }
   };
+
 
   const resetForm = () => {
     setFormData({
@@ -471,7 +476,7 @@ const AdminPanel = () => {
                           <div className="flex gap-4 items-center">
                             <div className="flex items-center gap-1.5">
                               <div className={`w-1.5 h-1.5 rounded-full ${article.difficulty === 'Easy' ? 'bg-emerald-500' :
-                                  article.difficulty === 'Medium' ? 'bg-blue-500' : 'bg-rose-500'
+                                article.difficulty === 'Medium' ? 'bg-blue-500' : 'bg-rose-500'
                                 }`} />
                               <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{article.difficulty}</span>
                             </div>
