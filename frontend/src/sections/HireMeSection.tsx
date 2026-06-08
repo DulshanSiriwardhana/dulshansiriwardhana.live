@@ -96,25 +96,31 @@ const HireMeSection = () => {
         try {
             const cvElement = cvRef.current;
 
-            // Store original classes to restore them later
-            const originalClassName = cvElement.className;
+            // Extract the hex color from the tailwind class bg-[#xxxxxx]
+            const themeHexMatch = t.backgroundColor.match(/\[(.*?)\]/);
+            const themeBgColor = themeHexMatch ? themeHexMatch[1] : (t.isDark ? '#080808' : '#ffffff');
 
-            // Remove presentation-only styles (border, rounded corners, shadow) for the PDF
-            cvElement.classList.remove('border', 'rounded-3xl', 'shadow-2xl', 'hover:border-emerald-500/50', 'hover:border-blue-500/50', 'hover:border-rose-500/50', 'hover:border-amber-500/50');
-            cvElement.style.borderRadius = '0';
-            cvElement.style.border = 'none';
+            // Store original styles to restore them manually (className restoration can be flakey during async)
+            const originalBorder = cvElement.style.border;
+            const originalRadius = cvElement.style.borderRadius;
+            const originalShadow = cvElement.style.boxShadow;
+
+            // Force override styles for the PDF capture (using setProperty for !important)
+            cvElement.style.setProperty('border', 'none', 'important');
+            cvElement.style.setProperty('border-radius', '0', 'important');
+            cvElement.style.setProperty('box-shadow', 'none', 'important');
 
             // Capture the CV element at 2x resolution for crisp output
             const canvas = await html2canvas(cvElement, {
-
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: t.isDark ? '#080808' : '#ffffff',
+                backgroundColor: themeBgColor,
                 logging: false,
                 windowWidth: cvElement.scrollWidth,
                 windowHeight: cvElement.scrollHeight,
             });
+
 
             const imgWidth = canvas.width;
             const imgHeight = canvas.height;
@@ -255,8 +261,10 @@ const HireMeSection = () => {
                 pageCanvas.height = Math.round(a4Height / scaleToPoints * 2);
                 const ctx = pageCanvas.getContext('2d')!;
 
-                ctx.fillStyle = '#080808';
+                // Use the theme's background color instead of hardcoded #080808
+                ctx.fillStyle = themeBgColor;
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+
 
                 // No offset for 1st page, but use padding for others
                 const verticalOffsetInCanvas = j === 0 ? 0 : (topPaddingForSubsequentPages / scaleToPoints * 2);
@@ -302,12 +310,14 @@ const HireMeSection = () => {
         } finally {
             // RESTORE original styles to the UI preview
             if (cvRef.current) {
-                cvRef.current.style.borderRadius = '';
-                cvRef.current.style.border = '';
-                // The className restoration handles the rest
+                cvRef.current.style.borderRadius = originalRadius;
+                cvRef.current.style.border = originalBorder;
+                cvRef.current.style.boxShadow = originalShadow;
             }
             setIsGenerating(false);
         }
+
+
 
     };
 
