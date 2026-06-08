@@ -26,6 +26,9 @@ const corsOptions = {
       'https://www.dulshansiriwardhana.live/',
       'http://www.dulshansiriwardhana.live',
       'https://admin.dulshansiriwardhana.live',
+      'https://www.admin.dulshansiriwardhana.live',
+      'https://www.admin.dulshansiriwardhana.live/',
+      'https://admin.dulshansiriwardhana.live/',
     ];
 
     if (!origin || allowedOrigins.some(allowed => {
