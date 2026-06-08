@@ -23,12 +23,8 @@ const corsOptions = {
       /\.netlify\.app$/,
       'https://dulshansiriwardhana.live',
       'https://www.dulshansiriwardhana.live',
-      'https://www.dulshansiriwardhana.live/',
-      'http://www.dulshansiriwardhana.live',
       'https://admin.dulshansiriwardhana.live',
       'https://www.admin.dulshansiriwardhana.live',
-      'https://www.admin.dulshansiriwardhana.live/',
-      'https://admin.dulshansiriwardhana.live/',
     ];
 
     if (!origin || allowedOrigins.some(allowed => {
@@ -46,31 +42,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use('/api/auth', authRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/project-euler', projectEulerRoutes);
-app.use('/api/settings', settingsRoutes);
-
-app.get('/api/health', async (req, res) => {
-  try {
-    await connectDB();
-    const userCount = await User.countDocuments();
-    res.json({
-      status: 'ok',
-      message: 'Server is running',
-      database: 'connected',
-      userCount: userCount
-    });
-  } catch (error) {
-    res.json({
-      status: 'error',
-      message: 'Server is running but database connection failed',
-      database: 'disconnected',
-      error: error.message
-    });
-  }
-});
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -93,7 +64,11 @@ const connectDB = async () => {
     throw new Error('MONGODB_URI is not set');
   }
 
-  dbConnectionPromise = mongoose.connect(MONGODB_URI)
+  // Use recommended options for stable serverless connections
+  dbConnectionPromise = mongoose.connect(MONGODB_URI, {
+    serverSelectionTimeoutMS: 5000,
+    connectTimeoutMS: 10000,
+  })
     .then(async () => {
       console.log('Connected to MongoDB');
 
@@ -112,21 +87,10 @@ const connectDB = async () => {
             });
             await admin.save();
             console.log(`✅ Admin user "${normalizedUsername}" created successfully`);
-          } else {
-            console.log(`ℹ️ Admin user "${normalizedUsername}" already exists`);
           }
         } catch (error) {
-          console.error('❌ Error creating admin user:', error);
-          if (error.code === 11000) {
-            console.log(`ℹ️ Admin user "${adminUsername.toLowerCase()}" already exists (duplicate key)`);
-          } else {
-            console.error('Full error details:', error);
-          }
+          console.error('❌ Error in admin user check:', error.message);
         }
-      } else {
-        console.warn('⚠️ ADMIN_USERNAME or ADMIN_PASSWORD not set. Admin user will not be created.');
-        if (!adminUsername) console.warn('  - ADMIN_USERNAME is missing');
-        if (!adminPassword) console.warn('  - ADMIN_PASSWORD is missing');
       }
 
       return mongoose.connection;
@@ -140,16 +104,42 @@ const connectDB = async () => {
   return dbConnectionPromise;
 };
 
+// CRITICAL: Database connection middleware MUST be at the top of the stack
 app.use(async (req, res, next) => {
   try {
     await connectDB();
     next();
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('Database connection error in middleware:', error);
     res.status(500).json({
       success: false,
       error: 'Database connection failed',
       message: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/project-euler', projectEulerRoutes);
+app.use('/api/settings', settingsRoutes);
+
+app.get('/api/health', async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    res.json({
+      status: 'ok',
+      message: 'Server is running',
+      database: 'connected',
+      userCount: userCount
+    });
+  } catch (error) {
+    res.json({
+      status: 'error',
+      message: 'Server health check failed',
+      database: 'disconnected',
+      error: error.message
     });
   }
 });
@@ -169,5 +159,3 @@ if (process.env.VERCEL !== '1') {
 }
 
 export default app;
-
-
