@@ -108,15 +108,17 @@ const HireMeSection = () => {
             cvElement.style.setProperty('border-radius', '0', 'important');
             cvElement.style.setProperty('box-shadow', 'none', 'important');
 
-            // Capture the CV element at 2x resolution for crisp output
+            // Capture the CV element at 3x resolution for high-quality output
+            const SCALE = 3;
             const canvas = await html2canvas(cvElement, {
-                scale: 2,
+                scale: SCALE,
                 useCORS: true,
                 allowTaint: true,
                 backgroundColor: themeBgColor,
                 logging: false,
                 windowWidth: cvElement.scrollWidth,
                 windowHeight: cvElement.scrollHeight,
+                imageTimeout: 0,
             });
 
 
@@ -133,9 +135,9 @@ const HireMeSection = () => {
             // Scale factor to map CSS pixels to PDF points (edge-to-edge)
             const scaleToPoints = a4Width / cvElement.scrollWidth;
 
-            // Content height limits
-            const heightLimitP1 = (a4Height / scaleToPoints) * 2;
-            const heightLimitPN = ((a4Height - topPaddingForSubsequentPages) / scaleToPoints) * 2;
+            // Content height limits (account for SCALE factor)
+            const heightLimitP1 = (a4Height / scaleToPoints) * SCALE;
+            const heightLimitPN = ((a4Height - topPaddingForSubsequentPages) / scaleToPoints) * SCALE;
 
             // Get section break points
             const sections = cvElement.querySelectorAll('[data-cv-section]');
@@ -144,7 +146,7 @@ const HireMeSection = () => {
             const breakPoints: number[] = [0];
             sections.forEach((section) => {
                 const sectionRect = section.getBoundingClientRect();
-                const relativeTop = (sectionRect.top - cvRect.top) * 2;
+                const relativeTop = (sectionRect.top - cvRect.top) * SCALE;
                 if (relativeTop > 0 && relativeTop < imgHeight) {
                     breakPoints.push(Math.round(relativeTop));
                 }
@@ -205,7 +207,8 @@ const HireMeSection = () => {
                 orientation: 'portrait',
                 unit: 'pt',
                 format: 'a4',
-                compress: true, // Internal PDF compression
+                compress: true,
+                putOnlyUsedFonts: true,
             });
 
             const linkElements = cvElement.querySelectorAll('.cv-link');
@@ -222,8 +225,8 @@ const HireMeSection = () => {
 
                 textElements.forEach((el) => {
                     const rect = el.getBoundingClientRect();
-                    const elTopInCanvasPixels = (rect.top - cvRect.top) * 2;
-                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * 2;
+                    const elTopInCanvasPixels = (rect.top - cvRect.top) * SCALE;
+                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * SCALE;
 
                     // Check if element is visible on this page
                     if (elTopInCanvasPixels < endY && elBottomInCanvasPixels > startY) {
@@ -231,7 +234,7 @@ const HireMeSection = () => {
                         const fontSizeInPoints = parseFloat(style.fontSize) * scaleToPoints;
                         const x = (rect.left - cvRect.left) * scaleToPoints;
                         const currentTopPaddingInPoints = j === 0 ? 0 : topPaddingForSubsequentPages;
-                        const y = ((elTopInCanvasPixels - startY) / 2 * scaleToPoints) + currentTopPaddingInPoints + (fontSizeInPoints * 0.8); // +fontSize*0.8 for baseline alignment
+                        const y = ((elTopInCanvasPixels - startY) / SCALE * scaleToPoints) + currentTopPaddingInPoints + (fontSizeInPoints * 0.8);
 
                         // Extract clean text (excluding Lucide icons text if any)
                         const text = Array.from(el.childNodes)
@@ -256,7 +259,7 @@ const HireMeSection = () => {
 
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
-                pageCanvas.height = Math.round(a4Height / scaleToPoints * 2);
+                pageCanvas.height = Math.round(a4Height / scaleToPoints * SCALE);
                 const ctx = pageCanvas.getContext('2d')!;
 
                 // Use the theme's background color instead of hardcoded #080808
@@ -265,7 +268,7 @@ const HireMeSection = () => {
 
 
                 // No offset for 1st page, but use padding for others
-                const verticalOffsetInCanvas = j === 0 ? 0 : (topPaddingForSubsequentPages / scaleToPoints * 2);
+                const verticalOffsetInCanvas = j === 0 ? 0 : (topPaddingForSubsequentPages / scaleToPoints * SCALE);
 
                 ctx.drawImage(
                     canvas,
@@ -273,17 +276,17 @@ const HireMeSection = () => {
                     0, verticalOffsetInCanvas, imgWidth, sliceHeight
                 );
 
-                // Use JPEG with 0.8 quality to drastically reduce file size from 50MB+ to ~2-5MB
-                const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.8);
-                pdf.addImage(pageImgData, 'JPEG', 0, 0, a4Width, a4Height, undefined, 'FAST');
+                // Use PNG for lossless quality — larger file but pixel-perfect output
+                const pageImgData = pageCanvas.toDataURL('image/png');
+                pdf.addImage(pageImgData, 'PNG', 0, 0, a4Width, a4Height, undefined, 'SLOW');
 
                 const pageStartYInCanvasPixels = startY;
                 const pageEndYInCanvasPixels = endY;
 
                 linkElements.forEach((el) => {
                     const rect = el.getBoundingClientRect();
-                    const elTopInCanvasPixels = (rect.top - cvRect.top) * 2;
-                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * 2;
+                    const elTopInCanvasPixels = (rect.top - cvRect.top) * SCALE;
+                    const elBottomInCanvasPixels = (rect.bottom - cvRect.top) * SCALE;
 
                     if (elTopInCanvasPixels < pageEndYInCanvasPixels && elBottomInCanvasPixels > pageStartYInCanvasPixels) {
                         const href = (el as HTMLAnchorElement).href;
@@ -291,7 +294,7 @@ const HireMeSection = () => {
                             const x = (rect.left - cvRect.left) * scaleToPoints;
                             // Add padding offset starting from 2nd page
                             const currentTopPaddingInPoints = j === 0 ? 0 : topPaddingForSubsequentPages;
-                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / 2 * scaleToPoints) + currentTopPaddingInPoints;
+                            const y = ((elTopInCanvasPixels - pageStartYInCanvasPixels) / SCALE * scaleToPoints) + currentTopPaddingInPoints;
                             const w = rect.width * scaleToPoints;
                             const h = rect.height * scaleToPoints;
 
