@@ -119,5 +119,17 @@ export const themes: ThemeConfig[] = [
     { id: 'github-light', name: 'GitHub Light', baseColor: 'slate', backgroundColor: 'bg-white', cardColor: 'bg-[#f6f8fa]', textColor: 'text-[#24292f]', mutedTextColor: 'text-[#57606a]', borderColor: 'border-[#d0d7de]', isDark: false },
     { id: 'nebula', name: 'Deep Nebula', baseColor: 'violet', backgroundColor: 'bg-[#020010]', cardColor: 'bg-violet-950/30', textColor: 'text-violet-50', mutedTextColor: 'text-fuchsia-400', borderColor: 'border-fuchsia-700/40', isDark: true },
     { id: 'crimson', name: 'Crimson Peak', baseColor: 'red', backgroundColor: 'bg-[#1a0000]', cardColor: 'bg-red-950/30', textColor: 'text-red-50', mutedTextColor: 'text-red-500', borderColor: 'border-red-800/40', isDark: true },
-    { id: 'luxury', name: 'Luxury Black', baseColor: 'yellow', backgroundColor: 'bg-[#050505]', cardColor: 'bg-[#0a0a0a]', textColor: 'text-[#d4af37]', mutedTextColor: 'text-[#aa8a2b]', borderColor: 'border-[#d4af37]/20', isDark: true }
+    { id: 'luxury', name: 'Luxury Black', baseColor: 'yellow', backgroundColor: 'bg-[#050505]', cardColor: 'bg-[#0a0a0a]', textColor: 'text-[#d4af37]', mutedTextColor: 'text-[#aa8a2b]', borderColor: 'border-[#d4af37]/20', isDark: true },
+
+    // --- 101-110: PURE LIGHT (BLACK TEXT + LIGHT BACKGROUND) ---
+    { id: 'pure-white', name: 'Pure White', baseColor: 'zinc', backgroundColor: 'bg-white', cardColor: 'bg-[#f5f5f5]', textColor: 'text-black', mutedTextColor: 'text-zinc-500', borderColor: 'border-zinc-200', isDark: false },
+    { id: 'pure-blue', name: 'Pure Blue', baseColor: 'blue', backgroundColor: 'bg-[#eff6ff]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-blue-500', borderColor: 'border-blue-200', isDark: false },
+    { id: 'pure-green', name: 'Pure Green', baseColor: 'emerald', backgroundColor: 'bg-[#f0fdf4]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-emerald-600', borderColor: 'border-emerald-200', isDark: false },
+    { id: 'pure-rose', name: 'Pure Rose', baseColor: 'rose', backgroundColor: 'bg-[#fff1f2]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-rose-500', borderColor: 'border-rose-200', isDark: false },
+    { id: 'pure-amber', name: 'Pure Amber', baseColor: 'amber', backgroundColor: 'bg-[#fffbeb]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-amber-600', borderColor: 'border-amber-200', isDark: false },
+    { id: 'pure-violet', name: 'Pure Violet', baseColor: 'violet', backgroundColor: 'bg-[#f5f3ff]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-violet-500', borderColor: 'border-violet-200', isDark: false },
+    { id: 'pure-sky', name: 'Pure Sky', baseColor: 'sky', backgroundColor: 'bg-[#f0f9ff]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-sky-500', borderColor: 'border-sky-200', isDark: false },
+    { id: 'pure-teal', name: 'Pure Teal', baseColor: 'teal', backgroundColor: 'bg-[#f0fdfa]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-teal-600', borderColor: 'border-teal-200', isDark: false },
+    { id: 'pure-orange', name: 'Pure Orange', baseColor: 'orange', backgroundColor: 'bg-[#fff7ed]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-orange-500', borderColor: 'border-orange-200', isDark: false },
+    { id: 'pure-red', name: 'Pure Red', baseColor: 'red', backgroundColor: 'bg-[#fef2f2]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-red-500', borderColor: 'border-red-200', isDark: false },
 ];
