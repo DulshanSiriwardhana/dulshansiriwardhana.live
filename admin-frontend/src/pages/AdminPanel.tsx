@@ -96,8 +96,16 @@ const AdminPanel = () => {
     red: '#ef4444',
     pink: '#ec4899',
     teal: '#14b8a6',
-    yellow: '#eab308'
+    yellow: '#eab308',
+    fuchsia: '#d946ef',
+    sky: '#0ea5e9',
+    cyan: '#06b6d4',
+    zinc: '#71717a',
+    gray: '#6b7280',
+    stone: '#78716c',
+    neutral: '#737373',
   };
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem('admin_user');

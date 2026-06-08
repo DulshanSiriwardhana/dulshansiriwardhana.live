@@ -1,234 +1,123 @@
 export interface ThemeConfig {
     id: string;
     name: string;
-    baseColor: string; // e.g., 'emerald'
-    backgroundColor: string; // e.g., 'bg-[#030303]'
-    cardColor: string; // e.g., 'bg-white/5'
-    textColor: string; // e.g., 'text-white'
-    mutedTextColor: string; // e.g., 'text-gray-400'
-    borderColor: string; // e.g., 'border-white/10'
+    baseColor: string;
+    backgroundColor: string;
+    cardColor: string;
+    textColor: string;
+    mutedTextColor: string;
+    borderColor: string;
     isDark: boolean;
 }
 
 export const themes: ThemeConfig[] = [
-    {
-        id: 'emerald',
-        name: 'Emerald Night',
-        baseColor: 'emerald',
-        backgroundColor: 'bg-[#030303]',
-        cardColor: 'bg-white/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-emerald-500/60',
-        borderColor: 'border-emerald-500/20',
-        isDark: true
-    },
-    {
-        id: 'ruby',
-        name: 'Ruby Void',
-        baseColor: 'ruby',
-        backgroundColor: 'bg-[#050101]',
-        cardColor: 'bg-white/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-rose-500/60',
-        borderColor: 'border-rose-500/20',
-        isDark: true
-    },
-    {
-        id: 'ocean',
-        name: 'Ocean Depth',
-        baseColor: 'blue',
-        backgroundColor: 'bg-[#01040a]',
-        cardColor: 'bg-white/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-blue-500/60',
-        borderColor: 'border-blue-500/20',
-        isDark: true
-    },
-    {
-        id: 'amber',
-        name: 'Amber Glow',
-        baseColor: 'amber',
-        backgroundColor: 'bg-[#080501]',
-        cardColor: 'bg-white/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-amber-500/60',
-        borderColor: 'border-amber-500/20',
-        isDark: true
-    },
-    {
-        id: 'frost',
-        name: 'Pure Frost',
-        baseColor: 'slate',
-        backgroundColor: 'bg-white',
-        cardColor: 'bg-slate-50',
-        textColor: 'text-slate-900',
-        mutedTextColor: 'text-slate-500',
-        borderColor: 'border-slate-200',
-        isDark: false
-    },
-    {
-        id: 'lilac',
-        name: 'Soft Lilac',
-        baseColor: 'violet',
-        backgroundColor: 'bg-[#fdfaff]',
-        cardColor: 'bg-violet-50',
-        textColor: 'text-violet-950',
-        mutedTextColor: 'text-violet-600',
-        borderColor: 'border-violet-100',
-        isDark: false
-    },
-    {
-        id: 'desert',
-        name: 'Desert Sand',
-        baseColor: 'orange',
-        backgroundColor: 'bg-[#faf7f2]',
-        cardColor: 'bg-[#f5eeda]',
-        textColor: 'text-[#4a3721]',
-        mutedTextColor: 'text-[#8b7355]',
-        borderColor: 'border-[#e8dfcc]',
-        isDark: false
-    },
-    {
-        id: 'midnight',
-        name: 'Midnight Purple',
-        baseColor: 'purple',
-        backgroundColor: 'bg-[#0a0118]',
-        cardColor: 'bg-purple-900/10',
-        textColor: 'text-white',
-        mutedTextColor: 'text-purple-300',
-        borderColor: 'border-purple-500/20',
-        isDark: true
-    },
-    {
-        id: 'rose',
-        name: 'Vivid Rose',
-        baseColor: 'rose',
-        backgroundColor: 'bg-[#fff5f7]',
-        cardColor: 'bg-rose-50',
-        textColor: 'text-rose-950',
-        mutedTextColor: 'text-rose-600',
-        borderColor: 'border-rose-100',
-        isDark: false
-    },
-    {
-        id: 'nordic',
-        name: 'Nordic Blue',
-        baseColor: 'indigo',
-        backgroundColor: 'bg-[#f0f4f8]',
-        cardColor: 'bg-white',
-        textColor: 'text-[#1e293b]',
-        mutedTextColor: 'text-[#64748b]',
-        borderColor: 'border-[#e2e8f0]',
-        isDark: false
-    },
-    {
-        id: 'lime',
-        name: 'Cyber Lime',
-        baseColor: 'lime',
-        backgroundColor: 'bg-[#020400]',
-        cardColor: 'bg-lime-900/5',
-        textColor: 'text-white',
-        mutedTextColor: 'text-lime-200/50',
-        borderColor: 'border-lime-500/20',
-        isDark: true
-    },
-    {
-        id: 'forest',
-        name: 'Deep Forest',
-        baseColor: 'green',
-        backgroundColor: 'bg-[#010502]',
-        cardColor: 'bg-green-900/5',
-        textColor: 'text-green-50',
-        mutedTextColor: 'text-green-500/50',
-        borderColor: 'border-green-800/20',
-        isDark: true
-    },
-    {
-        id: 'slate',
-        name: 'Elegant Slate',
-        baseColor: 'slate',
-        backgroundColor: 'bg-[#0f172a]',
-        cardColor: 'bg-slate-800/50',
-        textColor: 'text-white',
-        mutedTextColor: 'text-slate-400',
-        borderColor: 'border-slate-700',
-        isDark: true
-    },
-    {
-        id: 'sunset',
-        name: 'Warm Sunset',
-        baseColor: 'red',
-        backgroundColor: 'bg-[#fffcf0]',
-        cardColor: 'bg-orange-50',
-        textColor: 'text-orange-950',
-        mutedTextColor: 'text-orange-700',
-        borderColor: 'border-orange-200',
-        isDark: false
-    },
-    {
-        id: 'terminal',
-        name: 'Matrix Terminal',
-        baseColor: 'green',
-        backgroundColor: 'bg-black',
-        cardColor: 'bg-black',
-        textColor: 'text-green-500',
-        mutedTextColor: 'text-green-500/50',
-        borderColor: 'border-green-500/30',
-        isDark: true
-    },
-    {
-        id: 'dracula',
-        name: 'Dracula',
-        baseColor: 'pink',
-        backgroundColor: 'bg-[#282a36]',
-        cardColor: 'bg-[#44475a]/50',
-        textColor: 'text-[#f8f8f2]',
-        mutedTextColor: 'text-[#6272a4]',
-        borderColor: 'border-[#bd93f9]/30',
-        isDark: true
-    },
-    {
-        id: 'solar-light',
-        name: 'Solarized Light',
-        baseColor: 'teal',
-        backgroundColor: 'bg-[#fdf6e3]',
-        cardColor: 'bg-[#eee8d5]',
-        textColor: 'text-[#073642]',
-        mutedTextColor: 'text-[#586e75]',
-        borderColor: 'border-[#93a1a1]/30',
-        isDark: false
-    },
-    {
-        id: 'solar-dark',
-        name: 'Solarized Dark',
-        baseColor: 'blue',
-        backgroundColor: 'bg-[#002b36]',
-        cardColor: 'bg-[#073642]',
-        textColor: 'text-[#839496]',
-        mutedTextColor: 'text-[#586e75]',
-        borderColor: 'border-[#586e75]/30',
-        isDark: true
-    },
-    {
-        id: 'gold',
-        name: 'Royal Gold',
-        baseColor: 'yellow',
-        backgroundColor: 'bg-[#0a0800]',
-        cardColor: 'bg-yellow-900/10',
-        textColor: 'text-white',
-        mutedTextColor: 'text-yellow-500/50',
-        borderColor: 'border-yellow-500/20',
-        isDark: true
-    },
-    {
-        id: 'carbon',
-        name: 'Carbon Fiber',
-        baseColor: 'slate',
-        backgroundColor: 'bg-[#111111]',
-        cardColor: 'bg-[#1a1a1a]',
-        textColor: 'text-white',
-        mutedTextColor: 'text-slate-400',
-        borderColor: 'border-slate-800',
-        isDark: true
-    }
+    // --- 01-20: THE CLASSICS (REFINED) ---
+    { id: 'emerald', name: 'Emerald Night', baseColor: 'emerald', backgroundColor: 'bg-[#030303]', cardColor: 'bg-white/5', textColor: 'text-white', mutedTextColor: 'text-emerald-500/70', borderColor: 'border-emerald-500/30', isDark: true },
+    { id: 'ruby', name: 'Ruby Void', baseColor: 'rose', backgroundColor: 'bg-[#050101]', cardColor: 'bg-white/5', textColor: 'text-white', mutedTextColor: 'text-rose-500/70', borderColor: 'border-rose-500/30', isDark: true },
+    { id: 'ocean', name: 'Ocean Depth', baseColor: 'blue', backgroundColor: 'bg-[#01040a]', cardColor: 'bg-white/5', textColor: 'text-white', mutedTextColor: 'text-blue-500/70', borderColor: 'border-blue-500/30', isDark: true },
+    { id: 'amber', name: 'Amber Glow', baseColor: 'amber', backgroundColor: 'bg-[#080501]', cardColor: 'bg-white/5', textColor: 'text-white', mutedTextColor: 'text-amber-500/70', borderColor: 'border-amber-500/30', isDark: true },
+    { id: 'frost', name: 'Pure Frost', baseColor: 'slate', backgroundColor: 'bg-white', cardColor: 'bg-slate-50', textColor: 'text-slate-900', mutedTextColor: 'text-slate-500', borderColor: 'border-slate-300', isDark: false },
+    { id: 'lilac', name: 'Soft Lilac', baseColor: 'violet', backgroundColor: 'bg-[#fdfaff]', cardColor: 'bg-violet-100/50', textColor: 'text-violet-950', mutedTextColor: 'text-violet-600', borderColor: 'border-violet-200', isDark: false },
+    { id: 'desert', name: 'Desert Sand', baseColor: 'orange', backgroundColor: 'bg-[#faf7f2]', cardColor: 'bg-[#f5eeda]', textColor: 'text-[#4a3721]', mutedTextColor: 'text-[#8b7355]', borderColor: 'border-[#dcd0b8]', isDark: false },
+    { id: 'midnight', name: 'Midnight Purple', baseColor: 'purple', backgroundColor: 'bg-[#0a0118]', cardColor: 'bg-purple-900/20', textColor: 'text-white', mutedTextColor: 'text-purple-300', borderColor: 'border-purple-500/40', isDark: true },
+    { id: 'rose', name: 'Vivid Rose', baseColor: 'rose', backgroundColor: 'bg-[#fff5f7]', cardColor: 'bg-rose-100/50', textColor: 'text-rose-950', mutedTextColor: 'text-rose-600', borderColor: 'border-rose-200', isDark: false },
+    { id: 'nordic', name: 'Nordic Blue', baseColor: 'indigo', backgroundColor: 'bg-[#f0f4f8]', cardColor: 'bg-white', textColor: 'text-[#1e293b]', mutedTextColor: 'text-[#475569]', borderColor: 'border-[#cbd5e1]', isDark: false },
+    { id: 'lime', name: 'Cyber Lime', baseColor: 'lime', backgroundColor: 'bg-[#020400]', cardColor: 'bg-lime-900/10', textColor: 'text-white', mutedTextColor: 'text-lime-400', borderColor: 'border-lime-500/40', isDark: true },
+    { id: 'forest', name: 'Deep Forest', baseColor: 'green', backgroundColor: 'bg-[#010502]', cardColor: 'bg-green-900/10', textColor: 'text-green-50', mutedTextColor: 'text-green-400', borderColor: 'border-green-800/40', isDark: true },
+    { id: 'slate', name: 'Elegant Slate', baseColor: 'slate', backgroundColor: 'bg-[#0f172a]', cardColor: 'bg-slate-800/50', textColor: 'text-white', mutedTextColor: 'text-slate-400', borderColor: 'border-slate-600', isDark: true },
+    { id: 'sunset', name: 'Warm Sunset', baseColor: 'red', backgroundColor: 'bg-[#fffcf0]', cardColor: 'bg-orange-100/50', textColor: 'text-orange-950', mutedTextColor: 'text-orange-700', borderColor: 'border-orange-300', isDark: false },
+    { id: 'terminal', name: 'Matrix Terminal', baseColor: 'green', backgroundColor: 'bg-black', cardColor: 'bg-black', textColor: 'text-green-500', mutedTextColor: 'text-green-600', borderColor: 'border-green-500/50', isDark: true },
+    { id: 'dracula', name: 'Dracula', baseColor: 'pink', backgroundColor: 'bg-[#282a36]', cardColor: 'bg-[#44475a]/50', textColor: 'text-[#f8f8f2]', mutedTextColor: 'text-[#bd93f9]', borderColor: 'border-[#bd93f9]/40', isDark: true },
+    { id: 'solar-light', name: 'Solarized Light', baseColor: 'teal', backgroundColor: 'bg-[#fdf6e3]', cardColor: 'bg-[#eee8d5]', textColor: 'text-[#073642]', mutedTextColor: 'text-[#657b83]', borderColor: 'border-[#93a1a1]', isDark: false },
+    { id: 'solar-dark', name: 'Solarized Dark', baseColor: 'blue', backgroundColor: 'bg-[#002b36]', cardColor: 'bg-[#073642]', textColor: 'text-[#93a1a1]', mutedTextColor: 'text-[#586e75]', borderColor: 'border-[#586e75]', isDark: true },
+    { id: 'gold', name: 'Royal Gold', baseColor: 'yellow', backgroundColor: 'bg-[#0a0800]', cardColor: 'bg-yellow-900/20', textColor: 'text-white', mutedTextColor: 'text-yellow-500', borderColor: 'border-yellow-600/40', isDark: true },
+    { id: 'carbon', name: 'Carbon Fiber', baseColor: 'slate', backgroundColor: 'bg-[#111111]', cardColor: 'bg-[#1a1a1a]', textColor: 'text-white', mutedTextColor: 'text-slate-400', borderColor: 'border-slate-700', isDark: true },
+
+    // --- 21-40: THE NEON FUTURE (VIBRANT DARKS) ---
+    { id: 'vanguard', name: 'Vanguard Red', baseColor: 'red', backgroundColor: 'bg-[#080101]', cardColor: 'bg-red-950/20', textColor: 'text-white', mutedTextColor: 'text-red-400', borderColor: 'border-red-600/30', isDark: true },
+    { id: 'cobalt', name: 'Cobalt Strike', baseColor: 'blue', backgroundColor: 'bg-[#010618]', cardColor: 'bg-blue-900/20', textColor: 'text-blue-50', mutedTextColor: 'text-blue-400', borderColor: 'border-blue-500/40', isDark: true },
+    { id: 'neon-mint', name: 'Neon Mint', baseColor: 'emerald', backgroundColor: 'bg-[#000a06]', cardColor: 'bg-emerald-950/20', textColor: 'text-emerald-50', mutedTextColor: 'text-emerald-400', borderColor: 'border-emerald-500/40', isDark: true },
+    { id: 'pulse', name: 'Vivid Pulse', baseColor: 'pink', backgroundColor: 'bg-[#0a0006]', cardColor: 'bg-pink-950/20', textColor: 'text-pink-50', mutedTextColor: 'text-pink-400', borderColor: 'border-pink-500/40', isDark: true },
+    { id: 'toxic', name: 'Toxic Waste', baseColor: 'lime', backgroundColor: 'bg-[#040600]', cardColor: 'bg-lime-950/20', textColor: 'text-lime-50', mutedTextColor: 'text-lime-400', borderColor: 'border-lime-500/40', isDark: true },
+    { id: 'lava', name: 'Lava Flow', baseColor: 'orange', backgroundColor: 'bg-[#0d0400]', cardColor: 'bg-orange-950/20', textColor: 'text-orange-50', mutedTextColor: 'text-orange-400', borderColor: 'border-orange-500/40', isDark: true },
+    { id: 'phantom', name: 'Phantom Indigo', baseColor: 'indigo', backgroundColor: 'bg-[#04010a]', cardColor: 'bg-indigo-950/20', textColor: 'text-indigo-50', mutedTextColor: 'text-indigo-400', borderColor: 'border-indigo-500/40', isDark: true },
+    { id: 'cyberpunk', name: 'Night City', baseColor: 'fuchsia', backgroundColor: 'bg-black', cardColor: 'bg-fuchsia-950/10', textColor: 'text-white', mutedTextColor: 'text-fuchsia-400', borderColor: 'border-fuchsia-500/50', isDark: true },
+    { id: 'stealth', name: 'Dark Stealth', baseColor: 'zinc', backgroundColor: 'bg-[#09090b]', cardColor: 'bg-zinc-900/50', textColor: 'text-zinc-100', mutedTextColor: 'text-zinc-500', borderColor: 'border-zinc-800', isDark: true },
+    { id: 'iron', name: 'Iron Forge', baseColor: 'gray', backgroundColor: 'bg-[#121212]', cardColor: 'bg-gray-800/50', textColor: 'text-gray-100', mutedTextColor: 'text-gray-500', borderColor: 'border-gray-700', isDark: true },
+    { id: 'abyss', name: 'Deep Abyss', baseColor: 'sky', backgroundColor: 'bg-[#00050d]', cardColor: 'bg-sky-950/20', textColor: 'text-sky-50', mutedTextColor: 'text-sky-400', borderColor: 'border-sky-500/40', isDark: true },
+    { id: 'plasma', name: 'Blue Plasma', baseColor: 'cyan', backgroundColor: 'bg-[#000808]', cardColor: 'bg-cyan-950/20', textColor: 'text-cyan-50', mutedTextColor: 'text-cyan-400', borderColor: 'border-cyan-500/40', isDark: true },
+    { id: 'obsidian', name: 'Obsidian Gold', baseColor: 'amber', backgroundColor: 'bg-[#020202]', cardColor: 'bg-amber-950/10', textColor: 'text-white', mutedTextColor: 'text-amber-600', borderColor: 'border-amber-900/50', isDark: true },
+    { id: 'onyx', name: 'Onyx Slate', baseColor: 'slate', backgroundColor: 'bg-[#020617]', cardColor: 'bg-slate-900/50', textColor: 'text-slate-100', mutedTextColor: 'text-slate-500', borderColor: 'border-slate-800', isDark: true },
+    { id: 'void', name: 'Total Void', baseColor: 'neutral', backgroundColor: 'bg-black', cardColor: 'bg-neutral-900/50', textColor: 'text-neutral-100', mutedTextColor: 'text-neutral-600', borderColor: 'border-neutral-800', isDark: true },
+    { id: 'titanium', name: 'Industrial Titanium', baseColor: 'stone', backgroundColor: 'bg-[#1c1917]', cardColor: 'bg-stone-800/50', textColor: 'text-stone-100', mutedTextColor: 'text-stone-500', borderColor: 'border-stone-700', isDark: true },
+    { id: 'cyber-grape', name: 'Cyber Grape', baseColor: 'purple', backgroundColor: 'bg-[#080212]', cardColor: 'bg-purple-950/20', textColor: 'text-purple-50', mutedTextColor: 'text-purple-400', borderColor: 'border-purple-500/40', isDark: true },
+    { id: 'nuclear', name: 'Nuclear Green', baseColor: 'green', backgroundColor: 'bg-[#020501]', cardColor: 'bg-green-950/20', textColor: 'text-green-50', mutedTextColor: 'text-green-400', borderColor: 'border-green-500/40', isDark: true },
+    { id: 'supernova', name: 'Supernova', baseColor: 'violet', backgroundColor: 'bg-[#05010a]', cardColor: 'bg-violet-950/20', textColor: 'text-violet-50', mutedTextColor: 'text-violet-400', borderColor: 'border-violet-500/40', isDark: true },
+    { id: 'event-horizon', name: 'Event Horizon', baseColor: 'red', backgroundColor: 'bg-black', cardColor: 'bg-red-950/10', textColor: 'text-red-50', mutedTextColor: 'text-red-600', borderColor: 'border-red-900/50', isDark: true },
+
+    // --- 41-60: THE MINIMALIST SPECTRA (CLEAN LIGHTS) ---
+    { id: 'paper', name: 'Old Paper', baseColor: 'yellow', backgroundColor: 'bg-[#fdfbf6]', cardColor: 'bg-[#f5f1e4]', textColor: 'text-stone-900', mutedTextColor: 'text-stone-600', borderColor: 'border-stone-200', isDark: false },
+    { id: 'cream', name: 'Classic Cream', baseColor: 'orange', backgroundColor: 'bg-[#fffdfa]', cardColor: 'bg-[#fbf5ee]', textColor: 'text-orange-950', mutedTextColor: 'text-orange-800', borderColor: 'border-orange-200', isDark: false },
+    { id: 'snow', name: 'Winter Snow', baseColor: 'blue', backgroundColor: 'bg-[#f8fafc]', cardColor: 'bg-white', textColor: 'text-slate-900', mutedTextColor: 'text-slate-400', borderColor: 'border-slate-100', isDark: false },
+    { id: 'cloud', name: 'Soft Cloud', baseColor: 'gray', backgroundColor: 'bg-[#f9fafb]', cardColor: 'bg-white', textColor: 'text-gray-900', mutedTextColor: 'text-gray-400', borderColor: 'border-gray-100', isDark: false },
+    { id: 'lavender', name: 'Lavender Mist', baseColor: 'indigo', backgroundColor: 'bg-[#f5f3ff]', cardColor: 'bg-white', textColor: 'text-indigo-900', mutedTextColor: 'text-indigo-400', borderColor: 'border-indigo-100', isDark: false },
+    { id: 'mint', name: 'Fresh Mint', baseColor: 'emerald', backgroundColor: 'bg-[#f0fdf4]', cardColor: 'bg-white', textColor: 'text-emerald-900', mutedTextColor: 'text-emerald-500', borderColor: 'border-emerald-100', isDark: false },
+    { id: 'sky', name: 'Daylight Sky', baseColor: 'sky', backgroundColor: 'bg-[#f0f9ff]', cardColor: 'bg-white', textColor: 'text-sky-900', mutedTextColor: 'text-sky-400', borderColor: 'border-sky-100', isDark: false },
+    { id: 'rose-petal', name: 'Rose Petal', baseColor: 'rose', backgroundColor: 'bg-[#fff1f2]', cardColor: 'bg-white', textColor: 'text-rose-900', mutedTextColor: 'text-rose-400', borderColor: 'border-rose-100', isDark: false },
+    { id: 'sand', name: 'Warm Sand', baseColor: 'amber', backgroundColor: 'bg-[#fffbeb]', cardColor: 'bg-white', textColor: 'text-amber-900', mutedTextColor: 'text-amber-500', borderColor: 'border-amber-100', isDark: false },
+    { id: 'stone', name: 'Polished Stone', baseColor: 'stone', backgroundColor: 'bg-[#fafaf9]', cardColor: 'bg-white', textColor: 'text-stone-900', mutedTextColor: 'text-stone-400', borderColor: 'border-stone-100', isDark: false },
+    { id: 'ivory', name: 'Antique Ivory', baseColor: 'orange', backgroundColor: 'bg-[#fffff0]', cardColor: 'bg-white', textColor: 'text-amber-950', mutedTextColor: 'text-amber-700', borderColor: 'border-amber-100', isDark: false },
+    { id: 'glacier', name: 'Alpine Glacier', baseColor: 'cyan', backgroundColor: 'bg-[#f0fafd]', cardColor: 'bg-white', textColor: 'text-cyan-950', mutedTextColor: 'text-cyan-600', borderColor: 'border-cyan-100', isDark: false },
+    { id: 'tea', name: 'Green Tea', baseColor: 'lime', backgroundColor: 'bg-[#f7fee7]', cardColor: 'bg-white', textColor: 'text-lime-950', mutedTextColor: 'text-lime-700', borderColor: 'border-lime-100', isDark: false },
+    { id: 'peach', name: 'Summer Peach', baseColor: 'orange', backgroundColor: 'bg-[#fff7ed]', cardColor: 'bg-white', textColor: 'text-orange-900', mutedTextColor: 'text-orange-400', borderColor: 'border-orange-100', isDark: false },
+    { id: 'pearl', name: 'Grey Pearl', baseColor: 'slate', backgroundColor: 'bg-[#f1f5f9]', cardColor: 'bg-white', textColor: 'text-slate-900', mutedTextColor: 'text-slate-500', borderColor: 'border-slate-200', isDark: false },
+    { id: 'matcha', name: 'Zen Matcha', baseColor: 'green', backgroundColor: 'bg-[#f0fdf4]', cardColor: 'bg-white', textColor: 'text-green-900', mutedTextColor: 'text-green-600', borderColor: 'border-green-100', isDark: false },
+    { id: 'canvas', name: 'Blank Canvas', baseColor: 'zinc', backgroundColor: 'bg-[#ffffff]', cardColor: 'bg-[#fafafa]', textColor: 'text-[#18181b]', mutedTextColor: 'text-[#71717a]', borderColor: 'border-[#e4e4e7]', isDark: false },
+    { id: 'mist', name: 'Morning Mist', baseColor: 'blue', backgroundColor: 'bg-[#f8fafc]', cardColor: 'bg-blue-50/30', textColor: 'text-blue-950', mutedTextColor: 'text-blue-600', borderColor: 'border-blue-100', isDark: false },
+    { id: 'porcelain', name: 'Porcelain White', baseColor: 'gray', backgroundColor: 'bg-[#fff]', cardColor: 'bg-[#fdfdfd]', textColor: 'text-[#111]', mutedTextColor: 'text-[#888]', borderColor: 'border-[#eee]', isDark: false },
+    { id: 'ghost', name: 'Ghost Gray', baseColor: 'zinc', backgroundColor: 'bg-[#fcfcfc]', cardColor: 'bg-[#f5f5f5]', textColor: 'text-zinc-800', mutedTextColor: 'text-zinc-400', borderColor: 'border-zinc-200', isDark: false },
+
+    // --- 61-80: CHROMATIC EARTH & ARTISANAL (BALANCED) ---
+    { id: 'moss', name: 'Deep Moss', baseColor: 'emerald', backgroundColor: 'bg-[#020a06]', cardColor: 'bg-emerald-950/20', textColor: 'text-white', mutedTextColor: 'text-emerald-400', borderColor: 'border-emerald-800/30', isDark: true },
+    { id: 'terracotta', name: 'Terracotta', baseColor: 'orange', backgroundColor: 'bg-[#180a05]', cardColor: 'bg-orange-950/20', textColor: 'text-white', mutedTextColor: 'text-orange-400', borderColor: 'border-orange-800/30', isDark: true },
+    { id: 'earth', name: 'Rich Earth', baseColor: 'stone', backgroundColor: 'bg-[#0c0a09]', cardColor: 'bg-stone-900/50', textColor: 'text-stone-50', mutedTextColor: 'text-stone-400', borderColor: 'border-stone-800', isDark: true },
+    { id: 'clay', name: 'Dry Clay', baseColor: 'stone', backgroundColor: 'bg-[#fafaf9]', cardColor: 'bg-stone-100', textColor: 'text-stone-900', mutedTextColor: 'text-stone-500', borderColor: 'border-stone-200', isDark: false },
+    { id: 'bark', name: 'Tree Bark', baseColor: 'stone', backgroundColor: 'bg-[#1c1917]', cardColor: 'bg-stone-900/50', textColor: 'text-stone-50', mutedTextColor: 'text-stone-400', borderColor: 'border-stone-700', isDark: true },
+    { id: 'pine', name: 'Evergreen Pine', baseColor: 'green', backgroundColor: 'bg-[#051408]', cardColor: 'bg-green-950/20', textColor: 'text-white', mutedTextColor: 'text-green-400', borderColor: 'border-green-900/30', isDark: true },
+    { id: 'autumn', name: 'Golden Autumn', baseColor: 'orange', backgroundColor: 'bg-[#1c0c05]', cardColor: 'bg-orange-950/20', textColor: 'text-white', mutedTextColor: 'text-yellow-500', borderColor: 'border-orange-800/30', isDark: true },
+    { id: 'glade', name: 'Spring Glade', baseColor: 'lime', backgroundColor: 'bg-[#f7fee7]', cardColor: 'bg-lime-100/50', textColor: 'text-lime-950', mutedTextColor: 'text-lime-700', borderColor: 'border-lime-200', isDark: false },
+    { id: 'volcano', name: 'Volcanic Ash', baseColor: 'zinc', backgroundColor: 'bg-[#09090b]', cardColor: 'bg-red-950/10', textColor: 'text-white', mutedTextColor: 'text-red-400', borderColor: 'border-red-900/30', isDark: true },
+    { id: 'savanna', name: 'Savanna Day', baseColor: 'yellow', backgroundColor: 'bg-[#fefce8]', cardColor: 'bg-yellow-100/50', textColor: 'text-yellow-950', mutedTextColor: 'text-yellow-700', borderColor: 'border-yellow-200', isDark: false },
+    { id: 'tundra', name: 'Arctic Tundra', baseColor: 'sky', backgroundColor: 'bg-[#f0f9ff]', cardColor: 'bg-sky-100/50', textColor: 'text-sky-950', mutedTextColor: 'text-sky-700', borderColor: 'border-sky-200', isDark: false },
+    { id: 'canyon', name: 'Grand Canyon', baseColor: 'orange', backgroundColor: 'bg-[#431407]', cardColor: 'bg-orange-950/30', textColor: 'text-orange-50', mutedTextColor: 'text-orange-300', borderColor: 'border-orange-700/50', isDark: true },
+    { id: 'mesa', name: 'Mesa Sunset', baseColor: 'red', backgroundColor: 'bg-[#1c0804]', cardColor: 'bg-red-950/30', textColor: 'text-red-50', mutedTextColor: 'text-red-300', borderColor: 'border-red-800/50', isDark: true },
+    { id: 'dune', name: 'Night Dune', baseColor: 'amber', backgroundColor: 'bg-[#0f0a02]', cardColor: 'bg-amber-950/30', textColor: 'text-amber-50', mutedTextColor: 'text-amber-300', borderColor: 'border-amber-800/50', isDark: true },
+    { id: 'oasis', name: 'Desert Oasis', baseColor: 'teal', backgroundColor: 'bg-[#001a1a]', cardColor: 'bg-teal-950/30', textColor: 'text-teal-50', mutedTextColor: 'text-teal-300', borderColor: 'border-teal-800/50', isDark: true },
+    { id: 'grove', name: 'Olive Grove', baseColor: 'lime', backgroundColor: 'bg-[#1a1c00]', cardColor: 'bg-lime-950/30', textColor: 'text-lime-50', mutedTextColor: 'text-lime-300', borderColor: 'border-lime-800/50', isDark: true },
+    { id: 'ridge', name: 'Stone Ridge', baseColor: 'slate', backgroundColor: 'bg-[#0f172a]', cardColor: 'bg-slate-900/50', textColor: 'text-slate-50', mutedTextColor: 'text-slate-400', borderColor: 'border-slate-800', isDark: true },
+    { id: 'valley', name: 'Deep Valley', baseColor: 'emerald', backgroundColor: 'bg-[#022c22]', cardColor: 'bg-emerald-950/30', textColor: 'text-emerald-50', mutedTextColor: 'text-emerald-300', borderColor: 'border-emerald-800/50', isDark: true },
+    { id: 'lagoon', name: 'Blue Lagoon', baseColor: 'blue', backgroundColor: 'bg-[#1e3a8a]', cardColor: 'bg-blue-900/30', textColor: 'text-blue-50', mutedTextColor: 'text-blue-300', borderColor: 'border-blue-700/50', isDark: true },
+    { id: 'heath', name: 'Purple Heath', baseColor: 'purple', backgroundColor: 'bg-[#3b0764]', cardColor: 'bg-purple-950/30', textColor: 'text-purple-50', mutedTextColor: 'text-purple-300', borderColor: 'border-purple-800/50', isDark: true },
+
+    // --- 81-100: THE PRO SERIES (PROFESSIONAL & UNIQUE) ---
+    { id: 'titan', name: 'Dark Titan', baseColor: 'slate', backgroundColor: 'bg-[#020617]', cardColor: 'bg-slate-900/80', textColor: 'text-white', mutedTextColor: 'text-slate-400', borderColor: 'border-slate-800', isDark: true },
+    { id: 'mercury', name: 'Mercury Silver', baseColor: 'slate', backgroundColor: 'bg-[#f8fafc]', cardColor: 'bg-white', textColor: 'text-[#0f172a]', mutedTextColor: 'text-[#64748b]', borderColor: 'border-[#e2e8f0]', isDark: false },
+    { id: 'zen', name: 'Quiet Zen', baseColor: 'stone', backgroundColor: 'bg-[#fafaf9]', cardColor: 'bg-[#f5f5f4]', textColor: 'text-[#292524]', mutedTextColor: 'text-[#78716c]', borderColor: 'border-[#e7e5e4]', isDark: false },
+    { id: 'mono-dark', name: 'Mono Dark', baseColor: 'zinc', backgroundColor: 'bg-[#09090b]', cardColor: 'bg-zinc-900/50', textColor: 'text-white', mutedTextColor: 'text-zinc-500', borderColor: 'border-zinc-800', isDark: true },
+    { id: 'mono-light', name: 'Mono Light', baseColor: 'zinc', backgroundColor: 'bg-white', cardColor: 'bg-zinc-50', textColor: 'text-black', mutedTextColor: 'text-zinc-400', borderColor: 'border-zinc-200', isDark: false },
+    { id: 'blueprint', name: 'Engine Blueprint', baseColor: 'blue', backgroundColor: 'bg-[#001b44]', cardColor: 'bg-blue-950/40', textColor: 'text-blue-100', mutedTextColor: 'text-blue-400/80', borderColor: 'border-blue-500/30', isDark: true },
+    { id: 'neon-violet', name: 'Neon Violet', baseColor: 'violet', backgroundColor: 'bg-[#050010]', cardColor: 'bg-violet-950/20', textColor: 'text-white', mutedTextColor: 'text-violet-400', borderColor: 'border-violet-500/50', isDark: true },
+    { id: 'cyber-gold', name: 'Cyber Gold', baseColor: 'amber', backgroundColor: 'bg-black', cardColor: 'bg-amber-950/10', textColor: 'text-white', mutedTextColor: 'text-amber-400', borderColor: 'border-amber-500/50', isDark: true },
+    { id: 'retro', name: '80s Retro', baseColor: 'fuchsia', backgroundColor: 'bg-[#1a002b]', cardColor: 'bg-fuchsia-950/20', textColor: 'text-fuchsia-50', mutedTextColor: 'text-fuchsia-400', borderColor: 'border-fuchsia-500/50', isDark: true },
+    { id: 'synthwave', name: 'Synthwave', baseColor: 'pink', backgroundColor: 'bg-[#0c001a]', cardColor: 'bg-purple-950/20', textColor: 'text-[#ff7edb]', mutedTextColor: 'text-[#00f7ff]', borderColor: 'border-[#fe53bb]/50', isDark: true },
+    { id: 'one-dark', name: 'One Dark Pro', baseColor: 'blue', backgroundColor: 'bg-[#282c34]', cardColor: 'bg-[#21252b]', textColor: 'text-[#abb2bf]', mutedTextColor: 'text-[#5c6370]', borderColor: 'border-[#3e4451]', isDark: true },
+    { id: 'night-owl', name: 'Night Owl', baseColor: 'blue', backgroundColor: 'bg-[#011627]', cardColor: 'bg-[#01111d]', textColor: 'text-[#d6deeb]', mutedTextColor: 'text-[#1d3b53]', borderColor: 'border-[#5f7e97]/30', isDark: true },
+    { id: 'monokai', name: 'Monokai', baseColor: 'yellow', backgroundColor: 'bg-[#272822]', cardColor: 'bg-[#1e1f1c]', textColor: 'text-[#f8f8f2]', mutedTextColor: 'text-[#f92672]', borderColor: 'border-[#49483e]', isDark: true },
+    { id: 'ayu-mirage', name: 'Ayu Mirage', baseColor: 'orange', backgroundColor: 'bg-[#171b24]', cardColor: 'bg-[#1f2430]', textColor: 'text-[#cccac2]', mutedTextColor: 'text-[#707a8c]', borderColor: 'border-[#5c6773]/30', isDark: true },
+    { id: 'ayu-light', name: 'Ayu Light', baseColor: 'orange', backgroundColor: 'bg-white', cardColor: 'bg-[#fcfcfc]', textColor: 'text-[#5c6773]', mutedTextColor: 'text-[#abb0b6]', borderColor: 'border-[#eee]', isDark: false },
+    { id: 'github-dark', name: 'GitHub Dark', baseColor: 'slate', backgroundColor: 'bg-[#0d1117]', cardColor: 'bg-[#161b22]', textColor: 'text-[#c9d1d9]', mutedTextColor: 'text-[#8b949e]', borderColor: 'border-[#30363d]', isDark: true },
+    { id: 'github-light', name: 'GitHub Light', baseColor: 'slate', backgroundColor: 'bg-white', cardColor: 'bg-[#f6f8fa]', textColor: 'text-[#24292f]', mutedTextColor: 'text-[#57606a]', borderColor: 'border-[#d0d7de]', isDark: false },
+    { id: 'nebula', name: 'Deep Nebula', baseColor: 'violet', backgroundColor: 'bg-[#020010]', cardColor: 'bg-violet-950/30', textColor: 'text-violet-50', mutedTextColor: 'text-fuchsia-400', borderColor: 'border-fuchsia-700/40', isDark: true },
+    { id: 'crimson', name: 'Crimson Peak', baseColor: 'red', backgroundColor: 'bg-[#1a0000]', cardColor: 'bg-red-950/30', textColor: 'text-red-50', mutedTextColor: 'text-red-500', borderColor: 'border-red-800/40', isDark: true },
+    { id: 'luxury', name: 'Luxury Black', baseColor: 'yellow', backgroundColor: 'bg-[#050505]', cardColor: 'bg-[#0a0a0a]', textColor: 'text-[#d4af37]', mutedTextColor: 'text-[#aa8a2b]', borderColor: 'border-[#d4af37]/20', isDark: true }
 ];
