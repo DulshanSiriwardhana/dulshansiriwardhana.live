@@ -93,17 +93,15 @@ const HireMeSection = () => {
         if (!cvRef.current || isGenerating) return;
         setIsGenerating(true);
 
-        try {
-            const cvElement = cvRef.current;
+        const cvElement = cvRef.current;
+        const originalBorder = cvElement.style.border;
+        const originalRadius = cvElement.style.borderRadius;
+        const originalShadow = cvElement.style.boxShadow;
 
+        try {
             // Extract the hex color from the tailwind class bg-[#xxxxxx]
             const themeHexMatch = t.backgroundColor.match(/\[(.*?)\]/);
             const themeBgColor = themeHexMatch ? themeHexMatch[1] : (t.isDark ? '#080808' : '#ffffff');
-
-            // Store original styles to restore them manually (className restoration can be flakey during async)
-            const originalBorder = cvElement.style.border;
-            const originalRadius = cvElement.style.borderRadius;
-            const originalShadow = cvElement.style.boxShadow;
 
             // Force override styles for the PDF capture (using setProperty for !important)
             cvElement.style.setProperty('border', 'none', 'important');
