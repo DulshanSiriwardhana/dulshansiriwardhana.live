@@ -123,22 +123,30 @@ const AdminPanel = () => {
 
   const loadArticles = async () => {
     try {
-      const data = await getProjectEulerArticles();
-      setArticles(Array.isArray(data) ? data : (data.articles || []));
+      const response = await getProjectEulerArticles();
+      // The API returns { data: [...], pagination: { total: ... } }
+      const articlesList = response?.data || response || [];
+      setArticles(Array.isArray(articlesList) ? articlesList : []);
     } catch (error) {
       showToast('Error loading articles', 'error');
     }
   };
 
+
   const loadMessages = async () => {
     try {
-      const data = await getMessages(1);
-      setMessages(Array.isArray(data.messages) ? data.messages : []);
-      setMessagesTotal(data.total || 0);
+      const response = await getMessages(1);
+      // The API returns { data: [...], pagination: { total: ... } }
+      const messagesList = response?.data || [];
+      const total = response?.pagination?.total || 0;
+
+      setMessages(Array.isArray(messagesList) ? messagesList : []);
+      setMessagesTotal(total);
     } catch (error) {
       showToast('Error loading messages', 'error');
     }
   };
+
 
 
   const loadCvTheme = async () => {
