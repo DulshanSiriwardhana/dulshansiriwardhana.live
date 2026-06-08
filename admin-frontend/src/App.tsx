@@ -9,9 +9,14 @@ const getApiUrl = () => {
     if (envUrl.startsWith('http://') || envUrl.startsWith('https://')) {
       return envUrl;
     }
+    // Handle localhost/local IP as http
+    if (envUrl.includes('localhost') || envUrl.includes('127.0.0.1')) {
+      return `http://${envUrl}`;
+    }
     return `https://${envUrl}`;
   }
   return 'http://localhost:5000';
+
 };
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
