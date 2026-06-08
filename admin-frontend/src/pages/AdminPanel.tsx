@@ -16,13 +16,13 @@ import { themes } from '../constants/themeConfig';
 import type { ProjectEulerArticle, Message } from '../utils/api';
 import Toast from '../components/Toast';
 import Sidebar from '../components/Sidebar';
-import { 
-  LayoutDashboard, 
-  Cpu, 
-  MessageSquare, 
-  Settings, 
-  Loader2, 
-  Fingerprint, 
+import {
+  LayoutDashboard,
+  Cpu,
+  MessageSquare,
+  Settings,
+  Loader2,
+  Fingerprint,
   Box,
   Save,
   Plus,
@@ -124,7 +124,7 @@ const AdminPanel = () => {
   const loadArticles = async () => {
     try {
       const data = await getProjectEulerArticles();
-      setArticles(data);
+      setArticles(Array.isArray(data) ? data : (data.articles || []));
     } catch (error) {
       showToast('Error loading articles', 'error');
     }
@@ -133,12 +133,13 @@ const AdminPanel = () => {
   const loadMessages = async () => {
     try {
       const data = await getMessages(1);
-      setMessages(data.messages);
-      setMessagesTotal(data.total);
+      setMessages(Array.isArray(data.messages) ? data.messages : []);
+      setMessagesTotal(data.total || 0);
     } catch (error) {
       showToast('Error loading messages', 'error');
     }
   };
+
 
   const loadCvTheme = async () => {
     try {
@@ -259,11 +260,11 @@ const AdminPanel = () => {
   return (
     <div className="flex h-screen bg-[#020617] text-slate-200 overflow-hidden font-sans selection:bg-blue-500/30">
       {/* Sidebar Integration */}
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        user={user} 
-        onLogout={handleLogout} 
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+        onLogout={handleLogout}
       />
 
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
@@ -273,26 +274,26 @@ const AdminPanel = () => {
 
         <header className="h-20 flex items-center px-12 justify-between relative z-10">
           <div className="flex items-center gap-4">
-             <div className="bg-blue-600/10 p-2 rounded-xl text-blue-500 border border-blue-500/10">
-                {activeTab === 'dashboard' && <LayoutDashboard size={20} />}
-                {activeTab === 'articles' && <Cpu size={20} />}
-                {activeTab === 'messages' && <MessageSquare size={20} />}
-                {activeTab === 'settings' && <Settings size={20} />}
-             </div>
-             <div>
-                <h2 className="text-xl font-black uppercase tracking-widest text-white italic">{activeTab}</h2>
-                <div className="flex items-center gap-1.5">
-                   <div className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" />
-                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Protocol 7.0.1 // Localhost</p>
-                </div>
-             </div>
+            <div className="bg-blue-600/10 p-2 rounded-xl text-blue-500 border border-blue-500/10">
+              {activeTab === 'dashboard' && <LayoutDashboard size={20} />}
+              {activeTab === 'articles' && <Cpu size={20} />}
+              {activeTab === 'messages' && <MessageSquare size={20} />}
+              {activeTab === 'settings' && <Settings size={20} />}
+            </div>
+            <div>
+              <h2 className="text-xl font-black uppercase tracking-widest text-white italic">{activeTab}</h2>
+              <div className="flex items-center gap-1.5">
+                <div className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" />
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Protocol 7.0.1 // Localhost</p>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 border border-slate-800 rounded-2xl">
-               <Bell size={14} className="text-slate-500" />
-               <div className="w-[1px] h-3 bg-slate-800" />
-               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Operational</span>
+              <Bell size={14} className="text-slate-500" />
+              <div className="w-[1px] h-3 bg-slate-800" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Operational</span>
             </div>
           </div>
         </header>
@@ -301,18 +302,19 @@ const AdminPanel = () => {
           {activeTab === 'dashboard' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {[
-                { label: 'Articles', value: articles.length, color: 'blue', icon: Cpu },
-                { label: 'Unread', value: messages.filter((m: Message) => !m.read).length, color: 'indigo', icon: MessageSquare },
-                { label: 'Throughput', value: messagesTotal, color: 'blue', icon: Activity },
+                { label: 'Articles', value: (articles || []).length, color: 'blue', icon: Cpu },
+                { label: 'Unread', value: (messages || []).filter((m: Message) => !m?.read).length, color: 'indigo', icon: MessageSquare },
+                { label: 'Throughput', value: messagesTotal || 0, color: 'blue', icon: Activity },
                 { label: 'Latency', value: '0.04ms', color: 'emerald', icon: Box },
               ].map((stat, i) => (
+
                 <div key={i} className="glass-panel p-8 rounded-3xl border border-slate-800/40 hover:border-blue-500/30 transition-all duration-500 group relative overflow-hidden">
                   <div className={`absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 transform group-hover:scale-110 group-hover:rotate-12`}>
-                     <stat.icon size={80} />
+                    <stat.icon size={80} />
                   </div>
                   <div className="flex items-center gap-3 mb-4">
                     <div className={`p-2 rounded-xl bg-${stat.color}-500/10 text-${stat.color}-400`}>
-                       <stat.icon size={18} />
+                      <stat.icon size={18} />
                     </div>
                     <p className="text-[10px] text-slate-500 uppercase tracking-[.2em] font-black">{stat.label}</p>
                   </div>
@@ -337,8 +339,8 @@ const AdminPanel = () => {
                       <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1">Euler Engine Protocol</p>
                     </div>
                     {isEditing && (
-                      <button 
-                        onClick={resetForm} 
+                      <button
+                        onClick={resetForm}
                         className="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-[10px] text-slate-400 hover:text-white uppercase tracking-widest font-black transition-all"
                       >
                         Abort
@@ -448,9 +450,9 @@ const AdminPanel = () => {
                   </div>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" size={14} />
-                    <input 
-                      type="text" 
-                      placeholder="FILTER NODES..." 
+                    <input
+                      type="text"
+                      placeholder="FILTER NODES..."
                       className="bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-[10px] font-black tracking-widest text-white outline-none focus:border-blue-500/50 w-48"
                     />
                   </div>
@@ -468,10 +470,9 @@ const AdminPanel = () => {
                           <h4 className="text-lg font-black text-white group-hover:text-blue-400 transition-colors uppercase tracking-tight italic leading-tight mb-2">{article.title}</h4>
                           <div className="flex gap-4 items-center">
                             <div className="flex items-center gap-1.5">
-                              <div className={`w-1.5 h-1.5 rounded-full ${
-                                article.difficulty === 'Easy' ? 'bg-emerald-500' : 
-                                article.difficulty === 'Medium' ? 'bg-blue-500' : 'bg-rose-500'
-                              }`} />
+                              <div className={`w-1.5 h-1.5 rounded-full ${article.difficulty === 'Easy' ? 'bg-emerald-500' :
+                                  article.difficulty === 'Medium' ? 'bg-blue-500' : 'bg-rose-500'
+                                }`} />
                               <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{article.difficulty}</span>
                             </div>
                             <div className="w-1 h-1 bg-slate-800 rounded-full" />
@@ -511,10 +512,10 @@ const AdminPanel = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                   <div className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Buffer Live</span>
-                   </div>
+                  <div className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Buffer Live</span>
+                  </div>
                 </div>
               </div>
 
@@ -532,7 +533,7 @@ const AdminPanel = () => {
                     {!msg.read && (
                       <div className="absolute top-0 left-0 w-1 h-full bg-blue-500 shadow-[2px_0_15px_rgba(59,130,246,0.5)]" />
                     )}
-                    
+
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-5">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-colors ${!msg.read ? 'bg-blue-600/10 border-blue-500/20 text-blue-400' : 'bg-slate-950 border-slate-800 text-slate-600'}`}>
@@ -567,16 +568,16 @@ const AdminPanel = () => {
                       </div>
                       <div className="flex gap-3">
                         {!msg.read && (
-                          <button 
-                            onClick={() => msg._id && handleMarkAsRead(msg._id)} 
+                          <button
+                            onClick={() => msg._id && handleMarkAsRead(msg._id)}
                             className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/10 transition-all text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
                           >
                             <CheckCircle2 size={14} />
                             Acknowledge
                           </button>
                         )}
-                        <button 
-                          onClick={() => msg._id && handleDeleteMessage(msg._id)} 
+                        <button
+                          onClick={() => msg._id && handleDeleteMessage(msg._id)}
                           className="px-6 py-2.5 bg-slate-900 border border-slate-800 text-slate-400 hover:bg-rose-600 hover:text-white hover:border-rose-500 rounded-xl transition-all text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
                         >
                           <Trash2 size={14} />
@@ -596,7 +597,7 @@ const AdminPanel = () => {
                 <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none">
                   <Settings size={200} />
                 </div>
-                
+
                 <header className="mb-12 relative">
                   <div className="flex items-center gap-4 mb-3">
                     <div className="p-3 bg-blue-600/10 rounded-2xl text-blue-400">
@@ -631,24 +632,24 @@ const AdminPanel = () => {
                         >
                           <div className={`h-28 w-full relative ${theme.backgroundColor} flex items-center justify-center`}>
                             <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-                            
+
                             <div className="absolute top-3 right-3">
-                               <div className={`px-2 py-0.5 rounded-lg text-[7px] font-black uppercase tracking-widest ${theme.isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black'}`}>
-                                  {theme.isDark ? 'Void' : 'Lumos'}
-                               </div>
+                              <div className={`px-2 py-0.5 rounded-lg text-[7px] font-black uppercase tracking-widest ${theme.isDark ? 'bg-white/10 text-white' : 'bg-black/10 text-black'}`}>
+                                {theme.isDark ? 'Void' : 'Lumos'}
+                              </div>
                             </div>
 
                             <div className="relative">
-                               <div className="w-12 h-12 rounded-2xl shadow-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ backgroundColor: colorMap[theme.baseColor] }}>
-                                  <div className="w-6 h-6 border-2 border-white/30 rounded-full" />
-                               </div>
+                              <div className="w-12 h-12 rounded-2xl shadow-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ backgroundColor: colorMap[theme.baseColor] }}>
+                                <div className="w-6 h-6 border-2 border-white/30 rounded-full" />
+                              </div>
                             </div>
-                            
+
                             {cvTheme === theme.id && (
                               <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
                                 <div className="px-3 py-1 bg-blue-600 rounded-full text-[7px] font-black text-white uppercase tracking-widest flex items-center gap-1.5 shadow-xl shadow-blue-600/40">
-                                   <div className="w-1 h-1 bg-white rounded-full animate-pulse" />
-                                   Active
+                                  <div className="w-1 h-1 bg-white rounded-full animate-pulse" />
+                                  Active
                                 </div>
                               </div>
                             )}
@@ -657,15 +658,15 @@ const AdminPanel = () => {
                           <div className="p-5 bg-slate-950 flex-grow border-t border-slate-900">
                             <h5 className="text-xs font-black text-white mb-2 uppercase tracking-widest group-hover:text-blue-400 transition-colors">{theme.name}</h5>
                             <div className="space-y-1.5">
-                               <div className="flex items-center justify-between">
-                                  <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Base</span>
-                                  <span className="text-[8px] text-slate-400 font-black uppercase tracking-widest">{theme.baseColor}</span>
-                               </div>
-                               <div className="w-full h-[1px] bg-slate-900" />
-                               <div className="flex items-center justify-between">
-                                  <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Type</span>
-                                  <span className="text-[8px] text-slate-400 font-black uppercase tracking-widest">{theme.isDark ? 'Opaque' : 'Translucent'}</span>
-                               </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Base</span>
+                                <span className="text-[8px] text-slate-400 font-black uppercase tracking-widest">{theme.baseColor}</span>
+                              </div>
+                              <div className="w-full h-[1px] bg-slate-900" />
+                              <div className="flex items-center justify-between">
+                                <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Type</span>
+                                <span className="text-[8px] text-slate-400 font-black uppercase tracking-widest">{theme.isDark ? 'Opaque' : 'Translucent'}</span>
+                              </div>
                             </div>
                           </div>
                         </button>
@@ -675,7 +676,7 @@ const AdminPanel = () => {
 
                   <section className="p-8 bg-slate-950 border border-slate-800 rounded-[2rem] relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
-                       <AlertCircle size={60} />
+                      <AlertCircle size={60} />
                     </div>
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-2 bg-amber-500/10 rounded-xl text-amber-500">
@@ -687,7 +688,7 @@ const AdminPanel = () => {
                       Atmosphere modifications are broadcast in real-time across the global content delivery network.
                     </p>
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">
-                       Protocol // SYNC_IMMEDIATE // BUFFER_NONE
+                      Protocol // SYNC_IMMEDIATE // BUFFER_NONE
                     </p>
                   </section>
                 </div>
