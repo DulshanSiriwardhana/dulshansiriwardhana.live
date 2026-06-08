@@ -260,10 +260,12 @@ const HireMeSection = () => {
                 const pageCanvas = document.createElement('canvas');
                 pageCanvas.width = imgWidth;
                 pageCanvas.height = Math.round(a4Height / scaleToPoints * SCALE);
-                // alpha: false forces RGB mode — avoids RGBA→RGB color encoding issues in jsPDF
-                const ctx = pageCanvas.getContext('2d', { alpha: false })!;
+                // Standard RGBA context — do NOT use alpha:false, it causes premultiplied-alpha
+                // corruption when blitting the html2canvas RGBA output (rainbow glitch).
+                // Background fill + JPEG export naturally handles the alpha discard correctly.
+                const ctx = pageCanvas.getContext('2d')!;
 
-                // Fill background before drawing (required when alpha:false)
+                // Fill the background first so transparent areas use the theme color
                 ctx.fillStyle = themeBgColor;
                 ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
