@@ -128,11 +128,11 @@ const HireMeSection = () => {
                     }
                     resolve();
                 };
-                if (imgEl.complete && imgEl.naturalWidth > 0) {
-                    convert(imgEl);
+                if (img.complete && img.naturalWidth > 0) {
+                    convert(img);
                 } else {
-                    imgEl.onload = () => convert(imgEl);
-                    imgEl.onerror = () => resolve();
+                    img.onload = () => convert(img);
+                    img.onerror = () => resolve();
                 }
             })));
 
