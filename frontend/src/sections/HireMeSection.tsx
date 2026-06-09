@@ -136,7 +136,7 @@ const HireMeSection = () => {
             })));
 
             // Capture the CV element at 3x resolution for high-quality output
-            const SCALE = 3;
+            const SCALE = 4;
             const canvas = await html2canvas(cvElement, {
                 scale: SCALE,
                 useCORS: true,
@@ -309,10 +309,11 @@ const HireMeSection = () => {
                     0, verticalOffsetInCanvas, imgWidth, sliceHeight
                 );
 
-                // JPEG at 95% quality: avoids jsPDF's RGBA/color-space encoding bug with PNG,
-                // while still delivering near-lossless visual quality at 3x capture scale.
-                const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.95);
-                pdf.addImage(pageImgData, 'JPEG', 0, 0, a4Width, a4Height, undefined, 'MEDIUM');
+                // JPEG at 98% quality: avoids jsPDF's RGBA/color-space encoding bug with PNG,
+                // while still delivering near-lossless visual quality at 4x capture scale.
+                // Use 'NONE' compression in addImage to prevent double-compression blur.
+                const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.98);
+                pdf.addImage(pageImgData, 'JPEG', 0, 0, a4Width, a4Height, undefined, 'NONE');
 
                 const pageStartYInCanvasPixels = startY;
                 const pageEndYInCanvasPixels = endY;
