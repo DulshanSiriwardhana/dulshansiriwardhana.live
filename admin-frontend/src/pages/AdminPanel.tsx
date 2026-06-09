@@ -515,6 +515,39 @@ const AdminPanel = () => {
                       />
                     </div>
 
+                    <div className="space-y-4">
+                      <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Knowledge Tokens <span className="text-slate-700">(Tags)</span></label>
+                      <div className="flex flex-wrap gap-2 p-4 bg-slate-950 border border-slate-800 rounded-2xl min-h-[60px]">
+                        {formData.tags.map((tag, i) => (
+                          <span key={i} className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-lg text-[10px] text-blue-400 font-bold flex items-center gap-2 group">
+                            {tag}
+                            <button
+                              type="button"
+                              onClick={() => setFormData({ ...formData, tags: formData.tags.filter((_, index) => index !== i) })}
+                              className="text-slate-600 hover:text-rose-500 transition-colors"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        ))}
+                        <input
+                          type="text"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ',') {
+                              e.preventDefault();
+                              const val = e.currentTarget.value.trim();
+                              if (val && !formData.tags.includes(val)) {
+                                setFormData({ ...formData, tags: [...formData.tags, val] });
+                                e.currentTarget.value = '';
+                              }
+                            }
+                          }}
+                          placeholder="Add token..."
+                          className="flex-1 bg-transparent border-none outline-none text-xs text-white min-w-[100px]"
+                        />
+                      </div>
+                    </div>
+
                     <div className="flex items-center gap-4 p-5 bg-blue-500/5 rounded-2xl border border-blue-500/10 group cursor-pointer" onClick={() => setFormData({ ...formData, published: !formData.published })}>
                       <div className={`w-10 h-6 rounded-full p-1 transition-colors duration-300 ${formData.published ? 'bg-blue-600' : 'bg-slate-800'}`}>
                         <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-300 ${formData.published ? 'translate-x-4' : 'translate-x-0'}`} />

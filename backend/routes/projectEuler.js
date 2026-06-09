@@ -21,9 +21,10 @@ router.post('/', async (req, res) => {
     } = req.body;
 
     if (!problemNumber || !title || !solution || !solution.code) {
+      console.log('Validation failed:', { problemNumber, title, hasSolution: !!solution, hasCode: !!solution?.code });
       return res.status(400).json({
         success: false,
-        error: 'Missing required fields: problemNumber, title, and solution code are required',
+        error: `Missing required fields: ${!problemNumber ? 'problemNumber ' : ''}${!title ? 'title ' : ''}${!solution ? 'solution ' : ''}${(!solution || !solution.code) ? 'solution.code ' : ''}are required`,
       });
     }
 
@@ -56,6 +57,13 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Article with this problem number already exists',
+      });
+    }
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(val => val.message);
+      return res.status(400).json({
+        success: false,
+        error: messages.join(', '),
       });
     }
     console.error('Error creating article:', error);
