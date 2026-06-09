@@ -38,7 +38,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-10 overflow-hidden">
       {/* Dynamic Backdrop */}
       <div
-        className="absolute inset-0 bg-black/20 backdrop-blur-xl animate-in fade-in duration-500"
+        className="absolute inset-0 bg-black/10 backdrop-blur-xl animate-in fade-in duration-500"
         onClick={onClose}
       />
 
@@ -54,7 +54,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                 <span className="h-1 w-1 bg-white/20 rounded-full"></span>
                 <span className="text-white/40 font-mono text-[10px] uppercase tracking-widest font-bold">{article.solution.language}</span>
               </div>
-              <h1 className="text-xl md:text-3xl font-black text-white italic uppercase tracking-tighter leading-none">
+              <h1 className="text-lg md:text-2xl font-black text-white italic uppercase tracking-tighter leading-none">
                 {article.title}
               </h1>
             </div>
@@ -107,7 +107,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                     <div className="w-8 h-[1px] bg-green-500/30"></div>
                     <h2 className="text-[10px] font-black text-green-500/50 uppercase tracking-[0.2em]">Abstract</h2>
                   </div>
-                  <p className="text-gray-300 leading-relaxed text-base lg:text-lg font-medium selection:bg-green-500/30">
+                  <p className="text-gray-300 leading-relaxed text-base font-medium selection:bg-green-500/30">
                     {article.description}
                   </p>
                 </div>
@@ -140,7 +140,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                     </div>
                     <div className="text-center md:text-left relative z-10">
                       <p className="text-[10px] text-emerald-500/50 font-black uppercase tracking-widest mb-1">Decrypted Output</p>
-                      <span className="text-3xl md:text-5xl font-mono font-black text-white tracking-[0.15em] break-all">
+                      <span className="text-2xl md:text-4xl font-mono font-black text-white tracking-[0.15em] break-all">
                         {article.answer}
                       </span>
                     </div>
