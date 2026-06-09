@@ -132,4 +132,7 @@ export const themes: ThemeConfig[] = [
     { id: 'pure-teal', name: 'Pure Teal', baseColor: 'teal', backgroundColor: 'bg-[#f0fdfa]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-teal-600', borderColor: 'border-teal-200', isDark: false },
     { id: 'pure-orange', name: 'Pure Orange', baseColor: 'orange', backgroundColor: 'bg-[#fff7ed]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-orange-500', borderColor: 'border-orange-200', isDark: false },
     { id: 'pure-red', name: 'Pure Red', baseColor: 'red', backgroundColor: 'bg-[#fef2f2]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-red-500', borderColor: 'border-red-200', isDark: false },
+
+    // --- 111: PAPER LIGHT (ALL-BLACK TEXT + PURE LIGHT) ---
+    { id: 'paper-light', name: 'Paper Light', baseColor: 'zinc', backgroundColor: 'bg-white', cardColor: 'bg-[#f8f8f8]', textColor: 'text-black', mutedTextColor: 'text-[#333333]', borderColor: 'border-[#d4d4d4]', isDark: false },
 ];
