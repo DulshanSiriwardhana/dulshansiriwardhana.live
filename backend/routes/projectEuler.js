@@ -4,6 +4,126 @@ import authenticateToken from '../middleware/auth.js';
 
 const router = express.Router();
 
+// GET all articles (Public)
+router.get('/', async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 12,
+      sort = '-problemNumber',
+      search = '',
+      difficulty = '',
+      published = '',
+    } = req.query;
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const query = {};
+
+    if (published !== '') {
+      query.published = published === 'true';
+    }
+
+    if (difficulty) {
+      query.difficulty = difficulty;
+    }
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+        { tags: { $in: [new RegExp(search, 'i')] } },
+      ];
+    }
+
+    const articles = await ProjectEulerArticle.find(query)
+      .sort(sort)
+      .skip(skip)
+      .limit(limitNum)
+      .select('-__v');
+
+    const total = await ProjectEulerArticle.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: articles,
+      pagination: {
+        page: pageNum,
+        limit: limitNum,
+        total,
+        pages: Math.ceil(total / limitNum),
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch articles',
+    });
+  }
+});
+
+// GET one article by problem number (Public)
+router.get('/problem/:number', async (req, res) => {
+  try {
+    const article = await ProjectEulerArticle.findOne({
+      problemNumber: parseInt(req.params.number),
+    }).select('-__v');
+
+    if (!article) {
+      return res.status(404).json({
+        success: false,
+        error: 'Article not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      data: article,
+    });
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch article',
+    });
+  }
+});
+
+// GET one article by ID (Public)
+router.get('/:id', async (req, res) => {
+  try {
+    const article = await ProjectEulerArticle.findById(req.params.id).select('-__v');
+
+    if (!article) {
+      return res.status(404).json({
+        success: false,
+        error: 'Article not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      data: article,
+    });
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    if (error.name === 'CastError') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid article ID',
+      });
+    }
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch article',
+    });
+  }
+});
+
+// Admin Routes (Protected)
 router.use(authenticateToken);
 
 router.post('/', async (req, res) => {
@@ -70,122 +190,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to create article',
-    });
-  }
-});
-
-router.get('/', async (req, res) => {
-  try {
-    const {
-      page = 1,
-      limit = 12,
-      sort = '-problemNumber',
-      search = '',
-      difficulty = '',
-      published = '',
-    } = req.query;
-
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
-    const skip = (pageNum - 1) * limitNum;
-
-    const query = {};
-
-    if (published !== '') {
-      query.published = published === 'true';
-    }
-
-    if (difficulty) {
-      query.difficulty = difficulty;
-    }
-
-    if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { tags: { $in: [new RegExp(search, 'i')] } },
-      ];
-    }
-
-    const articles = await ProjectEulerArticle.find(query)
-      .sort(sort)
-      .skip(skip)
-      .limit(limitNum)
-      .select('-__v');
-
-    const total = await ProjectEulerArticle.countDocuments(query);
-
-    res.json({
-      success: true,
-      data: articles,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        pages: Math.ceil(total / limitNum),
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch articles',
-    });
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    const article = await ProjectEulerArticle.findById(req.params.id).select('-__v');
-
-    if (!article) {
-      return res.status(404).json({
-        success: false,
-        error: 'Article not found',
-      });
-    }
-
-    res.json({
-      success: true,
-      data: article,
-    });
-  } catch (error) {
-    console.error('Error fetching article:', error);
-    if (error.name === 'CastError') {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid article ID',
-      });
-    }
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch article',
-    });
-  }
-});
-
-router.get('/problem/:number', async (req, res) => {
-  try {
-    const article = await ProjectEulerArticle.findOne({
-      problemNumber: parseInt(req.params.number),
-    }).select('-__v');
-
-    if (!article) {
-      return res.status(404).json({
-        success: false,
-        error: 'Article not found',
-      });
-    }
-
-    res.json({
-      success: true,
-      data: article,
-    });
-  } catch (error) {
-    console.error('Error fetching article:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch article',
     });
   }
 });
