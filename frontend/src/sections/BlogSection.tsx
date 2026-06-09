@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Search, X, Filter } from 'lucide-react';
 import SectionTitle from "../components/SectionTitle";
 import ScrollAnimation from "../components/ScrollAnimation";
 import ProjectEulerArticleCard from "../components/ProjectEulerArticleCard";
@@ -82,8 +83,8 @@ const BlogSection = () => {
           <button
             onClick={() => setActiveTab('blog')}
             className={`px-6 py-3 font-medium transition-all ${activeTab === 'blog'
-                ? 'text-green-400 border-b-2 border-green-400'
-                : 'text-gray-400 hover:text-gray-300'
+              ? 'text-green-400 border-b-2 border-green-400'
+              : 'text-gray-400 hover:text-gray-300'
               }`}
           >
             Blog Articles
@@ -91,8 +92,8 @@ const BlogSection = () => {
           <button
             onClick={() => setActiveTab('project-euler')}
             className={`px-6 py-3 font-medium transition-all ${activeTab === 'project-euler'
-                ? 'text-green-400 border-b-2 border-green-400'
-                : 'text-gray-400 hover:text-gray-300'
+              ? 'text-green-400 border-b-2 border-green-400'
+              : 'text-gray-400 hover:text-gray-300'
               }`}
           >
             Project Euler Solutions
@@ -174,77 +175,70 @@ const BlogSection = () => {
         )}
 
         {activeTab === 'project-euler' && (
-          <div className="space-y-6">
-            <div className="bg-[#1a1a1a]/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 shadow-lg">
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="bg-[#1a1a1a]/50 backdrop-blur-md border border-green-500/10 rounded-2xl p-6 shadow-2xl shadow-black/50">
               <form onSubmit={handleSearch} className="space-y-4">
                 <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                      🔍
+                  <div className="flex-1 relative group">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500/50 group-focus-within:text-green-400 transition-colors">
+                      <Search size={18} />
                     </div>
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search by title, description, or tags..."
-                      className="w-full pl-10 pr-10 py-3 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all"
+                      placeholder="Search threshold nodes..."
+                      className="w-full pl-12 pr-12 py-3.5 bg-black/40 border border-green-500/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/20 transition-all font-mono text-sm"
                     />
                     {searchQuery && (
                       <button
                         type="button"
                         onClick={() => setSearchQuery('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-500/20 rounded transition-all"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/5 rounded-full transition-all"
                         aria-label="Clear search"
                       >
-                        ×
+                        <X size={14} />
                       </button>
                     )}
                   </div>
-                  <select
-                    value={difficultyFilter}
-                    onChange={(e) => setDifficultyFilter(e.target.value)}
-                    className="px-4 py-3 bg-[#0a0a0a] border border-green-500/20 rounded-lg text-white focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/30 transition-all cursor-pointer min-w-[180px] hover:border-green-500/40"
-                  >
-                    <option value="" className="bg-[#0a0a0a] text-white">All Difficulties</option>
-                    <option value="Easy" className="bg-[#0a0a0a] text-green-400">Easy</option>
-                    <option value="Medium" className="bg-[#0a0a0a] text-yellow-400">Medium</option>
-                    <option value="Hard" className="bg-[#0a0a0a] text-red-400">Hard</option>
-                  </select>
+                  <div className="relative group">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500/50 pointer-events-none">
+                      <Filter size={16} />
+                    </div>
+                    <select
+                      value={difficultyFilter}
+                      onChange={(e) => setDifficultyFilter(e.target.value)}
+                      className="w-full md:w-[220px] pl-11 pr-4 py-3.5 bg-black/40 border border-green-500/10 rounded-xl text-white focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/20 transition-all cursor-pointer appearance-none font-mono text-sm"
+                    >
+                      <option value="" className="bg-[#1a1a1a]">ALL PROTOCOLS</option>
+                      <option value="Easy" className="bg-[#1a1a1a] text-green-400">L1 // TRIVIAL</option>
+                      <option value="Medium" className="bg-[#1a1a1a] text-yellow-400">L2 // MODERATE</option>
+                      <option value="Hard" className="bg-[#1a1a1a] text-red-500">L3 // CRITICAL</option>
+                    </select>
+                  </div>
                   {(searchQuery || difficultyFilter) && (
                     <button
                       type="button"
                       onClick={handleClearSearch}
-                      className="px-6 py-3 bg-gray-500/20 border border-gray-500/50 rounded-lg text-gray-400 hover:bg-gray-500/30 hover:border-gray-500 transition-all whitespace-nowrap font-medium"
+                      className="px-6 py-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 hover:bg-rose-500/20 transition-all whitespace-nowrap font-black uppercase tracking-widest text-[10px]"
                     >
-                      Clear All
+                      Reset Buffer
                     </button>
                   )}
                 </div>
                 {(searchQuery || difficultyFilter) && (
-                  <div className="flex flex-wrap gap-2 items-center pt-2 border-t border-green-500/10">
-                    <span className="text-sm text-gray-400 font-medium">Active filters:</span>
+                  <div className="flex flex-wrap gap-2 items-center pt-4 border-t border-green-500/5">
+                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Active Stream:</span>
                     {searchQuery && (
-                      <span className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm font-medium flex items-center gap-2">
-                        <span>Search: "{searchQuery}"</span>
-                        <button
-                          type="button"
-                          onClick={() => setSearchQuery('')}
-                          className="text-green-300 hover:text-green-200"
-                        >
-                          ×
-                        </button>
+                      <span className="px-3 py-1 bg-green-500/5 border border-green-500/10 rounded-full text-green-400 text-[10px] font-bold flex items-center gap-2">
+                        <span>SEARCH: {searchQuery}</span>
+                        <button onClick={() => setSearchQuery('')} className="hover:text-white"><X size={10} /></button>
                       </span>
                     )}
                     {difficultyFilter && (
-                      <span className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm font-medium flex items-center gap-2">
-                        <span>Difficulty: {difficultyFilter}</span>
-                        <button
-                          type="button"
-                          onClick={() => setDifficultyFilter('')}
-                          className="text-green-300 hover:text-green-200"
-                        >
-                          ×
-                        </button>
+                      <span className="px-3 py-1 bg-blue-500/5 border border-blue-500/10 rounded-full text-blue-400 text-[10px] font-bold flex items-center gap-2">
+                        <span>LEVEL: {difficultyFilter}</span>
+                        <button onClick={() => setDifficultyFilter('')} className="hover:text-white"><X size={10} /></button>
                       </span>
                     )}
                   </div>
@@ -324,8 +318,8 @@ const BlogSection = () => {
                             key={pageNum}
                             onClick={() => setCurrentPage(pageNum)}
                             className={`w-10 h-10 rounded-lg border transition-all font-medium ${currentPage === pageNum
-                                ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                                : 'bg-[#1a1a1a]/50 border-green-500/20 text-gray-400 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-400'
+                              ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                              : 'bg-[#1a1a1a]/50 border-green-500/20 text-gray-400 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-400'
                               }`}
                           >
                             {pageNum}
