@@ -19,8 +19,13 @@ const projectEulerArticleSchema = new mongoose.Schema({
   },
   problemStatement: {
     type: String,
-    required: [true, 'Problem statement is required'],
     trim: true,
+    default: '',
+  },
+  answer: {
+    type: String,
+    trim: true,
+    default: '',
   },
   solution: {
     code: {
@@ -34,8 +39,8 @@ const projectEulerArticleSchema = new mongoose.Schema({
     },
     explanation: {
       type: String,
-      required: [true, 'Algorithm explanation is required'],
       trim: true,
+      default: '',
     },
     timeComplexity: {
       type: String,
@@ -69,7 +74,7 @@ const projectEulerArticleSchema = new mongoose.Schema({
   },
 });
 
-projectEulerArticleSchema.pre('save', function(next) {
+projectEulerArticleSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });

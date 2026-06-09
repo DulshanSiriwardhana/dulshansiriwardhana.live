@@ -13,25 +13,33 @@ router.post('/', async (req, res) => {
       title,
       description,
       problemStatement,
+      answer,
       solution,
       tags,
       difficulty,
       published,
     } = req.body;
 
-    if (!problemNumber || !title || !description || !problemStatement || !solution) {
+    if (!problemNumber || !title || !solution || !solution.code) {
       return res.status(400).json({
         success: false,
-        error: 'Missing required fields',
+        error: 'Missing required fields: problemNumber, title, and solution code are required',
       });
     }
 
     const article = new ProjectEulerArticle({
       problemNumber,
       title,
-      description,
-      problemStatement,
-      solution,
+      description: description || '',
+      problemStatement: problemStatement || '',
+      answer: answer || '',
+      solution: {
+        code: solution.code,
+        language: solution.language || 'Python',
+        explanation: solution.explanation || '',
+        timeComplexity: solution.timeComplexity || '',
+        spaceComplexity: solution.spaceComplexity || '',
+      },
       tags: tags || [],
       difficulty: difficulty || 'Medium',
       published: published || false,

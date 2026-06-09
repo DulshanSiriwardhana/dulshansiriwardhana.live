@@ -67,6 +67,7 @@ const AdminPanel = () => {
     title: '',
     description: '',
     problemStatement: '',
+    answer: '',
     solution: {
       code: '',
       language: 'Python',
@@ -105,6 +106,12 @@ const AdminPanel = () => {
     stone: '#78716c',
     neutral: '#737373',
   };
+
+  const supportedLanguages = [
+    'Python', 'JavaScript', 'TypeScript', 'C++', 'C', 'Java', 'Rust',
+    'Go', 'Kotlin', 'Swift', 'Ruby', 'Haskell', 'Scala', 'Julia',
+    'R', 'MATLAB', 'Perl', 'Lua', 'Elixir', 'Clojure',
+  ];
 
 
   useEffect(() => {
@@ -200,6 +207,7 @@ const AdminPanel = () => {
       title: article.title,
       description: article.description,
       problemStatement: article.problemStatement || '',
+      answer: article.answer || '',
       solution: article.solution,
       tags: article.tags || [],
       difficulty: article.difficulty,
@@ -264,6 +272,7 @@ const AdminPanel = () => {
       title: '',
       description: '',
       problemStatement: '',
+      answer: '',
       solution: {
         code: '',
         language: 'Python',
@@ -411,14 +420,39 @@ const AdminPanel = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Executive Summary</label>
+                      <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Executive Summary <span className="text-slate-700">(Optional)</span></label>
                       <textarea
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white text-sm focus:border-blue-500/50 outline-none transition-all resize-none"
                         rows={2}
-                        required
+                        placeholder="Brief description of the problem..."
                       />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Language</label>
+                        <select
+                          value={formData.solution.language}
+                          onChange={(e) => setFormData({ ...formData, solution: { ...formData.solution, language: e.target.value } })}
+                          className="w-full px-4 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white font-mono text-xs focus:border-blue-500/50 outline-none transition-all cursor-pointer appearance-none"
+                        >
+                          {supportedLanguages.map(lang => (
+                            <option key={lang} value={lang}>{lang}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Answer Value</label>
+                        <input
+                          type="text"
+                          value={formData.answer || ''}
+                          onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+                          className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-emerald-400 font-mono text-xs focus:border-blue-500/50 outline-none transition-all"
+                          placeholder="e.g. 233168"
+                        />
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -433,6 +467,51 @@ const AdminPanel = () => {
                         rows={8}
                         required
                         placeholder="def solution(): ..."
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Problem Statement <span className="text-slate-700">(Optional)</span></label>
+                      <textarea
+                        value={formData.problemStatement}
+                        onChange={(e) => setFormData({ ...formData, problemStatement: e.target.value })}
+                        className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white text-sm focus:border-blue-500/50 outline-none transition-all resize-none"
+                        rows={3}
+                        placeholder="Paste the full problem statement here..."
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Time Complexity</label>
+                        <input
+                          type="text"
+                          value={formData.solution.timeComplexity || ''}
+                          onChange={(e) => setFormData({ ...formData, solution: { ...formData.solution, timeComplexity: e.target.value } })}
+                          className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white font-mono text-xs focus:border-blue-500/50 outline-none transition-all"
+                          placeholder="e.g. O(n log n)"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Space Complexity</label>
+                        <input
+                          type="text"
+                          value={formData.solution.spaceComplexity || ''}
+                          onChange={(e) => setFormData({ ...formData, solution: { ...formData.solution, spaceComplexity: e.target.value } })}
+                          className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white font-mono text-xs focus:border-blue-500/50 outline-none transition-all"
+                          placeholder="e.g. O(1)"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] text-slate-500 uppercase tracking-widest font-black ml-1">Algorithm Explanation <span className="text-slate-700">(Optional)</span></label>
+                      <textarea
+                        value={formData.solution.explanation}
+                        onChange={(e) => setFormData({ ...formData, solution: { ...formData.solution, explanation: e.target.value } })}
+                        className="w-full px-5 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white text-sm focus:border-blue-500/50 outline-none transition-all resize-none"
+                        rows={3}
+                        placeholder="Explain your approach..."
                       />
                     </div>
 
@@ -502,6 +581,12 @@ const AdminPanel = () => {
                             <span className={`text-[9px] font-black uppercase tracking-widest ${article.published ? 'text-blue-500' : 'text-slate-600'}`}>
                               {article.published ? 'LIVE' : 'IDLE'}
                             </span>
+                            {article.answer && (
+                              <>
+                                <div className="w-1 h-1 bg-slate-800 rounded-full" />
+                                <span className="text-[9px] text-emerald-500 font-bold uppercase tracking-widest font-mono">ANS: {article.answer}</span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>

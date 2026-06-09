@@ -90,6 +90,7 @@ export interface ProjectEulerArticle {
   title: string;
   description: string;
   problemStatement: string;
+  answer?: string;
   solution: {
     code: string;
     language: string;
@@ -107,12 +108,13 @@ export interface ProjectEulerArticle {
 export interface ProjectEulerArticleData {
   problemNumber: number;
   title: string;
-  description: string;
-  problemStatement: string;
+  description?: string;
+  problemStatement?: string;
+  answer?: string;
   solution: {
     code: string;
     language: string;
-    explanation: string;
+    explanation?: string;
     timeComplexity?: string;
     spaceComplexity?: string;
   };

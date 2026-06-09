@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getProjectEulerArticleByNumber } from '../utils/api';
 import type { ProjectEulerArticle } from '../utils/api';
+import { CheckCircle2 } from 'lucide-react';
 
 interface ProjectEulerArticleDetailProps {
   problemNumber: number;
@@ -86,19 +87,37 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
             </div>
 
             <div className="space-y-6">
-              <div>
-                <h2 className="text-xl font-semibold text-green-400 mb-3">Description</h2>
-                <p className="text-gray-300 leading-relaxed">{article.description}</p>
-              </div>
-
-              <div>
-                <h2 className="text-xl font-semibold text-green-400 mb-3">Problem Statement</h2>
-                <div className="bg-[#0a0a0a] border border-green-500/10 rounded-lg p-4">
-                  <p className="text-gray-300 whitespace-pre-wrap font-mono text-sm">
-                    {article.problemStatement}
-                  </p>
+              {article.description && (
+                <div>
+                  <h2 className="text-xl font-semibold text-green-400 mb-3">Description</h2>
+                  <p className="text-gray-300 leading-relaxed">{article.description}</p>
                 </div>
-              </div>
+              )}
+
+              {article.problemStatement && (
+                <div>
+                  <h2 className="text-xl font-semibold text-green-400 mb-3">Problem Statement</h2>
+                  <div className="bg-[#0a0a0a] border border-green-500/10 rounded-lg p-4">
+                    <p className="text-gray-300 whitespace-pre-wrap font-mono text-sm">
+                      {article.problemStatement}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {article.answer && (
+                <div>
+                  <h2 className="text-xl font-semibold text-emerald-400 mb-3">Answer Value</h2>
+                  <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-4 flex items-center gap-4">
+                    <div className="bg-emerald-500/10 p-2 rounded-lg text-emerald-400">
+                      <CheckCircle2 size={24} />
+                    </div>
+                    <span className="text-2xl font-mono font-bold text-white tracking-widest">
+                      {article.answer}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               <div>
                 <h2 className="text-xl font-semibold text-green-400 mb-3">Solution</h2>
@@ -111,14 +130,16 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                 </div>
               </div>
 
-              <div>
-                <h2 className="text-xl font-semibold text-green-400 mb-3">Algorithm Explanation</h2>
-                <div className="bg-[#0a0a0a] border border-green-500/10 rounded-lg p-4">
-                  <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                    {article.solution.explanation}
-                  </p>
+              {article.solution.explanation && (
+                <div>
+                  <h2 className="text-xl font-semibold text-green-400 mb-3">Algorithm Explanation</h2>
+                  <div className="bg-[#0a0a0a] border border-green-500/10 rounded-lg p-4">
+                    <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                      {article.solution.explanation}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {(article.solution.timeComplexity || article.solution.spaceComplexity) && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -137,7 +158,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                 </div>
               )}
 
-              {article.tags.length > 0 && (
+              {article.tags && article.tags.length > 0 && (
                 <div>
                   <h2 className="text-xl font-semibold text-green-400 mb-3">Tags</h2>
                   <div className="flex flex-wrap gap-2">
