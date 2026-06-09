@@ -38,7 +38,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-10 overflow-hidden">
       {/* Dynamic Backdrop */}
       <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-xl animate-in fade-in duration-500"
+        className="absolute inset-0 bg-black/20 backdrop-blur-xl animate-in fade-in duration-500"
         onClick={onClose}
       />
 
@@ -92,8 +92,8 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                 <h2 className="text-2xl font-black text-white italic uppercase tracking-widest mb-2">SYSTEM_ERROR</h2>
                 <p className="text-gray-500 text-sm font-medium">Requested node sequence could not be established.</p>
               </div>
-              <button 
-                onClick={onClose} 
+              <button
+                onClick={onClose}
                 className="px-8 py-3 bg-white/5 border border-white/10 rounded-full text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all"
               >
                 Abort Connection
@@ -107,7 +107,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                     <div className="w-8 h-[1px] bg-green-500/30"></div>
                     <h2 className="text-[10px] font-black text-green-500/50 uppercase tracking-[0.2em]">Abstract</h2>
                   </div>
-                  <p className="text-gray-300 leading-relaxed text-sm lg:text-base font-medium selection:bg-green-500/30">
+                  <p className="text-gray-300 leading-relaxed text-base lg:text-lg font-medium selection:bg-green-500/30">
                     {article.description}
                   </p>
                 </div>
@@ -120,7 +120,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                     <h2 className="text-[10px] font-black text-green-500/50 uppercase tracking-[0.2em]">Constraint</h2>
                   </div>
                   <div className="bg-black/60 border border-white/5 rounded-3xl p-6 lg:p-10 shadow-inner group">
-                    <p className="text-gray-400 whitespace-pre-wrap font-mono text-xs lg:text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
+                    <p className="text-gray-300 whitespace-pre-wrap font-mono text-sm lg:text-base leading-relaxed group-hover:text-gray-300 transition-colors">
                       {article.problemStatement}
                     </p>
                   </div>
@@ -179,7 +179,7 @@ const ProjectEulerArticleDetail = ({ problemNumber, onClose }: ProjectEulerArtic
                     <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">Trace Analysis</h2>
                   </div>
                   <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 lg:p-10">
-                    <p className="text-gray-400 leading-relaxed whitespace-pre-wrap text-sm font-medium">
+                    <p className="text-gray-300 leading-relaxed whitespace-pre-wrap text-base font-medium">
                       {article.solution.explanation}
                     </p>
                   </div>
