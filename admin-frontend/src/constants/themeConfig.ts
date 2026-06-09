@@ -133,6 +133,15 @@ export const themes: ThemeConfig[] = [
     { id: 'pure-orange', name: 'Pure Orange', baseColor: 'orange', backgroundColor: 'bg-[#fff7ed]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-orange-500', borderColor: 'border-orange-200', isDark: false },
     { id: 'pure-red', name: 'Pure Red', baseColor: 'red', backgroundColor: 'bg-[#fef2f2]', cardColor: 'bg-white', textColor: 'text-black', mutedTextColor: 'text-red-500', borderColor: 'border-red-200', isDark: false },
 
-    // --- 111: PAPER LIGHT (ALL-BLACK TEXT + PURE LIGHT) ---
+    // --- 111-120: PAPER LIGHT SERIES (ALL-BLACK TEXT + PURE LIGHT) ---
     { id: 'paper-light', name: 'Paper Light', baseColor: 'zinc', backgroundColor: 'bg-white', cardColor: 'bg-[#f8f8f8]', textColor: 'text-black', mutedTextColor: 'text-[#333333]', borderColor: 'border-[#d4d4d4]', isDark: false },
+    { id: 'warm-cream', name: 'Warm Cream', baseColor: 'orange', backgroundColor: 'bg-[#fdfaf5]', cardColor: 'bg-[#f7f2e9]', textColor: 'text-black', mutedTextColor: 'text-[#2a2318]', borderColor: 'border-[#e0d8cc]', isDark: false },
+    { id: 'cool-linen', name: 'Cool Linen', baseColor: 'slate', backgroundColor: 'bg-[#f7f8fa]', cardColor: 'bg-[#eeeef2]', textColor: 'text-black', mutedTextColor: 'text-[#1e2330]', borderColor: 'border-[#d0d4de]', isDark: false },
+    { id: 'pale-cloud', name: 'Pale Cloud', baseColor: 'blue', backgroundColor: 'bg-[#f4f7fb]', cardColor: 'bg-[#eaf0f9]', textColor: 'text-black', mutedTextColor: 'text-[#162035]', borderColor: 'border-[#ccd7ea]', isDark: false },
+    { id: 'soft-blush', name: 'Soft Blush', baseColor: 'rose', backgroundColor: 'bg-[#fdf5f5]', cardColor: 'bg-[#f8ecec]', textColor: 'text-black', mutedTextColor: 'text-[#2d1515]', borderColor: 'border-[#e8d0d0]', isDark: false },
+    { id: 'mint-haze', name: 'Mint Haze', baseColor: 'emerald', backgroundColor: 'bg-[#f3fdf7]', cardColor: 'bg-[#e8f7ee]', textColor: 'text-black', mutedTextColor: 'text-[#0f2a1e]', borderColor: 'border-[#c4e0cf]', isDark: false },
+    { id: 'lavender-paper', name: 'Lavender Paper', baseColor: 'violet', backgroundColor: 'bg-[#f7f4fd]', cardColor: 'bg-[#eee8fa]', textColor: 'text-black', mutedTextColor: 'text-[#1e1030]', borderColor: 'border-[#d8cdf0]', isDark: false },
+    { id: 'sand-parchment', name: 'Sand Parchment', baseColor: 'amber', backgroundColor: 'bg-[#fdf8ef]', cardColor: 'bg-[#f5ede0]', textColor: 'text-black', mutedTextColor: 'text-[#2e1f08]', borderColor: 'border-[#e2d5c0]', isDark: false },
+    { id: 'sage-mist', name: 'Sage Mist', baseColor: 'lime', backgroundColor: 'bg-[#f5faf2]', cardColor: 'bg-[#eaf3e5]', textColor: 'text-black', mutedTextColor: 'text-[#1a2f12]', borderColor: 'border-[#cce0c4]', isDark: false },
+    { id: 'ash-white', name: 'Ash White', baseColor: 'stone', backgroundColor: 'bg-[#f9f8f7]', cardColor: 'bg-[#f1efed]', textColor: 'text-black', mutedTextColor: 'text-[#28221c]', borderColor: 'border-[#dbd6d1]', isDark: false },
 ];
