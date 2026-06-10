@@ -18,6 +18,13 @@ import { themes } from "../constants/themeConfig";
 import ModernTemplate from "../components/cv-templates/ModernTemplate";
 import ClassicTemplate from "../components/cv-templates/ClassicTemplate";
 import MinimalTemplate from "../components/cv-templates/MinimalTemplate";
+import ExecutiveTemplate from "../components/cv-templates/ExecutiveTemplate";
+import TechnicalTemplate from "../components/cv-templates/TechnicalTemplate";
+import CreativeTemplate from "../components/cv-templates/CreativeTemplate";
+import ElegantTemplate from "../components/cv-templates/ElegantTemplate";
+import StartupTemplate from "../components/cv-templates/StartupTemplate";
+import IndustrialTemplate from "../components/cv-templates/IndustrialTemplate";
+import AcademicTemplate from "../components/cv-templates/AcademicTemplate";
 
 const HireMeSection = () => {
     const [isGenerating, setIsGenerating] = useState(false);
@@ -278,6 +285,13 @@ const HireMeSection = () => {
         switch (cvTemplate) {
             case 'classic': return <ClassicTemplate ref={cvRef} {...props} />;
             case 'minimal': return <MinimalTemplate ref={cvRef} {...props} />;
+            case 'executive': return <ExecutiveTemplate ref={cvRef} {...props} />;
+            case 'technical': return <TechnicalTemplate ref={cvRef} {...props} />;
+            case 'creative': return <CreativeTemplate ref={cvRef} {...props} />;
+            case 'elegant': return <ElegantTemplate ref={cvRef} {...props} />;
+            case 'startup': return <StartupTemplate ref={cvRef} {...props} />;
+            case 'industrial': return <IndustrialTemplate ref={cvRef} {...props} />;
+            case 'academic': return <AcademicTemplate ref={cvRef} {...props} />;
             default: return <ModernTemplate ref={cvRef} {...props} />;
         }
     };

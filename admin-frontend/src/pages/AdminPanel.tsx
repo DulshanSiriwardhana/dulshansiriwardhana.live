@@ -863,8 +863,15 @@ const AdminPanel = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {[
                         { id: 'modern', name: 'Modern Dark', description: 'Glow accents, dynamic layouts, high-fidelity visuals.' },
-                        { id: 'classic', name: 'Classic Professional', description: 'Clean, light-mode centered, enterprise-grade clarity.' },
-                        { id: 'minimal', name: 'Minimalist Node', description: 'Focus on content, reduced noise, ultra-fast parsing.' }
+                        { id: 'classic', name: 'Classic Pro', description: 'Traditional enterprise look with focused clarity.' },
+                        { id: 'minimal', name: 'Minimalist', description: 'Ultra-clean, high-contrast, essentials only.' },
+                        { id: 'executive', name: 'Executive', description: 'Sophisticated serif layout for senior positions.' },
+                        { id: 'technical', name: 'Technical', description: 'CLI-inspired mono-spaced developer dashboard.' },
+                        { id: 'creative', name: 'Creative', description: 'Asymmetric layout with high visual engagement.' },
+                        { id: 'elegant', name: 'Elegant', description: 'Centered harmony with refined typography.' },
+                        { id: 'startup', name: 'Startup', description: 'Vibrant card-based design with energetic feel.' },
+                        { id: 'industrial', name: 'Industrial', description: 'Bold brutalist design with high-impact visuals.' },
+                        { id: 'academic', name: 'Academic', description: 'Structured layout for research and publishing.' }
                       ].map((tpl) => (
                         <button
                           key={tpl.id}
