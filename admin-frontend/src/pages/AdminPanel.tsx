@@ -19,6 +19,8 @@ import type { ProjectEulerArticle, Message } from '../utils/api';
 import Toast from '../components/Toast';
 import Sidebar from '../components/Sidebar';
 import {
+  Layout,
+  CreditCard,
   LayoutDashboard,
   Cpu,
   MessageSquare,

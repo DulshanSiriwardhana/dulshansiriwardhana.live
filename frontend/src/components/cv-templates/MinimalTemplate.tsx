@@ -22,7 +22,9 @@ import {
     PenTool,
     Share2,
     Calendar,
-    Phone
+    Phone,
+    Linkedin,
+    Github
 } from "lucide-react";
 import {
     personalInfo,
@@ -68,7 +70,7 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
                     <section data-cv-section="summary">
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-4">Summary</h2>
                         <p className="text-lg font-medium leading-relaxed text-slate-800">
-                            {personalInfo.bio}
+                            {personalInfo.bio} Professional Full-Stack Engineer with a deep focus on performance optimization, distributed systems, and modern architectural patterns. Expert in delivering high-fidelity user experiences and robust backend infrastructures.
                         </p>
                     </section>
 
@@ -103,7 +105,7 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
                             <div data-cv-section="edu-1">
                                 <div className="flex justify-between items-baseline mb-1">
                                     <h3 className="text-lg font-bold">BSc. (Hons) in Computer Engineering</h3>
-                                    <span className="text-sm font-bold text-slate-400">2020 - 2024</span>
+                                    <span className="text-sm font-bold text-slate-400">{experience[1].duration}</span>
                                 </div>
                                 <p className="text-sm text-slate-600">University of Ruhuna, Sri Lanka</p>
                             </div>
@@ -148,13 +150,13 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
                     <section data-cv-section="online">
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Presence</h2>
                         <div className="space-y-3">
-                            <a href="#" className="flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
+                            <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
                                 <Linkedin size={14} /> LinkedIn
                             </a>
-                            <a href="#" className="flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
+                            <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
                                 <Github size={14} /> GitHub
                             </a>
-                            <a href="#" className="flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
+                            <a href={`https://${personalInfo.website}`} target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
                                 <Globe size={14} /> Website
                             </a>
                         </div>
@@ -164,10 +166,5 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
         </div>
     );
 });
-
-// Needed for Lucide-react components if they are not imported correctly in child files
-const Linkedin = ({ size }: { size: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-);
 
 export default MinimalTemplate;
