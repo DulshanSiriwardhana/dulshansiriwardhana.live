@@ -36,4 +36,36 @@ router.post('/cv-theme', authenticateToken, async (req, res) => {
     }
 });
 
+// Get CV template (Public)
+router.get('/cv-template', async (req, res) => {
+    try {
+        let template = await Setting.findOne({ key: 'cv_template' });
+        if (!template) {
+            template = { key: 'cv_template', value: 'modern' }; // Default template
+        }
+        res.json(template);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Update CV template (Protected)
+router.post('/cv-template', authenticateToken, async (req, res) => {
+    const { value } = req.body;
+    if (!value) {
+        return res.status(400).json({ message: 'Template value is required' });
+    }
+
+    try {
+        const template = await Setting.findOneAndUpdate(
+            { key: 'cv_template' },
+            { value },
+            { upsert: true, new: true }
+        );
+        res.json(template);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 export default router;

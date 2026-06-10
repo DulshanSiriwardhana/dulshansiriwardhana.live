@@ -11,6 +11,8 @@ import {
   deleteMessage,
   getCvTheme,
   updateCvTheme,
+  getCvTemplate,
+  updateCvTemplate,
 } from '../utils/api';
 import { themes } from '../constants/themeConfig';
 import type { ProjectEulerArticle, Message } from '../utils/api';
@@ -56,7 +58,9 @@ const AdminPanel = () => {
   const [articles, setArticles] = useState<ProjectEulerArticle[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [cvTheme, setCvTheme] = useState('emerald');
+  const [cvTemplate, setCvTemplate] = useState('modern');
   const [themeSaving, setThemeSaving] = useState(false);
+  const [templateSaving, setTemplateSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [messagesTotal, setMessagesTotal] = useState(0);
@@ -122,6 +126,7 @@ const AdminPanel = () => {
     loadArticles();
     loadMessages();
     loadCvTheme();
+    loadCvTemplate();
   }, []);
 
   useEffect(() => {
@@ -172,6 +177,17 @@ const AdminPanel = () => {
       setCvTheme(themeValue);
     } catch (error) {
       console.error('Error loading CV theme:', error);
+    }
+  };
+
+
+  const loadCvTemplate = async () => {
+    try {
+      const data = await getCvTemplate();
+      const templateValue = data?.value || data || 'modern';
+      setCvTemplate(templateValue);
+    } catch (error) {
+      console.error('Error loading CV template:', error);
     }
   };
 
@@ -262,6 +278,21 @@ const AdminPanel = () => {
       showToast('Atmosphere sync failed', 'error');
     } finally {
       setThemeSaving(false);
+    }
+  };
+
+
+  const handleUpdateTemplate = async (templateId: string) => {
+    setTemplateSaving(true);
+    try {
+      const data = await updateCvTemplate(templateId);
+      const newValue = data?.value || data || templateId;
+      setCvTemplate(newValue);
+      showToast(`Blueprint switched to ${templateId}`, 'success');
+    } catch (error) {
+      showToast('Blueprint sync failed', 'error');
+    } finally {
+      setTemplateSaving(false);
     }
   };
 
@@ -806,6 +837,53 @@ const AdminPanel = () => {
                                 <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Type</span>
                                 <span className="text-[8px] text-slate-400 font-black uppercase tracking-widest">{theme.isDark ? 'Opaque' : 'Translucent'}</span>
                               </div>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section>
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                        <h4 className="text-sm font-black text-white uppercase tracking-widest">Architectural Blueprints</h4>
+                      </div>
+                      {templateSaving && (
+                        <div className="flex items-center gap-2 text-blue-400 font-black text-[9px] uppercase tracking-widest animate-pulse">
+                          <Loader2 size={14} className="animate-spin" />
+                          Reconstructing...
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {[
+                        { id: 'modern', name: 'Modern Dark', description: 'Glow accents, dynamic layouts, high-fidelity visuals.' },
+                        { id: 'classic', name: 'Classic Professional', description: 'Clean, light-mode centered, enterprise-grade clarity.' },
+                        { id: 'minimal', name: 'Minimalist Node', description: 'Focus on content, reduced noise, ultra-fast parsing.' }
+                      ].map((tpl) => (
+                        <button
+                          key={tpl.id}
+                          onClick={() => handleUpdateTemplate(tpl.id)}
+                          className={`group p-6 rounded-[2rem] bg-slate-950 border-2 text-left transition-all duration-500 relative overflow-hidden ${cvTemplate === tpl.id ? 'border-blue-500 ring-8 ring-blue-500/10' : 'border-slate-800 hover:border-slate-700'}`}
+                        >
+                          {cvTemplate === tpl.id && (
+                            <div className="absolute top-4 right-4">
+                              <CheckCircle2 size={16} className="text-blue-500" />
+                            </div>
+                          )}
+                          <div className={`w-12 h-12 rounded-2xl mb-6 flex items-center justify-center ${cvTemplate === tpl.id ? 'bg-blue-500 text-white' : 'bg-slate-900 text-slate-500'}`}>
+                            <Box size={24} />
+                          </div>
+                          <h5 className="text-sm font-black text-white mb-2 uppercase tracking-widest group-hover:text-blue-400 transition-colors">{tpl.name}</h5>
+                          <p className="text-[10px] text-slate-500 font-medium leading-relaxed uppercase tracking-tight">
+                            {tpl.description}
+                          </p>
+                          <div className="mt-6 flex items-center gap-2">
+                            <div className={`text-[8px] font-black px-2.5 py-1 rounded-lg uppercase tracking-widest ${cvTemplate === tpl.id ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-900 text-slate-600'}`}>
+                              {cvTemplate === tpl.id ? 'Active Blueprint' : 'Deploy Blueprint'}
                             </div>
                           </div>
                         </button>

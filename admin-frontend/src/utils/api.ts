@@ -258,3 +258,24 @@ export const updateCvTheme = async (theme: string) => {
   return response.json();
 };
 
+export const getCvTemplate = async () => {
+  const response = await fetch(`${API_URL}/api/settings/cv-template`);
+  return response.json();
+};
+
+export const updateCvTemplate = async (template: string) => {
+  const response = await fetch(`${API_URL}/api/settings/cv-template`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ value: template }),
+  });
+
+  handleAuthError(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to update CV template');
+  }
+
+  return response.json();
+};
+

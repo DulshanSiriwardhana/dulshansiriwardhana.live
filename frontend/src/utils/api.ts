@@ -228,3 +228,13 @@ export const getCvTheme = async () => {
   }
 };
 
+export const getCvTemplate = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/settings/cv-template`);
+    if (!response.ok) return { value: 'modern' };
+    return response.json();
+  } catch (error) {
+    return { value: 'modern' };
+  }
+};
+
