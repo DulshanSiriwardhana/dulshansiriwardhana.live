@@ -5,7 +5,6 @@ import {
     Code2,
     Mail,
     MapPin,
-    Zap,
     ShieldCheck,
     Layers,
     Award,

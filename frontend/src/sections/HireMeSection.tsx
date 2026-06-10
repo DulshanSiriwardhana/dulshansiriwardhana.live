@@ -6,7 +6,6 @@ import ScrollAnimation from "../components/ScrollAnimation";
 import {
     Download,
     Send,
-    Terminal,
     Zap,
     Code2,
     Mail

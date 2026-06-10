@@ -1,42 +1,16 @@
 import React from "react";
 import {
     Briefcase,
-    GraduationCap,
-    Code2,
     Mail,
-    MapPin,
-    Zap,
-    ShieldCheck,
-    Layers,
-    Award,
     Terminal,
-    Globe,
-    Trophy,
-    BookOpen,
-    Star,
-    ExternalLink,
-    ChevronRight,
-    Search,
-    User,
-    CheckCircle2,
-    PenTool,
-    Share2,
-    Calendar,
-    Phone,
-    Linkedin,
-    Github
+    Phone
 } from "lucide-react";
 import {
     personalInfo,
     experience,
     skillCategories,
-    skillLevels,
-    achievements,
-    blogArticles,
-    projects,
     certificates,
-    references,
-    stats
+    achievements
 } from "../../constants/landingPageData";
 
 interface ClassicTemplateProps {
@@ -45,8 +19,7 @@ interface ClassicTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const ClassicTemplate = React.forwardRef<HTMLDivElement, ClassicTemplateProps>(({ t, c, colorMap }, ref) => {
-    // Classic is always light mode based on the user's image
+const ClassicTemplate = React.forwardRef<HTMLDivElement, ClassicTemplateProps>((_props, ref) => {
     const blueAccent = "#00ABF0";
 
     return (
@@ -73,11 +46,11 @@ const ClassicTemplate = React.forwardRef<HTMLDivElement, ClassicTemplateProps>((
                         {personalInfo.phone}
                     </a>
                     <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link flex items-center gap-2 text-gray-600 hover:text-blue-500 transition-colors">
-                        <Linkedin size={16} style={{ color: blueAccent }} />
+                        <Briefcase size={16} style={{ color: blueAccent }} />
                         LinkedIn
                     </a>
                     <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link flex items-center gap-2 text-gray-600 hover:text-blue-500 transition-colors">
-                        <Github size={16} style={{ color: blueAccent }} />
+                        <Terminal size={16} style={{ color: blueAccent }} />
                         GitHub
                     </a>
                 </div>
@@ -123,28 +96,6 @@ const ClassicTemplate = React.forwardRef<HTMLDivElement, ClassicTemplateProps>((
                         </div>
                         <p className="text-sm text-gray-700">BSc. (Hons) in Computer Engineering - GPA: 3.3</p>
                     </div>
-                </div>
-            </div>
-
-            {/* Projects */}
-            <div className="mb-10" data-cv-section="projects">
-                <h2 className="text-lg font-bold uppercase tracking-wider mb-2" style={{ color: blueAccent }}>Project</h2>
-                <div className="h-0.5 w-full bg-gray-200 mb-6"></div>
-
-                <div className="space-y-8">
-                    {projects.slice(0, 3).map((proj, index) => (
-                        <div key={index} data-cv-section={`proj-${index}`}>
-                            <h3 className="text-md font-bold text-gray-900 mb-1">{proj.title}</h3>
-                            <ul className="list-disc list-inside space-y-1.5 ml-1">
-                                <li className="text-sm text-gray-600 leading-relaxed pl-1 marker:text-gray-400">
-                                    <span className="relative -left-1">{proj.description}</span>
-                                </li>
-                                <li className="text-sm text-gray-600 leading-relaxed pl-1 marker:text-gray-400">
-                                    <span className="relative -left-1 font-medium">Tech Stack: {proj.tech.join(', ')}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    ))}
                 </div>
             </div>
 

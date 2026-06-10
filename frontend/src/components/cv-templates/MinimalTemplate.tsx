@@ -1,42 +1,13 @@
 import React from "react";
 import {
     Briefcase,
-    GraduationCap,
-    Code2,
-    Mail,
-    MapPin,
-    Zap,
-    ShieldCheck,
-    Layers,
-    Award,
     Terminal,
-    Globe,
-    Trophy,
-    BookOpen,
-    Star,
-    ExternalLink,
-    ChevronRight,
-    Search,
-    User,
-    CheckCircle2,
-    PenTool,
-    Share2,
-    Calendar,
-    Phone,
-    Linkedin,
-    Github
+    Globe
 } from "lucide-react";
 import {
     personalInfo,
     experience,
-    skillCategories,
-    skillLevels,
-    achievements,
-    blogArticles,
-    projects,
-    certificates,
-    references,
-    stats
+    skillCategories
 } from "../../constants/landingPageData";
 
 interface MinimalTemplateProps {
@@ -45,7 +16,7 @@ interface MinimalTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>(({ t, c, colorMap }, ref) => {
+const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((_props, ref) => {
     return (
         <div
             ref={ref}
@@ -133,28 +104,15 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
                         </div>
                     </section>
 
-                    {/* Achievements */}
-                    <section data-cv-section="achievements">
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Achievements</h2>
-                        <div className="space-y-4">
-                            {achievements.slice(0, 3).map((ach, index) => (
-                                <div key={index} data-cv-section={`ach-${index}`}>
-                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-800">{ach.title}</h3>
-                                    <p className="text-[10px] text-slate-500 font-bold">{ach.date}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
                     {/* Online */}
                     <section data-cv-section="online">
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Presence</h2>
                         <div className="space-y-3">
                             <a href="https://linkedin.com/in/dulshans" target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
-                                <Linkedin size={14} /> LinkedIn
+                                <Briefcase size={14} /> LinkedIn
                             </a>
                             <a href="https://github.com/DulshanSiriwardhana" target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
-                                <Github size={14} /> GitHub
+                                <Terminal size={14} /> GitHub
                             </a>
                             <a href={`https://${personalInfo.website}`} target="_blank" className="cv-link flex items-center gap-3 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-widest">
                                 <Globe size={14} /> Website
