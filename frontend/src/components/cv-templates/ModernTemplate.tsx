@@ -44,8 +44,8 @@ interface ModernTemplateProps {
 }
 
 const ModernTemplate = React.forwardRef<HTMLDivElement, ModernTemplateProps>(({ t, c, colorMap }, ref) => {
-    const accentText = t.isDark ? `text-${c}-400` : `text-${c}-600`;
-    const accentMutedText = t.isDark ? `text-${c}-400/80` : `text-${c}-600/80`;
+    const accentText = t.isDark ? `text-${c}-400` : `text-${c}-700`; // Darker for light mode
+    const accentMutedText = t.isDark ? `text-${c}-400/80` : `text-${c}-800`; // Even darker and full opacity for light mode
     const accentBorder = t.isDark ? `border-${c}-500/30` : `border-${c}-500/50`;
     const accentBg = t.isDark ? `bg-${c}-500/20` : `bg-${c}-500/10`;
     const accentGlow = t.isDark ? `shadow-${c}-500/20` : `shadow-${c}-500/10`;
