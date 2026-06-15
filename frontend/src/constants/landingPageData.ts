@@ -375,6 +375,7 @@ export const navigationLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Product", href: "/product" },
   { label: "Hire Me", href: "#hire" },
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },

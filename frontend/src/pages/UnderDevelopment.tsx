@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useConstructionAreaPopup } from "../context/ConstructionPopupContext";
 import blacksmith from "../assets/gifs/blacksmith.gif";
 import ConstructionProgressBar from "../components/ConstructionProgressBar";
+import NavigationBar from "../components/NavigationBar";
 
 const UnderDevelopment = () => {
     const { showConstructionAreaPopup } = useConstructionAreaPopup();
@@ -12,6 +13,7 @@ const UnderDevelopment = () => {
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10 bg-[#0f0f0f] text-white text-center relative overflow-y-auto p-4">
+            <NavigationBar />
             <div className="z-10 bg-[#1a1a1a]/50 backdrop-blur-sm p-12 rounded-3xl border border-red-600/30 shadow-2xl">
                 <img
                     src={blacksmith}

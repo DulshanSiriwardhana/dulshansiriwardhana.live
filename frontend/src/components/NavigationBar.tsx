@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import { navigationLinks } from "../constants/landingPageData";
 import { Menu, X, Terminal } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NavigationBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname !== "/") {
+      const currentPath = location.pathname.substring(1);
+      setActiveSection(currentPath);
+      return;
+    }
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
@@ -30,13 +38,21 @@ const NavigationBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      setIsMobileMenuOpen(false);
+    if (href.startsWith("#")) {
+      if (location.pathname !== "/") {
+        navigate("/" + href);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    } else {
+      navigate(href);
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -50,7 +66,7 @@ const NavigationBar = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           <a
             href="#hero"
-            onClick={(e) => handleSmoothScroll(e, "#hero")}
+            onClick={(e) => handleNavigation(e, "#hero")}
             className="group flex items-center gap-3 text-2xl font-bold transition-all duration-300"
           >
             <div className="w-10 h-10 border-2 border-green-500/50 rounded-xl flex items-center justify-center bg-green-500/10 group-hover:bg-green-500 group-hover:border-green-400 group-hover:rotate-[360deg] transition-all duration-700">
@@ -68,7 +84,7 @@ const NavigationBar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  onClick={(e) => handleNavigation(e, link.href)}
                   className={`group relative px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 whitespace-nowrap ${isActive
                     ? "text-green-400"
                     : "text-gray-500 hover:text-green-400"
@@ -113,7 +129,7 @@ const NavigationBar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  onClick={(e) => handleNavigation(e, link.href)}
                   className={`group block px-6 py-4 text-xs font-bold uppercase tracking-[0.3em] transition-all duration-300 rounded-2xl relative overflow-hidden ${isActive
                     ? "text-green-400 bg-green-500/10 border-l-4 border-green-500 shadow-xl shadow-green-500/10"
                     : "text-gray-500 hover:text-green-400 hover:bg-white/5"
