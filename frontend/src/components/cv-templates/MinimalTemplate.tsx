@@ -16,21 +16,23 @@ interface MinimalTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((_props, ref) => {
+const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#000";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-white text-slate-900 p-8 md:p-12 shadow-xl min-w-[320px] font-sans antialiased"
+            className={`${t.backgroundColor} ${t.textColor} p-8 md:p-12 shadow-xl min-w-[320px] font-sans antialiased`}
         >
             {/* Header */}
-            <div className="border-b-2 border-slate-900 pb-8 mb-10" data-cv-section="header">
+            <div className={`border-b-2 ${t.borderColor} pb-8 mb-10`} data-cv-section="header">
                 <h1 className="text-5xl font-black tracking-tighter uppercase mb-4">{personalInfo.firstName} {personalInfo.lastName}</h1>
-                <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-widest text-slate-500">
+                <div className={`flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-widest ${t.mutedTextColor}`}>
                     <span>{personalInfo.title}</span>
-                    <span className="w-1 h-1 bg-slate-300 rounded-full my-auto"></span>
+                    <span className={`w-1 h-1 ${t.borderColor} opacity-30 rounded-full my-auto`}></span>
                     <span>{personalInfo.location}</span>
-                    <span className="w-1 h-1 bg-slate-300 rounded-full my-auto"></span>
+                    <span className={`w-1 h-1 ${t.borderColor} opacity-30 rounded-full my-auto`}></span>
                     <span>{personalInfo.email}</span>
                 </div>
             </div>

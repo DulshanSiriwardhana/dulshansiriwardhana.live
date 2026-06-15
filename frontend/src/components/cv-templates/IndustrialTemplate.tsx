@@ -15,14 +15,16 @@ interface IndustrialTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const IndustrialTemplate = React.forwardRef<HTMLDivElement, IndustrialTemplateProps>((_props, ref) => {
+const IndustrialTemplate = React.forwardRef<HTMLDivElement, IndustrialTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#000";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-[#eee] text-black p-1 md:p-3 shadow-2xl min-w-[320px] font-sans antialiased"
+            className={`${t.cardColor === 'bg-[#111]' ? 'bg-[#000]' : 'bg-[#eee]'} ${t.textColor} p-1 md:p-3 shadow-2xl min-w-[320px] font-sans antialiased`}
         >
-            <div className="bg-white border-[10px] border-black p-10 md:p-16">
+            <div className={`${t.backgroundColor} border-[10px] ${t.borderColor} p-10 md:p-16`}>
                 {/* Header */}
                 <header className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20 border-b-[6px] border-black pb-16" data-cv-section="header">
                     <div className="md:col-span-8">

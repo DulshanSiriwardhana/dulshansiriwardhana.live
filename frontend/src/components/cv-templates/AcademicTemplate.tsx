@@ -22,12 +22,14 @@ interface AcademicTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const AcademicTemplate = React.forwardRef<HTMLDivElement, AcademicTemplateProps>((_props, ref) => {
+const AcademicTemplate = React.forwardRef<HTMLDivElement, AcademicTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#1e40af";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-white text-gray-800 p-12 md:p-20 shadow-2xl min-w-[320px] font-sans leading-relaxed"
+            className={`${t.backgroundColor} ${t.textColor} p-12 md:p-20 shadow-2xl min-w-[320px] font-sans leading-relaxed`}
         >
             {/* Academic Header */}
             <header className="border-b-2 border-gray-900 pb-12 mb-16" data-cv-section="header">

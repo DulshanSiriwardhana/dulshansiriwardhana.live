@@ -49,6 +49,7 @@ const ModernTemplate = React.forwardRef<HTMLDivElement, ModernTemplateProps>(({ 
     const accentBorder = t.isDark ? `border-${c}-500/30` : `border-${c}-500/50`;
     const accentBg = t.isDark ? `bg-${c}-500/20` : `bg-${c}-500/10`;
     const accentGlow = t.isDark ? `shadow-${c}-500/20` : `shadow-${c}-500/10`;
+    const accentColor = colorMap[c] || "#888";
 
     return (
         <div
@@ -60,8 +61,14 @@ const ModernTemplate = React.forwardRef<HTMLDivElement, ModernTemplateProps>(({ 
             <div data-cv-section="header" className={`${t.cardColor} border-b ${t.borderColor} p-8 md:p-12`}>
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
                     <div className="relative group">
-                        <div className={`absolute inset-0 bg-${c}-500/20 rounded-3xl blur-2xl group-hover:bg-${c}-500/40 transition-all duration-500`}></div>
-                        <div className={`relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#111] border-2 border-${c}-500/40 p-1 flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-all duration-500`}>
+                        <div
+                            style={{ backgroundColor: `${accentColor}33` }} // 33 is 20% opacity in hex
+                            className={`absolute inset-0 rounded-3xl blur-2xl transition-all duration-500`}
+                        ></div>
+                        <div
+                            style={{ borderColor: `${accentColor}66` }} // 66 is 40% opacity in hex
+                            className={`relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#111] border-2 p-1 flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-all duration-500`}
+                        >
                             <img
                                 src={profileImage}
                                 alt={`${personalInfo.firstName} ${personalInfo.lastName}`}

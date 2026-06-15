@@ -23,19 +23,21 @@ interface ExecutiveTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const ExecutiveTemplate = React.forwardRef<HTMLDivElement, ExecutiveTemplateProps>((_props, ref) => {
+const ExecutiveTemplate = React.forwardRef<HTMLDivElement, ExecutiveTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#1e293b";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-[#fcfcfc] text-slate-800 p-12 md:p-20 shadow-2xl min-w-[320px] font-serif leading-relaxed"
+            className={`${t.backgroundColor} ${t.textColor} p-12 md:p-20 shadow-2xl min-w-[320px] font-serif leading-relaxed`}
         >
             {/* Header */}
-            <div className="text-center mb-16 border-b border-slate-200 pb-12" data-cv-section="header">
-                <h1 className="text-5xl font-black text-slate-900 mb-4 tracking-tight uppercase">{personalInfo.firstName} {personalInfo.lastName}</h1>
-                <p className="text-xl font-medium text-slate-500 uppercase tracking-[0.2em] mb-8 italic">{personalInfo.title}</p>
+            <div className={`text-center mb-16 border-b ${t.borderColor} pb-12`} data-cv-section="header">
+                <h1 className={`text-5xl font-black ${t.textColor} mb-4 tracking-tight uppercase`}>{personalInfo.firstName} {personalInfo.lastName}</h1>
+                <p className={`text-xl font-medium ${t.mutedTextColor} opacity-80 uppercase tracking-[0.2em] mb-8 italic`}>{personalInfo.title}</p>
 
-                <div className="flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm font-sans text-slate-600 font-medium italic">
+                <div className={`flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm font-sans ${t.mutedTextColor} font-medium italic`}>
                     <span className="flex items-center gap-2"><MapPin size={14} /> {personalInfo.location}</span>
                     <span className="flex items-center gap-2"><Mail size={14} /> {personalInfo.email}</span>
                     <span className="flex items-center gap-2"><Phone size={14} /> {personalInfo.phone}</span>
@@ -56,8 +58,8 @@ const ExecutiveTemplate = React.forwardRef<HTMLDivElement, ExecutiveTemplateProp
 
                 {/* Experience */}
                 <section data-cv-section="experience">
-                    <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400 mb-10 flex items-center gap-4">
-                        Career Trajectory <div className="h-px flex-1 bg-slate-200"></div>
+                    <h2 className={`text-xs font-black uppercase tracking-[0.4em] ${t.mutedTextColor} opacity-60 mb-10 flex items-center gap-4`}>
+                        Career Trajectory <div className={`h-px flex-1 ${t.borderColor} opacity-50`}></div>
                     </h2>
                     <div className="space-y-12">
                         {experience.map((exp, index) => (

@@ -23,24 +23,29 @@ interface StartupTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>(({ c }, ref) => {
+const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#0ea5e9";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-[#f8fafc] text-slate-900 p-8 md:p-12 shadow-2xl min-w-[320px] font-sans antialiased overflow-hidden relative"
+            className={`${t.backgroundColor} ${t.textColor} p-8 md:p-12 shadow-2xl min-w-[320px] font-sans antialiased overflow-hidden relative`}
         >
             <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/5 blur-3xl rounded-full -mr-40 -mt-40"></div>
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/5 blur-3xl rounded-full -ml-40 -mb-40"></div>
 
             {/* Float Header Card */}
-            <header className="relative z-10 bg-white rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-10 mb-12" data-cv-section="header">
+            <header className={`relative z-10 ${t.cardColor} rounded-[2rem] p-8 md:p-12 shadow-sm border ${t.borderColor} flex flex-col md:flex-row justify-between items-center gap-10 mb-12`} data-cv-section="header">
                 <div className="text-center md:text-left space-y-4">
-                    <div className={`px-4 py-1 bg-${c}-500/10 text-${c}-600 rounded-full text-xs font-black uppercase tracking-widest inline-block`}>
+                    <div
+                        style={{ backgroundColor: `${accentColor}22`, color: accentColor }}
+                        className={`px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest inline-block`}
+                    >
                         {personalInfo.title}
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">
-                        {personalInfo.firstName} <span className={`text-${c}-500`}>{personalInfo.lastName}</span>
+                    <h1 className={`text-4xl md:text-5xl font-black tracking-tight ${t.textColor}`}>
+                        {personalInfo.firstName} <span style={{ color: accentColor }}>{personalInfo.lastName}</span>
                     </h1>
                     <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm font-bold text-slate-400">
                         <span className="flex items-center gap-2"><MapPin size={16} /> {personalInfo.location}</span>

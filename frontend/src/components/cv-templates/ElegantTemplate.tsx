@@ -19,21 +19,23 @@ interface ElegantTemplateProps {
     colorMap: Record<string, string>;
 }
 
-const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>((_props, ref) => {
+const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>(({ t, c, colorMap }, ref) => {
+    const accentColor = colorMap[c] || "#000";
+
     return (
         <div
             ref={ref}
             id="cv-preview"
-            className="bg-white text-gray-700 p-12 md:p-24 shadow-2xl min-w-[320px] font-sans antialiased"
+            className={`${t.backgroundColor} ${t.textColor} p-12 md:p-24 shadow-2xl min-w-[320px] font-sans antialiased`}
         >
             {/* Elegant Header */}
             <header className="text-center space-y-8 mb-20" data-cv-section="header">
                 <div className="space-y-4">
-                    <h1 className="text-4xl md:text-5xl font-light tracking-[0.2em] text-gray-900 uppercase">
+                    <h1 className={`text-4xl md:text-5xl font-light tracking-[0.2em] ${t.textColor} uppercase`}>
                         {personalInfo.firstName} <span className="font-bold">{personalInfo.lastName}</span>
                     </h1>
-                    <div className="h-0.5 w-20 bg-gray-900 mx-auto"></div>
-                    <p className="text-sm font-bold tracking-[0.4em] text-gray-500 uppercase">{personalInfo.title}</p>
+                    <div className="h-0.5 w-20 bg-current mx-auto opacity-30"></div>
+                    <p className={`text-sm font-bold tracking-[0.4em] ${t.mutedTextColor} uppercase`}>{personalInfo.title}</p>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
@@ -47,7 +49,7 @@ const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>((
             <div className="max-w-4xl mx-auto space-y-24">
                 {/* Summary */}
                 <section data-cv-section="summary" className="text-center">
-                    <p className="text-lg md:text-xl font-medium leading-relaxed italic text-gray-500 max-w-3xl mx-auto">
+                    <p className={`text-lg md:text-xl font-medium leading-relaxed italic ${t.mutedTextColor} max-w-3xl mx-auto`}>
                         "{personalInfo.bio}"
                     </p>
                 </section>
@@ -57,8 +59,8 @@ const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>((
                     <div className="md:col-span-8 space-y-20">
                         {/* Experience */}
                         <section data-cv-section="experience">
-                            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-gray-900 mb-12 flex items-center gap-6">
-                                Experience <div className="h-px flex-1 bg-gray-100"></div>
+                            <h2 className={`text-xs font-black uppercase tracking-[0.5em] ${t.textColor} mb-12 flex items-center gap-6`}>
+                                Experience <div className={`h-px flex-1 ${t.borderColor} opacity-50`}></div>
                             </h2>
                             <div className="space-y-16">
                                 {experience.map((exp, index) => (
