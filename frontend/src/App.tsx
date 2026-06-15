@@ -40,7 +40,12 @@ function App() {
           ) : (
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/product" element={<UnderDevelopment />} />
+              <Route path="/product" element={
+                <>
+                  <UnderDevelopment />
+                  <audio ref={audioRef} src={hammerSound} loop />
+                </>
+              } />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           )}
