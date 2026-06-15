@@ -26,7 +26,7 @@ const MinimalTemplate = React.forwardRef<HTMLDivElement, MinimalTemplateProps>((
             className={`${t.backgroundColor} ${t.textColor} p-8 md:p-12 shadow-xl min-w-[320px] font-sans antialiased`}
         >
             {/* Header */}
-            <div className={`border-b-2 ${t.borderColor} pb-8 mb-10`} data-cv-section="header">
+            <div style={{ borderColor: accentColor }} className={`border-b-2 pb-8 mb-10`} data-cv-section="header">
                 <h1 className="text-5xl font-black tracking-tighter uppercase mb-4">{personalInfo.firstName} {personalInfo.lastName}</h1>
                 <div className={`flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-widest ${t.mutedTextColor}`}>
                     <span>{personalInfo.title}</span>

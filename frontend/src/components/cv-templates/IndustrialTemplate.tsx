@@ -26,9 +26,9 @@ const IndustrialTemplate = React.forwardRef<HTMLDivElement, IndustrialTemplatePr
         >
             <div className={`${t.backgroundColor} border-[10px] ${t.borderColor} p-10 md:p-16`}>
                 {/* Header */}
-                <header className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20 border-b-[6px] border-black pb-16" data-cv-section="header">
+                <header style={{ borderBottomColor: accentColor }} className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20 border-b-[6px] pb-16" data-cv-section="header">
                     <div className="md:col-span-8">
-                        <div className="inline-block bg-black text-white px-6 py-2 text-sm font-black uppercase tracking-[0.3em] mb-6">PERSONAL_DOSSIER</div>
+                        <div style={{ backgroundColor: accentColor }} className="inline-block text-white px-6 py-2 text-sm font-black uppercase tracking-[0.3em] mb-6">PERSONAL_DOSSIER</div>
                         <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.8] uppercase mb-8">
                             {personalInfo.firstName}<br />{personalInfo.lastName}
                         </h1>
@@ -66,7 +66,7 @@ const IndustrialTemplate = React.forwardRef<HTMLDivElement, IndustrialTemplatePr
 
                         {/* Experience */}
                         <section data-cv-section="experience">
-                            <h2 className="text-xl font-black uppercase tracking-tight mb-12 border-l-[10px] border-black pl-6">LOGS // EXP</h2>
+                            <h2 style={{ borderLeftColor: accentColor }} className="text-xl font-black uppercase tracking-tight mb-12 border-l-[10px] pl-6">LOGS // EXP</h2>
                             <div className="space-y-16">
                                 {experience.map((exp, index) => (
                                     <div key={index} data-cv-section={`exp-${index}`} className="group relative">

@@ -32,11 +32,11 @@ const AcademicTemplate = React.forwardRef<HTMLDivElement, AcademicTemplateProps>
             className={`${t.backgroundColor} ${t.textColor} p-12 md:p-20 shadow-2xl min-w-[320px] font-sans leading-relaxed`}
         >
             {/* Academic Header */}
-            <header className="border-b-2 border-gray-900 pb-12 mb-16" data-cv-section="header">
-                <h1 className="text-4xl md:text-5xl font-serif font-black text-gray-900 mb-6 tracking-tight">
+            <header style={{ borderColor: accentColor }} className="border-b-2 pb-12 mb-16" data-cv-section="header">
+                <h1 className={`text-4xl md:text-5xl font-serif font-black ${t.textColor} mb-6 tracking-tight`}>
                     {personalInfo.firstName} {personalInfo.lastName}
                 </h1>
-                <p className="text-lg font-serif italic text-gray-600 mb-8 border-l-4 border-gray-400 pl-6 py-1">
+                <p style={{ borderLeftColor: accentColor }} className={`text-lg font-serif italic ${t.mutedTextColor} mb-8 border-l-4 pl-6 py-1`}>
                     {personalInfo.title} • Engineering Researcher & Full-Stack Architect
                 </p>
 

@@ -54,9 +54,9 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
                     {stats.slice(0, 2).map((s, i) => (
-                        <div key={i} className="bg-slate-50 p-6 rounded-3xl text-center border border-slate-100">
-                            <p className="text-2xl font-black text-slate-900">{s.value}{s.suffix}</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{s.label}</p>
+                        <div key={i} className={`${t.cardColor === 'bg-[#111]' ? 'bg-black/50' : 'bg-slate-50'} p-6 rounded-3xl text-center border ${t.borderColor} opacity-80`}>
+                            <p className={`text-2xl font-black ${t.textColor}`}>{s.value}{s.suffix}</p>
+                            <p className={`text-[10px] font-bold ${t.mutedTextColor} uppercase tracking-widest`}>{s.label}</p>
                         </div>
                     ))}
                 </div>
@@ -66,9 +66,9 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
                 {/* Main Content */}
                 <div className="lg:col-span-8 space-y-8">
                     {/* About Card */}
-                    <section data-cv-section="summary" className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100">
-                        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-slate-400 mb-6 flex items-center gap-3">
-                            <Rocket size={18} className={`text-${c}-500`} /> Objective
+                    <section data-cv-section="summary" className={`${t.cardColor} rounded-[2rem] p-8 md:p-10 shadow-sm border ${t.borderColor}`}>
+                        <h2 className={`text-sm font-black uppercase tracking-[0.3em] ${t.mutedTextColor} mb-6 flex items-center gap-3`}>
+                            <Rocket size={18} style={{ color: accentColor }} /> Objective
                         </h2>
                         <p className="text-lg font-medium text-slate-600 leading-relaxed italic">
                             {personalInfo.bio}
@@ -76,16 +76,16 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
                     </section>
 
                     {/* Timeline Card */}
-                    <section data-cv-section="experience" className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100">
-                        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-slate-400 mb-10 flex items-center gap-3">
-                            <Activity size={18} className="text-blue-500" /> Professional Cycle
+                    <section data-cv-section="experience" className={`${t.cardColor} rounded-[2rem] p-8 md:p-10 shadow-sm border ${t.borderColor}`}>
+                        <h2 className={`text-sm font-black uppercase tracking-[0.3em] ${t.mutedTextColor} mb-10 flex items-center gap-3`}>
+                            <Activity size={18} style={{ color: accentColor }} /> Professional Cycle
                         </h2>
                         <div className="space-y-12">
                             {experience.map((exp, index) => (
                                 <div key={index} data-cv-section={`exp-${index}`} className="group">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-2 mb-4">
-                                        <h3 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{exp.company}</h3>
-                                        <span className={`text-[10px] bg-slate-50 text-slate-400 font-black px-3 py-1 rounded-full border border-slate-100`}>{exp.duration}</span>
+                                        <h3 className={`text-xl font-black ${t.textColor} group-hover:text-blue-600 transition-colors`}>{exp.company}</h3>
+                                        <span className={`text-[10px] ${t.backgroundColor} ${t.mutedTextColor} font-black px-3 py-1 rounded-full border ${t.borderColor}`}>{exp.duration}</span>
                                     </div>
                                     <p className={`text-xs font-black text-${c}-500 uppercase tracking-widest mb-6 italic`}>{exp.position}</p>
                                     <ul className="space-y-4">
@@ -105,20 +105,20 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
                 {/* Sidebar */}
                 <div className="lg:col-span-4 space-y-8">
                     {/* Skills Card */}
-                    <section data-cv-section="skills" className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-8 flex items-center gap-3">
-                            <Target size={18} className="text-purple-500" /> Stack
+                    <section data-cv-section="skills" className={`${t.cardColor} rounded-[2rem] p-8 shadow-sm border ${t.borderColor}`}>
+                        <h2 className={`text-xs font-black uppercase tracking-[0.3em] ${t.mutedTextColor} mb-8 flex items-center gap-3`}>
+                            <Target size={18} style={{ color: accentColor }} /> Stack
                         </h2>
                         <div className="space-y-6">
                             {skillCategories.map((cat, i) => (
                                 <div key={i} className="space-y-3">
-                                    <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                                        <div className={`w-1.5 h-1.5 rounded-full bg-${c}-500`}></div>
+                                    <h3 className={`text-[10px] font-black ${t.textColor} uppercase tracking-widest flex items-center gap-2`}>
+                                        <div style={{ backgroundColor: accentColor }} className={`w-1.5 h-1.5 rounded-full`}></div>
                                         {cat.category}
                                     </h3>
                                     <div className="flex flex-wrap gap-2">
                                         {cat.skills.map((s, j) => (
-                                            <span key={j} className="text-[10px] font-bold bg-slate-50 text-slate-500 px-3 py-1.5 rounded-xl hover:bg-slate-100 transition-all">
+                                            <span key={j} className={`text-[10px] font-bold ${t.backgroundColor} ${t.mutedTextColor} px-3 py-1.5 rounded-xl border ${t.borderColor} hover:bg-slate-100 transition-all`}>
                                                 {s}
                                             </span>
                                         ))}
@@ -129,15 +129,15 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
                     </section>
 
                     {/* Education Card */}
-                    <section data-cv-section="education" className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-8 flex items-center gap-3">
-                            <GraduationCap size={18} className="text-yellow-500" /> Education
+                    <section data-cv-section="education" className={`${t.cardColor} rounded-[2rem] p-8 shadow-sm border ${t.borderColor}`}>
+                        <h2 className={`text-xs font-black uppercase tracking-[0.3em] ${t.mutedTextColor} mb-8 flex items-center gap-3`}>
+                            <GraduationCap size={18} style={{ color: accentColor }} /> Education
                         </h2>
                         <div className="space-y-4">
-                            <h3 className="text-sm font-black text-slate-900 uppercase">BSc. Comp Engineering</h3>
-                            <p className="text-[11px] font-bold text-slate-400 leading-tight">University of Ruhuna, Sri Lanka</p>
-                            <div className={`mt-4 px-4 py-2 bg-${c}-500/5 border border-${c}-500/10 rounded-2xl text-center`}>
-                                <p className={`text-xs font-black text-${c}-600 uppercase`}>GPA 3.3</p>
+                            <h3 className={`text-sm font-black ${t.textColor} uppercase`}>BSc. Comp Engineering</h3>
+                            <p className={`text-[11px] font-bold ${t.mutedTextColor} leading-tight`}>University of Ruhuna, Sri Lanka</p>
+                            <div style={{ backgroundColor: `${accentColor}11`, borderColor: `${accentColor}22` }} className={`mt-4 px-4 py-2 border rounded-2xl text-center`}>
+                                <p style={{ color: accentColor }} className={`text-xs font-black uppercase`}>GPA 3.3</p>
                             </div>
                         </div>
                     </section>
@@ -165,8 +165,8 @@ const StartupTemplate = React.forwardRef<HTMLDivElement, StartupTemplateProps>((
             </div>
 
             <footer className="mt-12 text-center">
-                <div className={`h-1.5 w-32 bg-${c}-500/10 rounded-full mx-auto mb-6`}></div>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.5em]">Future-Proof Engineering Manifest</p>
+                <div style={{ backgroundColor: `${accentColor}22` }} className={`h-1.5 w-32 rounded-full mx-auto mb-6`}></div>
+                <p className={`text-[9px] font-black ${t.mutedTextColor} opacity-40 uppercase tracking-[0.5em]`}>Future-Proof Engineering Manifest</p>
             </footer>
         </div>
     );

@@ -34,7 +34,7 @@ const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>((
                     <h1 className={`text-4xl md:text-5xl font-light tracking-[0.2em] ${t.textColor} uppercase`}>
                         {personalInfo.firstName} <span className="font-bold">{personalInfo.lastName}</span>
                     </h1>
-                    <div className="h-0.5 w-20 bg-current mx-auto opacity-30"></div>
+                    <div style={{ backgroundColor: accentColor }} className="h-0.5 w-20 mx-auto opacity-60"></div>
                     <p className={`text-sm font-bold tracking-[0.4em] ${t.mutedTextColor} uppercase`}>{personalInfo.title}</p>
                 </div>
 
@@ -95,7 +95,7 @@ const ElegantTemplate = React.forwardRef<HTMLDivElement, ElegantTemplateProps>((
                             <div className="space-y-10">
                                 {skillCategories.map((cat, i) => (
                                     <div key={i} className="space-y-3">
-                                        <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest px-3 py-1 bg-gray-50 border-l border-gray-900 inline-block">
+                                        <h3 style={{ borderLeftColor: accentColor }} className={`text-[10px] font-black ${t.textColor} uppercase tracking-widest px-3 py-1 ${t.cardColor} border-l inline-block`}>
                                             {cat.category}
                                         </h3>
                                         <p className="text-[11px] font-medium leading-relaxed text-gray-500 pl-3">

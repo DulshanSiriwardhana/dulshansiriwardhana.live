@@ -58,8 +58,8 @@ const ExecutiveTemplate = React.forwardRef<HTMLDivElement, ExecutiveTemplateProp
 
                 {/* Experience */}
                 <section data-cv-section="experience">
-                    <h2 className={`text-xs font-black uppercase tracking-[0.4em] ${t.mutedTextColor} opacity-60 mb-10 flex items-center gap-4`}>
-                        Career Trajectory <div className={`h-px flex-1 ${t.borderColor} opacity-50`}></div>
+                    <h2 style={{ color: accentColor }} className={`text-xs font-black uppercase tracking-[0.4em] opacity-80 mb-10 flex items-center gap-4`}>
+                        Career Trajectory <div style={{ backgroundColor: accentColor }} className={`h-px flex-1 opacity-20`}></div>
                     </h2>
                     <div className="space-y-12">
                         {experience.map((exp, index) => (
