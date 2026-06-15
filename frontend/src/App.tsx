@@ -5,6 +5,7 @@ import UnderDevelopment from "./pages/UnderDevelopment";
 import hammerSound from "./assets/musics/hammer.mp3";
 import HomePage from "./pages/HomePage";
 import { TypingSoundProvider } from "./context/TypingSoundEffect";
+import CVPage from "./pages/CVPage";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -32,23 +33,26 @@ function App() {
     >
       <TypingSoundProvider>
         <ConstructionAreaPopupProvider>
-          {environment === "development" ? (
-            <>
-              <UnderDevelopment />
-              <audio ref={audioRef} src={hammerSound} loop />
-            </>
-          ) : (
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/product" element={
+          <Routes>
+            <Route path="/" element={
+              environment === "development" ? (
                 <>
                   <UnderDevelopment />
                   <audio ref={audioRef} src={hammerSound} loop />
                 </>
-              } />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          )}
+              ) : (
+                <HomePage />
+              )
+            } />
+            <Route path="/product" element={
+              <>
+                <UnderDevelopment />
+                <audio ref={audioRef} src={hammerSound} loop />
+              </>
+            } />
+            <Route path="/cv" element={<CVPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </ConstructionAreaPopupProvider>
       </TypingSoundProvider>
     </div>
